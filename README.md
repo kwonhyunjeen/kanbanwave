@@ -1,46 +1,25 @@
-# Getting Started with Create React App
+# MyTrello
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+MyTrello는 토이 프로젝트로 작업하기 위해 만든 프로젝트 관리 애플리케이션입니다. 이 애플리케이션은 Atlassian이 공급하는 Trello의 보드, 리스트, 카드, 라벨 등의 다양한 기능을 제공하여 사용자가 작은 규모의 프로젝트를 효과적으로 관리할 수 있습니다.
 
-## Available Scripts
+# Features
 
-In the project directory, you can run:
+MyTrello는 다음과 같은 기능들을 제공합니다:
 
-### `npm start`
+- 보드(Board): 프로젝트 또는 작업 그룹을 나타내는 보드를 생성하고 관리할 수 있습니다.
+- 리스트(List): 보드 내에 여러 개의 리스트를 생성하여 작업을 구성할 수 있습니다. 리스트는 작업의 상태를 표현합니다.
+- 카드(Card): 리스트 내에 카드를 생성하여 각각의 작업을 표현합니다. 카드에는 작업의 제목, 설명, 댓글 등의 정보를 포함할 수 있습니다.
+- 라벨(Label): 카드에 색상 라벨을 추가하여 작업을 구분하거나 우선순위를 지정할 수 있습니다.
+  멤버(Member): 보드나 카드에 멤버를 추가하여 작업을 할당하거나 관리할 수 있습니다.
+  코멘트(Comment): 카드에 코멘트를 추가하여 작업에 대한 의견이나 토론을 할 수 있습니다.
+  체크리스트(Checklist): 카드 내에 체크리스트를 추가하여 작업의 세부 사항을 관리할 수 있습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Install
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+yarn clone https://github.com/kwonhyunjeen/mytrello.git
+yarn install
+yarn start
+```
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+위 명령어를 통해 MyTrello를 실행시키고, 브라우저에서 localhost:3000으로 접속하여 MyTrello를 사용합니다.
