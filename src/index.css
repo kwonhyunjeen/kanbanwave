@@ -1,13 +1,14 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/**
+  @see https://v1.tailwindcss.com/docs/preflight
+  @layer base 지시자를 사용하여 Preflight를 확장하고 기본 스타일을 정의할 수 있다.
+*/
+
+.material-icons {
+  font-family: 'Material Icons';
+  display: inline-block;
+  text-transform: none;
 }
