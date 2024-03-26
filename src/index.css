@@ -2,15 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-/**
-  @see https://v1.tailwindcss.com/docs/preflight
-  @layer base 지시자를 사용하여 Preflight를 확장하고 기본 스타일을 정의할 수 있다.
-*/
-
 .material-icons {
   font-family: 'Material Icons';
   display: inline-block;
   text-transform: none;
   line-height: 1;
   vertical-align: -0.125em;
+}
+
+@layer components {
+  .divider {
+    height: 0.0625rem;
+    margin: 0;
+  }
+
+  .divider::after,
+  .divider::before {
+    height: 0.05rem;
+  }
 }
