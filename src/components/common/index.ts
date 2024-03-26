@@ -8,3 +8,4 @@ export { default as Avatar } from './Avatar';
 export { default as Input } from './Input';
 export { default as Backdrop } from './Backdrop';
 export { default as Modal } from './Modal';
+export { default as Divider } from './Divider';
