@@ -1,12 +1,19 @@
-import { ElementType, forwardRef, HTMLAttributes } from 'react';
+import { ElementType, forwardRef } from 'react';
 import clsx from 'clsx';
+import { ReactHeadingProps } from './Title';
 
-export type SubtitleProps = HTMLAttributes<HTMLHeadingElement> & {
-  size?: 'lg' | 'xl' | '2xl';
-  element?: ElementType;
-};
+export type ReactParagraphProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLParagraphElement>,
+  HTMLParagraphElement
+>;
 
-const Subtitle = forwardRef<HTMLHeadingElement, SubtitleProps>((props, ref) => {
+export type SubtitleProps = ReactHeadingProps &
+  ReactParagraphProps & {
+    size?: 'lg' | 'xl' | '2xl';
+    element?: ElementType;
+  };
+
+const Subtitle = forwardRef<HTMLElement, SubtitleProps>((props, ref) => {
   const { size = '2xl', element: Element = 'h2', className, children, ...rest } = props;
   const subtitleSizeClass = {
     lg: 'text-lg',
