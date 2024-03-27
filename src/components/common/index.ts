@@ -9,3 +9,7 @@ export { default as Input } from './Input';
 export { default as Backdrop } from './Backdrop';
 export { default as Modal } from './Modal';
 export { default as Divider } from './Divider';
+export { default as Dialog } from './Dialog';
+export { default as DialogTitle } from './DialogTitle';
+export { default as DialogContent } from './DialogContent';
+export { default as DialogActions } from './DialogActions';
