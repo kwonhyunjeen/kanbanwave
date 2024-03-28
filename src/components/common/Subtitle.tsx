@@ -1,17 +1,10 @@
 import { ElementType, forwardRef } from 'react';
 import clsx from 'clsx';
-import { ReactHeadingProps } from './Title';
 
-export type ReactParagraphProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLParagraphElement>,
-  HTMLParagraphElement
->;
-
-export type SubtitleProps = ReactHeadingProps &
-  ReactParagraphProps & {
-    size?: 'lg' | 'xl' | '2xl';
-    element?: ElementType;
-  };
+type SubtitleProps = React.ComponentPropsWithoutRef<'h2' | 'p'> & {
+  size?: 'lg' | 'xl' | '2xl';
+  element?: ElementType;
+};
 
 const Subtitle = forwardRef<HTMLElement, SubtitleProps>((props, ref) => {
   const { size = '2xl', element: Element = 'h2', className, children, ...rest } = props;
@@ -23,9 +16,9 @@ const Subtitle = forwardRef<HTMLElement, SubtitleProps>((props, ref) => {
 
   return (
     <Element
+      {...rest}
       ref={ref}
-      className={clsx(`font-semibold ${subtitleSizeClass[size]} `, className)}
-      {...rest}>
+      className={clsx(`font-semibold ${subtitleSizeClass[size]} `, className)}>
       {children}
     </Element>
   );
