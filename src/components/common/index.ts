@@ -3,7 +3,6 @@ export { default as Icon } from './Icon';
 export { default as IconButton } from './IconButton';
 export { default as Title } from './Title';
 export { default as Subtitle } from './Subtitle';
-export { default as Div } from './Div';
 export { default as Avatar } from './Avatar';
 export { default as Input } from './Input';
 export { default as Backdrop } from './Backdrop';
