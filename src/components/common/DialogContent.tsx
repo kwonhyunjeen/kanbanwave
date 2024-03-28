@@ -1,8 +1,7 @@
 import { ReactNode, forwardRef } from 'react';
-import Div, { DivProps } from './Div';
 import clsx from 'clsx';
 
-export type DialogContentProps = DivProps & {
+type DialogContentProps = React.ComponentPropsWithoutRef<'div'> & {
   children: ReactNode;
   className?: string;
 };
@@ -10,9 +9,9 @@ export type DialogContentProps = DivProps & {
 const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>((props, ref) => {
   const { children, className, ...rest } = props;
   return (
-    <Div {...rest} ref={ref} className={clsx('p-4', className)}>
+    <div {...rest} ref={ref} className={clsx('p-4', className)}>
       {children}
-    </Div>
+    </div>
   );
 });
 

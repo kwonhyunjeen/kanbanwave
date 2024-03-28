@@ -1,18 +1,17 @@
 import { forwardRef } from 'react';
-import Div, { DivProps } from './Div';
 import clsx from 'clsx';
 
-export type DialogActionsProps = DivProps & {};
+type DialogActionsProps = React.ComponentPropsWithoutRef<'div'>;
 
 const DialogActions = forwardRef<HTMLDivElement, DialogActionsProps>((props, ref) => {
   const { children, className, ...rest } = props;
   return (
-    <Div
+    <div
       {...rest}
       ref={ref}
       className={clsx('dialog-actions flex justify-end p-4 last:ml-2', className)}>
       {children}
-    </Div>
+    </div>
   );
 });
 
