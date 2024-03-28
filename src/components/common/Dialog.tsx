@@ -1,12 +1,11 @@
 import { forwardRef, useRef } from 'react';
-import Modal, { ModalProps } from './Modal';
+import Modal from './Modal';
 import { useBackdropClick } from 'hooks';
 
-export type DialogProps = ModalProps & {};
+type DialogProps = React.ComponentPropsWithoutRef<typeof Modal>;
 
 const Dialog = forwardRef<HTMLDivElement, DialogProps>((props, ref) => {
-  const { children, title, ...modalProps } = props;
-  const { backdrop, onClose } = modalProps;
+  const { children, title, backdrop, onClose, ...rest } = props;
 
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -17,7 +16,7 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>((props, ref) => {
   useBackdropClick(dialogRef, handleModalClose, backdrop);
 
   return (
-    <Modal {...modalProps} ref={dialogRef || ref}>
+    <Modal {...rest} ref={dialogRef || ref}>
       {children}
     </Modal>
   );

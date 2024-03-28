@@ -1,11 +1,8 @@
-import { ReactNode, forwardRef } from 'react';
-import Subtitle, { SubtitleProps } from './Subtitle';
+import { forwardRef } from 'react';
+import Subtitle from './Subtitle';
 import clsx from 'clsx';
 
-export type DialogTitleProps = Pick<SubtitleProps, 'size'> & {
-  children: ReactNode;
-  className?: string;
-};
+type DialogTitleProps = Omit<React.ComponentPropsWithoutRef<typeof Subtitle>, 'element'>;
 
 const DialogTitle = forwardRef<HTMLElement, DialogTitleProps>((props, ref) => {
   const { children, className, size = 'xl', ...rest } = props;

@@ -1,10 +1,10 @@
 import { forwardRef } from 'react';
-import Button, { ButtonProps } from './Button';
-import Icon, { IconProps } from './Icon';
+import Button from './Button';
 import clsx from 'clsx';
+import Icon from './Icon';
 
-export type IconButtonProps = ButtonProps &
-  IconProps & {
+type IconButtonProps = React.ComponentPropsWithoutRef<typeof Button> &
+  React.ComponentPropsWithoutRef<typeof Icon> & {
     btnClassName?: string;
     iconClassName?: string;
     iconPosition?: 'start' | 'end';
@@ -20,7 +20,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
     ...rest
   } = props;
   return (
-    <Button ref={ref} className={clsx(btnClassName)} {...rest}>
+    <Button {...rest} ref={ref} className={clsx(btnClassName)}>
       {iconPosition === 'start' && <Icon name={name} className={iconClassName} />}
       {children}
       {iconPosition === 'end' && <Icon name={name} className={iconClassName} />}

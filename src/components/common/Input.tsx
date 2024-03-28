@@ -1,16 +1,11 @@
 import { forwardRef, useMemo } from 'react';
 import clsx from 'clsx';
 
-type ReactInputProps = React.DetailedHTMLProps<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
->;
-
-export type InputVariant = {
+type InputVariant = {
   variant?: 'outlined' | 'standard';
 };
 
-export type InputProps = ReactInputProps &
+type InputProps = React.ComponentPropsWithoutRef<'input'> &
   InputVariant & {
     wrapperClassName?: string;
     inputClassName?: string;
