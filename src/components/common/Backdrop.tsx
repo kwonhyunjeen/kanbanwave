@@ -1,27 +1,19 @@
-import Div, { ReactDivProps } from './Div';
 import clsx from 'clsx';
 
-export type BackdropProps = ReactDivProps & {
-  opacityClass?: string;
-};
+type BackdropProps = React.ComponentPropsWithoutRef<'div'>;
 
 const Backdrop = (props: BackdropProps) => {
-  const { opacityClass, className, children, ...rest } = props;
+  const { className, children, ...rest } = props;
 
   return (
-    <Div
+    <div
       {...rest}
       className={clsx(
-        'fixed z-50 w-screen h-screen',
-        opacityClass ?? 'bg-black/50',
-        'flex items-center justify-center',
+        'fixed w-screen h-screen top-0 left-0 bg-black/50 flex items-center justify-center',
         className
-      )}
-      aria-hidden="true"
-      top="0"
-      left="0">
+      )}>
       {children}
-    </Div>
+    </div>
   );
 };
 

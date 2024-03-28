@@ -1,12 +1,11 @@
 import { forwardRef, ReactNode, useEffect, useRef } from 'react';
-import Div, { DivProps } from './Div';
 import clsx from 'clsx';
 import IconButton from './IconButton';
 import Backdrop from './Backdrop';
 import { createPortal } from 'react-dom';
 import { useBackdropClick } from 'hooks/useBackdropClick';
 
-export type ModalProps = DivProps & {
+type ModalProps = React.ComponentPropsWithoutRef<'div'> & {
   backdrop?: boolean;
   backdropClassName?: string;
   onClose?: () => void;
@@ -50,15 +49,13 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
   return open
     ? createPortal(
         <Backdrop>
-          <Div
+          <div
             {...rest}
             ref={modalRef || ref}
             className={clsx(
-              'flex flex-col relative bg-white rounded-lg shadow-xl overflow-y-auto m-4',
+              'flex flex-col relative bg-white max-w-[min(37.5rem,90%)] max-h-[calc(100%-64px)] rounded-lg shadow-xl overflow-y-auto m-4',
               className
-            )}
-            maxWidth="37.5rem"
-            maxHeight="calc(100% - 64px">
+            )}>
             {children}
             {closeIcon && (
               <IconButton
@@ -68,7 +65,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
                 onClick={handleModalClose}
               />
             )}
-          </Div>
+          </div>
         </Backdrop>,
         document.body
       )

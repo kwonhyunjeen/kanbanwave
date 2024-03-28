@@ -1,20 +1,18 @@
 import clsx from 'clsx';
-import Div, { DivProps } from './Div';
 
-export type AvatarProps = DivProps & {
-  size?: string;
+type AvatarProps = React.ComponentPropsWithoutRef<'span'> & {
+  src?: string;
 };
 
-const Avatar = ({ className, src, style, size, ...props }: AvatarProps) => {
-  const avatarSize = size ?? '3rem';
+const Avatar = ({ className, src, style, ...props }: AvatarProps) => {
   return (
-    <Div
+    <span
       {...props}
-      className={clsx('rounded-full bg-cover bg-gray-200', className)}
-      src={src}
-      style={style}
-      width={avatarSize}
-      height={avatarSize}
+      className={clsx(
+        'inline-block rounded-full bg-cover bg-gray-200 h-12 aspect-square',
+        className
+      )}
+      style={{ backgroundImage: src && `url(${src})` }}
     />
   );
 };
