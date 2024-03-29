@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef } from 'react';
 import clsx from 'clsx';
 
 type InputVariant = {
@@ -23,27 +23,19 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     ...rest
   } = props;
 
-  const wrapperClasses = useMemo(
-    () =>
-      clsx(
-        'relative flex items-center transition duration-300 ease-in-out',
-        variant === 'outlined'
-          ? 'border rounded hover:border-emerald-700'
-          : 'border-b  hover:border-emerald-700',
-        'border-gray-300',
-        wrapperClassName
-      ),
-    [variant, wrapperClassName]
+  const wrapperClasses = clsx(
+    'relative flex items-center transition duration-300 ease-in-out',
+    variant === 'outlined'
+      ? 'border rounded hover:border-emerald-700'
+      : 'border-b  hover:border-emerald-700',
+    'border-gray-300',
+    wrapperClassName
   );
 
-  const inputClasses = useMemo(
-    () =>
-      clsx(
-        'flex-1 block w-full px-3 py-2 focus:outline-none',
-        variant === 'outlined' && 'border-0 rounded',
-        inputClassName
-      ),
-    [variant, inputClassName]
+  const inputClasses = clsx(
+    'flex-1 block w-full px-3 py-2 focus:outline-none',
+    variant === 'outlined' && 'border-0 rounded',
+    inputClassName
   );
 
   return (
