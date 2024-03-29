@@ -1,1 +1,1 @@
-export * from './useBackdropClick';
+export { default as useOnOutsideClick } from './useOnOutsideClick';
