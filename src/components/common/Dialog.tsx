@@ -1,23 +1,37 @@
-import { forwardRef, useRef } from 'react';
-import Modal from './Modal';
-import { useBackdropClick } from 'hooks';
+import { forwardRef } from 'react';
+import Modal, { ModalCloseReason } from './Modal';
+import IconButton from './IconButton';
 
-type DialogProps = React.ComponentPropsWithoutRef<typeof Modal>;
+export const DialogCloseReason = {
+  ...ModalCloseReason,
+  closeClick: 'closeClick'
+} as const;
+export type DialogCloseReason =
+  (typeof DialogCloseReason)[keyof typeof DialogCloseReason];
+
+type DialogProps = Omit<React.ComponentPropsWithoutRef<typeof Modal>, 'onClose'> & {
+  closeIcon?: boolean;
+  onClose?: (reason: DialogCloseReason) => void;
+};
 
 const Dialog = forwardRef<HTMLDivElement, DialogProps>((props, ref) => {
-  const { children, title, backdrop, onClose, ...rest } = props;
-
-  const dialogRef = useRef<HTMLDivElement>(null);
+  const { children, closeIcon, onClose, ...rest } = props;
 
   const handleModalClose = (): void => {
-    onClose?.();
+    onClose?.(DialogCloseReason.closeClick);
   };
 
-  useBackdropClick(dialogRef, handleModalClose, backdrop);
-
   return (
-    <Modal {...rest} ref={dialogRef || ref}>
+    <Modal {...rest} ref={ref} onClose={handleModalClose}>
       {children}
+      {closeIcon && (
+        <IconButton
+          name="close"
+          aria-label="close"
+          className="absolute top-4 right-4 btn-xs btn-circle "
+          onClick={handleModalClose}
+        />
+      )}
     </Modal>
   );
 });
