@@ -1,39 +1,38 @@
 import { forwardRef, ReactNode, useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import IconButton from './IconButton';
 import Backdrop from './Backdrop';
 import { createPortal } from 'react-dom';
-import { useBackdropClick } from 'hooks/useBackdropClick';
+import { useForkRef, useOnOutsideClick } from 'hooks';
+
+export const ModalCloseReason = {
+  backdropClick: 'backdropClick'
+} as const;
+export type ModalCloseReason = (typeof ModalCloseReason)[keyof typeof ModalCloseReason];
 
 type ModalProps = React.ComponentPropsWithoutRef<'div'> & {
-  backdrop?: boolean;
   backdropClassName?: string;
-  onClose?: () => void;
-  open: boolean;
-  closeIcon?: boolean;
   children?: ReactNode;
+  disableBackdropClick?: boolean;
+  onClose?: (reason: ModalCloseReason) => void;
+  open: boolean;
 };
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
   const {
-    backdrop = true,
     backdropClassName,
+    children,
+    className,
+    disableBackdropClick = false,
     onClose,
     open,
-    closeIcon,
-    className,
-    children,
     ...rest
   } = props;
 
   const modalRef = useRef<HTMLDivElement>(null);
+  const modalCallbackRef = useForkRef(modalRef, ref);
 
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    document.body.style.overflow = open ? 'hidden' : '';
 
     return () => {
       document.body.style.overflow = 'auto';
@@ -41,32 +40,27 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
   }, [open]);
 
   const handleModalClose = (): void => {
-    onClose?.();
+    if (!disableBackdropClick) {
+      onClose?.(ModalCloseReason.backdropClick);
+    }
   };
 
-  useBackdropClick(modalRef, handleModalClose, backdrop);
+  useOnOutsideClick(modalRef, open ? handleModalClose : undefined);
 
   return open
     ? createPortal(
-        <Backdrop>
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <Backdrop />
           <div
             {...rest}
-            ref={modalRef || ref}
+            ref={modalCallbackRef}
             className={clsx(
-              'flex flex-col relative bg-white max-w-[min(37.5rem,90%)] max-h-[calc(100%-64px)] rounded-lg shadow-xl overflow-y-auto m-4',
+              'relative flex flex-col max-w-[min(37.5rem,90%)] max-h-[calc(100%-64px)] bg-white rounded-lg shadow-xl overflow-y-auto',
               className
             )}>
             {children}
-            {closeIcon && (
-              <IconButton
-                name="close"
-                aria-label="close"
-                className="absolute top-4 right-4 btn-xs btn-circle "
-                onClick={handleModalClose}
-              />
-            )}
           </div>
-        </Backdrop>,
+        </div>,
         document.body
       )
     : null;
