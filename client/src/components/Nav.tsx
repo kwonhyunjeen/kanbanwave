@@ -13,7 +13,7 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
         'translate-x-0': !open,
         '-translate-x-[14.5rem]': open
       })}>
-      <div className="flex items-center p-4 border-b">
+      <div className="flex items-center h-16 p-4 border-b">
         <Icon name="cruelty_free" className="mr-2 text-3xl" />
         <p className="flex-1">Trello workspace</p>
         <IconButton
