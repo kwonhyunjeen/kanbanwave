@@ -6,6 +6,9 @@ module.exports = {
       fontSize: {
         '5xl': '2.75rem',
         '6xl': '3.25rem'
+      },
+      width: {
+        'nav-drawer': '250px'
       }
     }
   },
