@@ -2,6 +2,7 @@ import Header from './Header';
 import Nav from './Nav';
 import { useToggle } from 'hooks';
 import clsx from 'clsx';
+import { Outlet } from 'react-router-dom';
 
 const Layout = () => {
   const [open, drawerOpen] = useToggle(false);
@@ -17,7 +18,7 @@ const Layout = () => {
               'ml-64': !open
             }
           )}>
-          <h1>Main Content</h1>
+          <Outlet />
         </main>
       </div>
     </>
