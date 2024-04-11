@@ -1,4 +1,8 @@
-import type { AppState } from './AppState';
-import type { Action } from 'redux';
+import { combineReducers } from 'redux';
+import { listMgmtReducer } from './listMgmt';
+import { listIdOrdersReducer } from './listIdOrders';
 
-export const rootReducer = (state: AppState, action: Action) => state;
+export const rootReducer = combineReducers({
+  listMgmt: listMgmtReducer,
+  listIdOrders: listIdOrdersReducer
+});

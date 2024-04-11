@@ -17,7 +17,8 @@ const initializeStore = () => {
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
         serializableCheck: false
-      }).concat(middleware)
+      }).concat(middleware),
+    devTools: process.env.NODE_ENV !== 'production'
   });
 
   return store;
