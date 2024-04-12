@@ -8,7 +8,7 @@ module.exports = {
         '6xl': '3.25rem'
       },
       width: {
-        'nav-drawer': '250px'
+        'nav-width': '260px'
       },
       height: {
         'header-height': '64px'
