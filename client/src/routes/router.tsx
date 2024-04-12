@@ -1,10 +1,10 @@
-import { Layout } from 'components';
+import { BaseLayout } from 'components';
 import { createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />
+    element: <BaseLayout />
   }
 ]);
 

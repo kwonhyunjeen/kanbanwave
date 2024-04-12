@@ -7,3 +7,24 @@
   line-height: 1;
   vertical-align: -0.125em;
 }
+
+.app-layout {
+  display: flex;
+}
+
+.app-container {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 64px;
+  transition-property: all;
+  transition-duration: 300ms;
+}
+
+.app-main {
+  width: 100%;
+  overflow: auto;
+  transition-property: all;
+  transition-duration: 300ms;
+}
