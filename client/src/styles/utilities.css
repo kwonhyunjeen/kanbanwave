@@ -12,6 +12,15 @@
   display: flex;
 }
 
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: theme(height.header-height);
+  border-bottom: 1px solid #e5e7eb;
+}
+
 .app-container {
   display: flex;
   box-sizing: border-box;

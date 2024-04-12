@@ -9,6 +9,9 @@ module.exports = {
       },
       width: {
         'nav-drawer': '250px'
+      },
+      height: {
+        'header-height': '64px'
       }
     }
   },

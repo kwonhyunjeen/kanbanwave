@@ -2,7 +2,7 @@ import { Avatar, Icon, Input, Subtitle } from './common';
 
 const Header = () => {
   return (
-    <header className="fixed right-0 left-auto h-16 border-b navbar bg-base-100">
+    <header className="app-header navbar bg-base-100">
       <div className="flex-1">
         <a className="text-xl btn btn-ghost" href="/">
           <Subtitle>MyTrello</Subtitle>
