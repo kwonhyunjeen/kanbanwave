@@ -1,0 +1,9 @@
+@tailwind utilities;
+
+.material-icons {
+  font-family: 'Material Icons';
+  display: inline-block;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -0.125em;
+}
