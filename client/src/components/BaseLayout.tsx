@@ -4,25 +4,22 @@ import { useToggle } from 'hooks';
 import clsx from 'clsx';
 import { Outlet } from 'react-router-dom';
 
-const Layout = () => {
+const BaseLayout = () => {
   const [open, drawerOpen] = useToggle(false);
   return (
-    <>
+    <div className="app-layout">
       <Header />
-      <div className="flex min-h-screen pt-16">
+      <div className="app-container">
         <Nav open={open} onClickDrawer={drawerOpen} />
         <main
-          className={clsx(
-            'w-screen flex-grow  overflow-auto transition-all duration-300 py-6 px-12',
-            {
-              'ml-64': !open
-            }
-          )}>
+          className={clsx('app-main', {
+            'ml-[260px]': !open
+          })}>
           <Outlet />
         </main>
       </div>
-    </>
+    </div>
   );
 };
 
-export default Layout;
+export default BaseLayout;

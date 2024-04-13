@@ -9,9 +9,9 @@ type NavProps = {
 const Nav = ({ open, onClickDrawer }: NavProps) => {
   return (
     <nav
-      className={clsx('fixed h-full w-nav-drawer border-r transition-all duration-300', {
+      className={clsx('app-nav', {
         'translate-x-0': !open,
-        '-translate-x-[14.5rem]': open
+        '-translate-x-[15rem]': open
       })}>
       <div className="flex items-center h-16 p-4 border-b">
         <Icon name="cruelty_free" className="mr-2 text-3xl" />
@@ -19,11 +19,10 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
         <IconButton
           name="double_arrow"
           onClick={onClickDrawer}
-          className={
-            open
-              ? 'fixed -right-4 btn-circle btn-xs'
-              : 'btn-xs btn-ghost btn-square rotate-180'
-          }
+          className={clsx('btn-xs btn-ghost btn-square', {
+            'fixed -right-4 bg-transparent border-0 shadow-none': open,
+            'rotate-180': !open
+          })}
         />
       </div>
       <ul className="bg-white menu">
