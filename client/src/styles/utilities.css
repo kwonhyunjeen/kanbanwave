@@ -1,49 +1,45 @@
 @tailwind utilities;
 
-.material-icons {
-  font-family: 'Material Icons';
-  display: inline-block;
-  text-transform: none;
-  line-height: 1;
-  vertical-align: -0.125em;
-}
+@layer utilities {
+  .material-icons {
+    font-family: 'Material Icons';
+    display: inline-block;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -0.125em;
+  }
 
-.app-layout {
-  display: flex;
-}
+  .app-layout {
+    display: flex;
+  }
 
-.app-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: theme(height.header-height);
-  border-bottom: 1px solid #e5e7eb;
-}
+  .app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: theme(height.header-height);
+    border-bottom: 1px solid #e5e7eb;
+  }
 
-.app-container {
-  display: flex;
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 100vh;
-  margin-top: 64px;
-  transition-property: all;
-  transition-duration: 300ms;
-}
+  .app-container {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100vh;
+    margin-top: 64px;
+    transition-property: all;
+    transition-duration: 300ms;
+  }
 
-.app-nav {
-  position: fixed;
-  top: theme(height.header-height);
-  width: theme(width.nav-width);
-  min-height: 100vh;
-  border-right: 1px solid #e5e7eb;
-  transition-property: all;
-  transition-duration: 300ms;
-}
+  .app-nav {
+    @apply fixed top-[theme(height.header-height)] box-border w-[theme(width.nav-width)] min-h-screen border-r transition duration-300 ease-in-out;
+  }
 
-.app-main {
-  width: 100%;
-  overflow: auto;
-  transition-property: all;
-  transition-duration: 300ms;
+  .app-main {
+    width: 100%;
+    overflow: auto;
+    transition-property: all;
+    transition-duration: 300ms;
+  }
 }
