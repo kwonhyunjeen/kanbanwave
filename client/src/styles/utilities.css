@@ -37,9 +37,10 @@
   }
 
   .app-main {
-    width: 100%;
-    overflow: auto;
-    transition-property: all;
-    transition-duration: 300ms;
+    @apply flex-1 overflow-auto transition-all duration-300 bg-stone-200;
+  }
+
+  .app-base {
+    @apply flex flex-col h-screen pt-4 pl-10;
   }
 }
