@@ -17,10 +17,11 @@ const Board = () => {
 
   const lists = listIdOrders?.map(uuid => listMgmt[uuid]);
 
-  const initialInputVisible = lists.length;
+  const listsLength = lists.length;
 
   const onAddList = useCallback(
     (title: string) => {
+      // @todo Update to real data once server integration is completed
       const uuid = Dummy.randomUUID();
       const list = { uuid, title };
       dispatch(LO.addListIdToOrders(uuid));
@@ -50,11 +51,7 @@ const Board = () => {
             />
           ))}
         </div>
-        <AddItemForm
-          itemMode="list"
-          onAddItem={onAddList}
-          initialInputVisible={initialInputVisible}
-        />
+        <AddItemForm itemMode="list" onAddItem={onAddList} listsLength={listsLength} />
       </div>
     </section>
   );

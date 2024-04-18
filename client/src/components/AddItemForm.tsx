@@ -10,10 +10,10 @@ export type ItemFormType = (typeof ItemForm)[keyof typeof ItemForm];
 type AddItemFormProps = {
   itemMode: ItemFormType;
   onAddItem?: (title: string) => void;
-  initialInputVisible: number;
+  listsLength: number;
 };
 
-const AddItemForm = ({ itemMode, onAddItem, initialInputVisible }: AddItemFormProps) => {
+const AddItemForm = ({ itemMode, onAddItem, listsLength }: AddItemFormProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -38,12 +38,12 @@ const AddItemForm = ({ itemMode, onAddItem, initialInputVisible }: AddItemFormPr
   };
 
   useEffect(() => {
-    if (initialInputVisible === 0) {
+    if (listsLength === 0) {
       setIsInputVisible(true);
     } else {
       setIsInputVisible(false);
     }
-  }, [initialInputVisible]);
+  }, [listsLength]);
 
   return (
     <div className="flex flex-col p-2 bg-white rounded-lg shadow-lg shrink-0 h-fit">
