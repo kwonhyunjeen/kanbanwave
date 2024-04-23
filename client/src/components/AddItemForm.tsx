@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { Button, IconButton, TextArea } from './common';
+import clsx from 'clsx';
 
 export const ItemForm = {
   card: 'card',
@@ -8,12 +9,18 @@ export const ItemForm = {
 export type ItemFormType = (typeof ItemForm)[keyof typeof ItemForm];
 
 type AddItemFormProps = {
+  className?: string;
   itemMode: ItemFormType;
-  onAddItem?: (title: string) => void;
   listsLength: number;
+  onAddItem?: (title: string) => void;
 };
 
-const AddItemForm = ({ itemMode, onAddItem, listsLength }: AddItemFormProps) => {
+const AddItemForm = ({
+  className,
+  itemMode,
+  listsLength,
+  onAddItem
+}: AddItemFormProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -46,15 +53,16 @@ const AddItemForm = ({ itemMode, onAddItem, listsLength }: AddItemFormProps) => 
   }, [listsLength]);
 
   return (
-    <div className="flex flex-col p-2 bg-white rounded-lg shadow-lg shrink-0 h-fit">
+    <div className="flex flex-col w-full rounded-lg max-w-64 bg-zinc-50 shrink-0 h-fit">
       {isInputVisible ? (
-        <>
+        <div className={clsx('p-2', className)}>
           <TextArea
             placeholder={`Enter a ${itemMode === ItemForm.card ? 'card' : 'list'} title`}
             value={title}
             onChange={handleChange}
+            className="w-full py-1 leading-8 min-h-11 "
           />
-          <div className="flex items-start mt-2">
+          <div className="flex items-start mt-1">
             <Button type="submit" className="mr-2" onClick={handleClick}>
               Add {itemMode}
             </Button>
@@ -65,12 +73,15 @@ const AddItemForm = ({ itemMode, onAddItem, listsLength }: AddItemFormProps) => 
               onClick={handleCancel}
             />
           </div>
-        </>
+        </div>
       ) : (
         <IconButton
           name="add"
           aria-label={`add a ${itemMode}`}
-          onClick={() => setIsInputVisible(true)}>
+          onClick={() => setIsInputVisible(true)}
+          className={clsx('h-11', {
+            'mt-1': itemMode === ItemForm.card
+          })}>
           <span className="text-sm">
             {itemMode === ItemForm.card ? 'Add a card' : 'Add another list'}
           </span>

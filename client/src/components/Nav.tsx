@@ -54,12 +54,12 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
           </ul>
         </>
       ) : (
-        <div className="absolute h-full bg-stone-400 -right-1" onClick={onClickDrawer}>
+        <div className="absolute h-full bg-zinc-200 -right-1" onClick={onClickDrawer}>
           <IconButton
             name="double_arrow"
             className={clsx(
               drawerIconStyle,
-              'w-6 h-full  hover:bg-stone-400 border-0 shadow-none rounded-none'
+              'w-6 h-full  hover:bg-zinc-200 border-0 shadow-none rounded-none'
             )}
           />
         </div>

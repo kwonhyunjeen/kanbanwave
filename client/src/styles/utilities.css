@@ -10,37 +10,30 @@
   }
 
   .app-layout {
-    display: flex;
+    @apply h-full overflow-hidden;
   }
 
   .app-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: theme(height.header-height);
-    border-bottom: 1px solid #e5e7eb;
+    @apply fixed top-0 left-0 right-0 h-header-height border-b;
   }
 
   .app-container {
-    display: flex;
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 100vh;
-    margin-top: 64px;
-    transition-property: all;
-    transition-duration: 300ms;
+    @apply w-full box-border mt-[theme(height.header-height)] transition-all duration-300;
   }
 
   .app-nav {
-    @apply fixed top-[theme(height.header-height)] box-border w-[theme(width.nav-width)] min-h-screen border-r transition duration-300 ease-in-out;
+    @apply fixed top-[theme(height.header-height)] w-[theme(width.nav-width)] min-h-screen box-border border-r transition duration-300 ease-in-out;
   }
 
   .app-main {
-    @apply flex-1 overflow-auto transition-all duration-300 bg-stone-200;
+    @apply bg-neutral-700 max-h-[calc(100vh-theme(height.header-height))] overflow-y-auto transition-all duration-300;
   }
 
   .app-base {
     @apply flex flex-col h-screen pt-4 pl-10;
+  }
+
+  .list {
+    @apply flex flex-col bg-zinc-50 w-64 h-fit p-2 mr-2 shadow-lg rounded-xl;
   }
 }
