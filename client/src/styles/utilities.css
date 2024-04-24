@@ -36,4 +36,8 @@
   .list {
     @apply flex flex-col bg-zinc-50 w-64 h-fit p-2 mr-2 shadow-lg rounded-xl;
   }
+
+  .card {
+    @apply relative flex bg-white w-full min-h-11 border my-1 p-2 rounded-lg shadow-md cursor-pointer;
+  }
 }
