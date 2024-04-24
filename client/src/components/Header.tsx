@@ -12,7 +12,7 @@ const Header = () => {
         <div className="form-control">
           <Input type="text" leftIcon={<Icon name="search" />} placeholder="Search" />
         </div>
-        <div className="dropdown dropdown-end">
+        <div className="flex items-center dropdown dropdown-end dropdown-bottom">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
             <Avatar />
           </div>
