@@ -1,6 +1,6 @@
-import { ListIdOrdersState, ListMgmtState } from './commonTypes';
+import { ListOrdersState, ListMgmtState } from './commonTypes';
 
 export type AppState = {
   listMgmt: ListMgmtState;
-  listIdOrders: ListIdOrdersState;
+  listOrders: ListOrdersState;
 };

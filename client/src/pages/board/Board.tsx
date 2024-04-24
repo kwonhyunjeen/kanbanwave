@@ -3,20 +3,19 @@ import { AddItemForm, Title } from 'components';
 import { useCallback } from 'react';
 import * as Dummy from 'dummy';
 import { AppState } from 'store/AppState';
-import * as LO from 'store/listIdOrders';
+import * as LO from 'store/listOrders';
 import * as LM from 'store/listMgmt';
-import type { ListIdOrdersState, ListMgmtState } from 'store/commonTypes';
+import type { ListOrdersState, ListMgmtState } from 'store/commonTypes';
 import { BoardList } from 'pages';
 
 const Board = () => {
   const dispatch = useDispatch();
 
-  const listIdOrders = useSelector<AppState, ListIdOrdersState>(
-    state => state.listIdOrders
+  const listOrders = useSelector<AppState, ListOrdersState>(
+    state => state.listOrders
   );
   const listMgmt = useSelector<AppState, ListMgmtState>(state => state.listMgmt);
-
-  const lists = listIdOrders?.map(uuid => listMgmt[uuid]);
+  const lists = listOrders?.map(uuid => listMgmt[uuid]);
 
   const listsLength = lists.length;
 
@@ -25,7 +24,7 @@ const Board = () => {
       // @todo Update to real data once server integration is completed
       const uuid = Dummy.randomUUID();
       const list = { uuid, title };
-      dispatch(LO.addListIdToOrders(uuid));
+      dispatch(LO.addListToOrders(uuid));
       dispatch(LM.addList(list));
     },
     [dispatch]
@@ -34,7 +33,7 @@ const Board = () => {
   const onRemoveList = useCallback(
     (listId: string) => () => {
       dispatch(LM.removeList(listId));
-      dispatch(LO.removeListIdFromOrders(listId));
+      dispatch(LO.removeListFromOrders(listId));
     },
     [dispatch]
   );
