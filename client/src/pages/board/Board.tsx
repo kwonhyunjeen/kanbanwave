@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AddItemForm, BoardList, Title } from 'components';
+import { AddItemForm, Title } from 'components';
 import { useCallback } from 'react';
-import * as Dummy from '../dummy';
+import * as Dummy from 'dummy';
 import { AppState } from 'store/AppState';
-import * as LO from '../store/listIdOrders';
-import * as LM from '../store/listMgmt';
+import * as LO from 'store/listIdOrders';
+import * as LM from 'store/listMgmt';
 import type { ListIdOrdersState, ListMgmtState } from 'store/commonTypes';
+import { BoardList } from 'pages';
 
 const Board = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const Board = () => {
 
   return (
     <section className="app-base">
-      <Title className="mb-4">Board</Title>
+      <Title className="mb-4 text-white">Board</Title>
       <div className="flex justify-start">
         <div className="flex">
           {lists?.map(list => (

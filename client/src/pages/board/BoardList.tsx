@@ -1,5 +1,5 @@
 import { List } from 'store/commonTypes';
-import { IconButton } from './common';
+import { IconButton } from 'components/common';
 import { ReactNode } from 'react';
 
 type BoardListProps = {
