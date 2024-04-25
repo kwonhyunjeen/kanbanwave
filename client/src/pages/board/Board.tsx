@@ -11,15 +11,11 @@ import { BoardList } from 'pages';
 const Board = () => {
   const dispatch = useDispatch();
 
-  const listOrders = useSelector<AppState, ListOrdersState>(
-    state => state.listOrders
-  );
+  const listOrders = useSelector<AppState, ListOrdersState>(state => state.listOrders);
   const listMgmt = useSelector<AppState, ListMgmtState>(state => state.listMgmt);
   const lists = listOrders?.map(uuid => listMgmt[uuid]);
 
-  const listsLength = lists.length;
-
-  const onAddList = useCallback(
+  const onListAdd = useCallback(
     (title: string) => {
       // @todo Update to real data once server integration is completed
       const uuid = Dummy.randomUUID();
@@ -51,7 +47,7 @@ const Board = () => {
             />
           ))}
         </div>
-        <AddItemForm itemMode="list" onAddItem={onAddList} listsLength={listsLength} />
+        <AddItemForm itemMode="list" onItemAdd={onListAdd} listsLength={lists.length} />
       </div>
     </section>
   );

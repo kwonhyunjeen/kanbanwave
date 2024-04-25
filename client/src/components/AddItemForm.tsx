@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button, IconButton, TextArea } from './common';
 import clsx from 'clsx';
 
@@ -11,32 +11,32 @@ export type ItemFormType = (typeof ItemForm)[keyof typeof ItemForm];
 type AddItemFormProps = {
   className?: string;
   itemMode: ItemFormType;
-  listsLength: number;
-  onAddItem?: (title: string) => void;
+  listsLength?: number;
+  onItemAdd?: (title: string) => void;
 };
 
 const AddItemForm = ({
   className,
   itemMode,
   listsLength,
-  onAddItem
+  onItemAdd
 }: AddItemFormProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
   const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
-    setTitle(() => e.target.value);
+    setTitle(e.target.value);
   }, []);
 
   const handleClick = useCallback(
-    (e: FormEvent<HTMLButtonElement>) => {
+    (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       if (title.trim() !== '') {
-        onAddItem?.(title);
+        onItemAdd?.(title);
         setTitle('');
       }
     },
-    [title, onAddItem]
+    [title, onItemAdd]
   );
 
   const handleCancel = () => {
@@ -63,7 +63,7 @@ const AddItemForm = ({
             className="w-full py-1 leading-8 min-h-11 "
           />
           <div className="flex items-start mt-1">
-            <Button type="submit" className="mr-2" onClick={handleClick}>
+            <Button type="button" className="mr-2" onClick={handleClick}>
               Add {itemMode}
             </Button>
             <IconButton

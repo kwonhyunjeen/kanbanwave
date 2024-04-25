@@ -1,7 +1,15 @@
 import { useToggle } from 'hooks';
 import { IconButton } from '../../components/common';
+import { Card } from 'store/commonTypes';
 
-const ListCard = () => {
+type ListCardProps = {
+  card: Card;
+  onCardClick?: () => void;
+  onCardEdit?: () => void;
+  onCardRemove?: () => void;
+};
+
+const ListCard = ({ card, onCardClick, onCardEdit, onCardRemove }: ListCardProps) => {
   const [open, menuOpen] = useToggle(false);
   const handleMenuOpen = () => {
     menuOpen();
@@ -9,9 +17,9 @@ const ListCard = () => {
 
   return (
     <>
-      <div className="card group">
+      <div className="card group" onClick={onCardClick}>
         <a className="break-words whitespace-normal">
-          <div>title</div>
+          <div>{card.title}</div>
           <IconButton
             name="edit"
             className="absolute hidden w-8 right-1 top-1 group-hover:flex"
@@ -21,10 +29,10 @@ const ListCard = () => {
       </div>
       {open && (
         <ul className="flex flex-row justify-around mb-1 menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-          <li>
+          <li onClick={onCardEdit}>
             <a>Edit card</a>
           </li>
-          <li>
+          <li onClick={onCardRemove}>
             <a>Delete card</a>
           </li>
         </ul>
