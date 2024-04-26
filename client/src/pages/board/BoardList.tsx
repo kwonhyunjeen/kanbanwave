@@ -46,9 +46,9 @@ const BoardList = ({ list, onRemoveList, ...props }: BoardListProps) => {
   );
 
   return (
-    <div {...props} className="p-2 mr-2 bg-white rounded-lg shadow-lg min-w-64 h-fit ">
+    <div {...props} className="w-64 p-2 mr-2 bg-white rounded-lg shadow-lg h-fit">
       <div className="flex items-center justify-between mb-2">
-        <Subtitle className="flex-1 w-32 pl-2" size="lg">
+        <Subtitle className="flex-1 pl-2 break-all" size="lg">
           {list.title}
         </Subtitle>
         <div className="flex justify-between ml-2">
