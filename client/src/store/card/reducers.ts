@@ -1,12 +1,19 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { CardOrdersState, ListIdCardId, ListIdCardIdS } from 'store/commonTypes';
+import {
+  Card,
+  CardMgmtState,
+  CardOrdersState,
+  ListIdCardId,
+  ListIdCardIdS
+} from 'store/commonTypes';
 
-const initialState: CardOrdersState = {};
+const initialCardOrdersState: CardOrdersState = {};
+const initialCardMgmtState: CardMgmtState = {};
 
 // 각 목록에 속한 카드의 순서를 관리
-const cardOrders = createSlice({
+const cardOrdersSlice = createSlice({
   name: 'cardOrders',
-  initialState: initialState,
+  initialState: initialCardOrdersState,
   reducers: {
     // 카드의 순서 변경이 있을 매마다 특정 목록에 속한 카드의 순서를 설정
     setCardOrdersFromList: (
@@ -43,11 +50,31 @@ const cardOrders = createSlice({
   }
 });
 
+// 모든 카드에 대한 정보를 유지하고 갱신(추가, 삭제)
+const cardMgmtSlice = createSlice({
+  name: 'cardMgmt',
+  initialState: initialCardMgmtState,
+  reducers: {
+    // 새로운 카드 추가
+    addCard: (state: CardMgmtState, action: PayloadAction<Card>) => {
+      return { ...state, [action.payload.uuid]: action.payload };
+    },
+    // 특정 카드 삭제
+    removeCard: (state: CardMgmtState, action: PayloadAction<string>) => {
+      const { [action.payload]: _, ...newState } = state;
+      return newState;
+    }
+  }
+});
+
 export const {
   setCardOrdersFromList,
   removeList,
   prependCardToList,
   appendCardToList,
   removeCardFromList
-} = cardOrders.actions;
-export const cardOrdersReducer = cardOrders.reducer;
+} = cardOrdersSlice.actions;
+export const cardOrdersReducer = cardOrdersSlice.reducer;
+
+export const { addCard, removeCard } = cardMgmtSlice.actions;
+export const cardMgmtReducer = cardMgmtSlice.reducer;

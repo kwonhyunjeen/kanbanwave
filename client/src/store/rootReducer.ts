@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
-import { listMgmtReducer } from './listMgmt';
-import { listOrdersReducer } from './listOrders';
-import { cardMgmtReducer } from './cardMgmt';
-import { cardOrdersReducer } from './cardOrders';
+import { listMgmtReducer, listOrdersReducer } from './list';
+import { cardMgmtReducer, cardOrdersReducer } from './card';
 
 export const rootReducer = combineReducers({
-  listMgmt: listMgmtReducer,
   listOrders: listOrdersReducer,
-  cardMgmt: cardMgmtReducer,
-  cardOrders: cardOrdersReducer
+  listMgmt: listMgmtReducer,
+  cardOrders: cardOrdersReducer,
+  cardMgmt: cardMgmtReducer
 });

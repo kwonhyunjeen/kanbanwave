@@ -1,12 +1,11 @@
-import { CardMgmtState, CardOrdersState, List } from 'store/commonTypes';
+import { List } from 'store/commonTypes';
 import { IconButton, AddItemForm, Subtitle } from 'components';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from 'store/AppState';
 import ListCard from './ListCard';
 import * as Dummy from 'dummy';
-import * as CM from 'store/cardMgmt';
-import * as CO from 'store/cardOrders';
+import * as CARD from 'store/card';
+import { selectCards } from 'store/card/selectors';
 
 type BoardListProps = {
   list: List;
@@ -16,12 +15,12 @@ type BoardListProps = {
 const BoardList = ({ list, onRemoveList, ...props }: BoardListProps) => {
   const dispatch = useDispatch();
 
-  const cardOrders = useSelector<AppState, CardOrdersState>(state => state.cardOrders);
-  const cardMgmt = useSelector<AppState, CardMgmtState>(state => state.cardMgmt);
-  const cards = cardOrders[list.uuid]?.map(uuid => cardMgmt[uuid]);
+  const getCards = useSelector(selectCards);
+  const cards = getCards(list.uuid);
 
   const onCardAdd = useCallback(
     (title: string) => {
+      // @todo Update to real data once server integration is completed
       const currentDate = Dummy.getCurrentDate();
       const card = Dummy.makeCard(
         Dummy.randomUUID(),
@@ -31,16 +30,16 @@ const BoardList = ({ list, onRemoveList, ...props }: BoardListProps) => {
         Dummy.makeDayMonthYear(currentDate),
         Dummy.makeRelativeDate(currentDate)
       );
-      dispatch(CM.addCard(card));
-      dispatch(CO.appendCardToList({ listId: list.uuid, cardId: card.uuid }));
+      dispatch(CARD.addCard(card));
+      dispatch(CARD.appendCardToList({ listId: list.uuid, cardId: card.uuid }));
     },
     [dispatch, list.uuid]
   );
 
   const onCardRemove = useCallback(
     (cardId: string) => () => {
-      dispatch(CM.removeCard(cardId));
-      dispatch(CO.removeCardFromList({ listId: list.uuid, cardId: cardId }));
+      dispatch(CARD.removeCard(cardId));
+      dispatch(CARD.removeCardFromList({ listId: list.uuid, cardId: cardId }));
     },
     [dispatch, list.uuid]
   );

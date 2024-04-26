@@ -1,8 +1,6 @@
-import { ListOrdersState, ListMgmtState, CardMgmtState, CardOrdersState } from './commonTypes';
+import { CardState, ListState } from './commonTypes';
 
 export type AppState = {
-  listMgmt: ListMgmtState;
-  listOrders: ListOrdersState;
-  cardMgmt: CardMgmtState;
-  cardOrders: CardOrdersState;
+  list: ListState;
+  card: CardState;
 };
