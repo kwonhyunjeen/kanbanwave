@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Button, IconButton, TextArea } from './common';
+import { Button, IconButton, TextArea } from 'components';
 import clsx from 'clsx';
 
 export const ItemForm = {
