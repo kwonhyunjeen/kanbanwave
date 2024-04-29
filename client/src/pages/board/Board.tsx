@@ -1,17 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AddItemForm, Title } from 'components';
-import { useCallback } from 'react';
+import { AddItemForm, ListDroppable, Title } from 'components';
+import { useCallback, useRef } from 'react';
 import * as Dummy from 'dummy';
 import { BoardList } from 'pages';
 import * as LIST from 'store/list';
 import * as CARD from 'store/card';
-import { selectLists } from 'store/list/selectors';
+import { selectListOrders, selectLists } from 'store/list/selectors';
 import { selectCardOrders } from 'store/card/selectors';
+import { useDrop } from 'react-dnd';
+import { ItemType } from 'store';
 
 const Board = () => {
   const dispatch = useDispatch();
 
+  const divRef = useRef<HTMLDivElement>(null);
+  const [, drop] = useDrop({
+    accept: ItemType.LIST
+  });
+  drop(divRef);
+
   const cardOrders = useSelector(selectCardOrders);
+  const listOrders = useSelector(selectListOrders);
   const lists = useSelector(selectLists);
 
   const onListAdd = useCallback(
@@ -26,7 +35,7 @@ const Board = () => {
     [dispatch]
   );
 
-  const onRemoveList = useCallback(
+  const onListRemove = useCallback(
     (listId: string) => () => {
       cardOrders[listId].forEach(cardId => {
         dispatch(CARD.removeCard(cardId));
@@ -38,21 +47,39 @@ const Board = () => {
     [dispatch, cardOrders]
   );
 
+  const onListMove = useCallback(
+    (dragIndex: number, hoverIndex: number) => {
+      const newOrders = listOrders.map((item, index) =>
+        index === dragIndex
+          ? listOrders[hoverIndex]
+          : index === hoverIndex
+          ? listOrders[dragIndex]
+          : item
+      );
+      dispatch(LIST.setListOrders(newOrders));
+    },
+    [dispatch, listOrders]
+  );
+
   return (
     <section className="app-base">
       <Title className="mb-4 text-white">Board</Title>
-      <div className="flex justify-start">
-        <div className="flex">
-          {lists?.map(list => (
-            <BoardList
-              key={list.uuid}
-              list={list}
-              onRemoveList={onRemoveList(list.uuid)}
-            />
-          ))}
+      <ListDroppable>
+        <div className="flex justify-start">
+          <div className="flex">
+            {lists?.map((list, index) => (
+              <BoardList
+                key={list.uuid}
+                list={list}
+                index={index}
+                onListMove={onListMove}
+                onListRemove={onListRemove(list.uuid)}
+              />
+            ))}
+          </div>
+          <AddItemForm itemMode="list" onItemAdd={onListAdd} listsLength={lists.length} />
         </div>
-        <AddItemForm itemMode="list" onItemAdd={onListAdd} listsLength={lists.length} />
-      </div>
+      </ListDroppable>
     </section>
   );
 };

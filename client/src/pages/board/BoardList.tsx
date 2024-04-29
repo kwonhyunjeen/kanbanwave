@@ -1,5 +1,5 @@
 import { List } from 'store/commonTypes';
-import { IconButton, AddItemForm, Subtitle } from 'components';
+import { IconButton, AddItemForm, Subtitle, ListDraggable } from 'components';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ListCard from './ListCard';
@@ -8,11 +8,19 @@ import * as CARD from 'store/card';
 import { selectCards } from 'store/card/selectors';
 
 type BoardListProps = {
+  index: number;
   list: List;
-  onRemoveList?: () => void;
+  onListMove?: (dragIndex: number, hoverIndex: number) => void;
+  onListRemove?: () => void;
 };
 
-const BoardList = ({ list, onRemoveList, ...props }: BoardListProps) => {
+const BoardList = ({
+  index,
+  list,
+  onListMove,
+  onListRemove,
+  ...props
+}: BoardListProps) => {
   const dispatch = useDispatch();
 
   const cards = useSelector(selectCards)(list.uuid);
@@ -44,25 +52,27 @@ const BoardList = ({ list, onRemoveList, ...props }: BoardListProps) => {
   );
 
   return (
-    <div {...props} className="w-64 p-2 mr-2 bg-white rounded-lg shadow-lg h-fit">
-      <div className="flex items-center justify-between mb-2">
-        <Subtitle className="flex-1 pl-2 break-all" size="lg">
-          {list.title}
-        </Subtitle>
-        <div className="flex justify-between ml-2">
-          <IconButton
-            name="remove"
-            className="w-8 bg-transparent border-0 shadow-transparent tn-xs"
-            aria-label="delete a list"
-            onClick={onRemoveList}
-          />
+    <ListDraggable id={list.uuid} index={index} onMove={onListMove}>
+      <div {...props} className="w-64 p-2 mr-2 bg-white rounded-lg shadow-lg h-fit">
+        <div className="flex items-center justify-between mb-2">
+          <Subtitle className="flex-1 pl-2 break-all" size="lg">
+            {list.title}
+          </Subtitle>
+          <div className="flex justify-between ml-2">
+            <IconButton
+              name="remove"
+              className="w-8 bg-transparent border-0 shadow-transparent tn-xs"
+              aria-label="delete a list"
+              onClick={onListRemove}
+            />
+          </div>
         </div>
+        {cards?.map(card => (
+          <ListCard key={card.uuid} card={card} onCardRemove={onCardRemove(card.uuid)} />
+        ))}
+        <AddItemForm itemMode="card" onItemAdd={onCardAdd} listsLength={cards?.length} />
       </div>
-      {cards?.map(card => (
-        <ListCard key={card.uuid} card={card} onCardRemove={onCardRemove(card.uuid)} />
-      ))}
-      <AddItemForm itemMode="card" onItemAdd={onCardAdd} listsLength={cards?.length} />
-    </div>
+    </ListDraggable>
   );
 };
 
