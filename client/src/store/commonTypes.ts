@@ -47,3 +47,9 @@ export type CardState = {
   cardMgmt: CardMgmtState;
   cardOrders: CardOrdersState;
 };
+
+export const ItemType = {
+  CARD: 'card',
+  LIST: 'list'
+} as const;
+export type ItemType = (typeof ItemType)[keyof typeof ItemType];
