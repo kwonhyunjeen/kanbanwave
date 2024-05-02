@@ -15,7 +15,7 @@ const listOrdersSlice = createSlice({
     },
     // 새로운 목록의 uuid를 목록 순서 배열에 추가
     addListToOrders: (state: ListOrdersState, action: PayloadAction<ListUUID>) => {
-      return [...state, action.payload];
+      state.push(action.payload);
     },
     // 특정 목록의 uuid를 목록 순서 배열에서 제거
     removeListFromOrders: (state: ListOrdersState, action: PayloadAction<ListUUID>) => {
@@ -31,12 +31,11 @@ const listMgmtSlice = createSlice({
   reducers: {
     // 새로운 목록 추가
     addList: (state: ListMgmtState, action: PayloadAction<List>) => {
-      return { ...state, [action.payload.uuid]: action.payload };
+      state[action.payload.uuid] = action.payload;
     },
     // 특정 목록 삭제
     removeList: (state: ListMgmtState, action: PayloadAction<string>) => {
-      const { [action.payload]: _, ...newState } = state;
-      return newState;
+      delete state[action.payload];
     }
   }
 });
