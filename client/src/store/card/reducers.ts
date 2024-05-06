@@ -27,7 +27,8 @@ const cardOrdersSlice = createSlice({
     // listMgmt/removeList에서 특정 목록을 삭제했어도, cardOrders에 일부 키로 존재할 수 있기 때문에
     // cardOrders에서도 해당 목록을 삭제해 메모리 효율적으로 관리
     removeList: (state: CardOrdersState, action: PayloadAction<string>) => {
-      delete state[action.payload];
+      const { [action.payload]: _, ...newState } = state;
+      return newState;
     },
     // 특정 리스트의 카드 목록 앞에 새로운 카드 추가
     prependCardToList: (state: CardOrdersState, action: PayloadAction<ListIdCardId>) => {
@@ -58,7 +59,8 @@ const cardMgmtSlice = createSlice({
     },
     // 특정 카드 삭제
     removeCard: (state: CardMgmtState, action: PayloadAction<string>) => {
-      delete state[action.payload];
+      const { [action.payload]: _, ...newState } = state;
+      return newState;
     }
   }
 });

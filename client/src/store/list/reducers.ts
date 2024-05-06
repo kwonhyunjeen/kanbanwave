@@ -35,7 +35,8 @@ const listMgmtSlice = createSlice({
     },
     // 특정 목록 삭제
     removeList: (state: ListMgmtState, action: PayloadAction<string>) => {
-      delete state[action.payload];
+        const { [action.payload]: _, ...newState } = state;
+        return newState;
     }
   }
 });
