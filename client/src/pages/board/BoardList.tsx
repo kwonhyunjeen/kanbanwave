@@ -1,5 +1,11 @@
 import { List } from 'store/commonTypes';
-import { IconButton, AddItemForm, Subtitle, ListDraggable } from 'components';
+import {
+  IconButton,
+  AddItemForm,
+  Subtitle,
+  ListDraggable,
+  CardDroppable
+} from 'components';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ListCard from './ListCard';
@@ -67,9 +73,17 @@ const BoardList = ({
             />
           </div>
         </div>
-        {cards?.map(card => (
-          <ListCard key={card.uuid} card={card} onCardRemove={onCardRemove(card.uuid)} />
-        ))}
+        <CardDroppable droppableId={list.uuid}>
+          {cards?.map((card, index) => (
+            <ListCard
+              key={card.uuid}
+              card={card}
+              onCardRemove={onCardRemove(card.uuid)}
+              draggableId={card.uuid}
+              index={index}
+            />
+          ))}
+        </CardDroppable>
         <AddItemForm itemMode="card" onItemAdd={onCardAdd} listsLength={cards?.length} />
       </div>
     </ListDraggable>

@@ -1,22 +1,31 @@
 import { useToggle } from 'hooks';
-import { IconButton } from '../../components/common';
+import { IconButton, CardDraggable } from 'components';
 import { Card } from 'store/commonTypes';
 
 type ListCardProps = {
   card: Card;
+  draggableId: string;
+  index: number;
   onCardClick?: () => void;
   onCardEdit?: () => void;
   onCardRemove?: () => void;
 };
 
-const ListCard = ({ card, onCardClick, onCardEdit, onCardRemove }: ListCardProps) => {
+const ListCard = ({
+  card,
+  draggableId,
+  index,
+  onCardClick,
+  onCardEdit,
+  onCardRemove
+}: ListCardProps) => {
   const [open, menuOpen] = useToggle(false);
   const handleMenuOpen = () => {
     menuOpen();
   };
 
   return (
-    <>
+    <CardDraggable draggableId={draggableId} index={index}>
       <div className="card group" onClick={onCardClick}>
         <a className="break-words whitespace-normal">
           <div>{card.title}</div>
@@ -37,7 +46,7 @@ const ListCard = ({ card, onCardClick, onCardEdit, onCardRemove }: ListCardProps
           </li>
         </ul>
       )}
-    </>
+    </CardDraggable>
   );
 };
 
