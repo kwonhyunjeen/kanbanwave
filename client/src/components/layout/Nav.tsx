@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Icon, IconButton } from './common';
+import { Icon, IconButton } from 'components';
 
 type NavProps = {
   open: boolean;

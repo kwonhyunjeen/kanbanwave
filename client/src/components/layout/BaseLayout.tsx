@@ -1,5 +1,4 @@
-import Header from './Header';
-import Nav from './Nav';
+import { Header, Nav } from 'components';
 import { useToggle } from 'hooks';
 import clsx from 'clsx';
 import { Outlet } from 'react-router-dom';

@@ -20,7 +20,8 @@ const cardOrdersSlice = createSlice({
       state: CardOrdersState,
       action: PayloadAction<ListIdCardIdS>
     ) => {
-      return { ...state, [action.payload.listId]: action.payload.cardIds };
+      const { listId, cardIds } = action.payload;
+      state[listId] = cardIds;
     },
     // 특정 목록 삭제
     // listMgmt/removeList에서 특정 목록을 삭제했어도, cardOrders에 일부 키로 존재할 수 있기 때문에
@@ -31,21 +32,18 @@ const cardOrdersSlice = createSlice({
     },
     // 특정 리스트의 카드 목록 앞에 새로운 카드 추가
     prependCardToList: (state: CardOrdersState, action: PayloadAction<ListIdCardId>) => {
-      const cardIds = state[action.payload.listId] || [];
-      return { ...state, [action.payload.listId]: [action.payload.cardId, ...cardIds] };
+      const { listId, cardId } = action.payload;
+      state[listId] = [cardId, ...(state[listId] || [])];
     },
     // 특정 리스트의 카드 목록 뒤에 새로운 카드 추가
     appendCardToList: (state: CardOrdersState, action: PayloadAction<ListIdCardId>) => {
-      const cardIds = state[action.payload.listId] || [];
-      return { ...state, [action.payload.listId]: [...cardIds, action.payload.cardId] };
+      const { listId, cardId } = action.payload;
+      state[listId] = [...(state[listId] || []), cardId];
     },
     // 특정 리스트의 카드 목록에서 특정 카드를 제거
     removeCardFromList: (state: CardOrdersState, action: PayloadAction<ListIdCardId>) => {
-      const cardIds = state[action.payload.listId];
-      return {
-        ...state,
-        [action.payload.listId]: cardIds.filter(id => id !== action.payload.cardId)
-      };
+      const { listId, cardId } = action.payload;
+      state[listId] = (state[listId] || []).filter(id => id !== cardId);
     }
   }
 });
@@ -57,7 +55,7 @@ const cardMgmtSlice = createSlice({
   reducers: {
     // 새로운 카드 추가
     addCard: (state: CardMgmtState, action: PayloadAction<Card>) => {
-      return { ...state, [action.payload.uuid]: action.payload };
+      state[action.payload.uuid] = action.payload;
     },
     // 특정 카드 삭제
     removeCard: (state: CardMgmtState, action: PayloadAction<string>) => {
