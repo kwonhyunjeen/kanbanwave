@@ -27,11 +27,11 @@ const ListCard = ({
   return (
     <CardDraggable draggableId={draggableId} index={index}>
       <div className="card group" onClick={onCardClick}>
-        <a className="break-words whitespace-normal">
+        <a className="relative flex items-center justify-between break-words whitespace-normal">
           <div>{card.title}</div>
           <IconButton
             name="edit"
-            className="absolute hidden w-8 right-1 top-1 group-hover:flex"
+            className="single-icon group-hover:flex"
             onClick={handleMenuOpen}
           />
         </a>

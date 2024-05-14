@@ -28,7 +28,7 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>((props, ref) => {
         <IconButton
           name="close"
           aria-label="close"
-          className="absolute top-4 right-4 btn-xs btn-circle "
+          className="absolute top-4 right-4 btn-square btn-ghost"
           onClick={handleModalClose}
         />
       )}

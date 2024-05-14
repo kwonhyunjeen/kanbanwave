@@ -67,7 +67,7 @@ const BoardList = ({
           <div className="flex justify-between ml-2">
             <IconButton
               name="remove"
-              className="w-8 bg-transparent border-0 shadow-transparent tn-xs"
+              className="single-icon"
               aria-label="delete a list"
               onClick={onListRemove}
             />

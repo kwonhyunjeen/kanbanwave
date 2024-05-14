@@ -13,3 +13,7 @@
 .dialog-actions > :last-child {
   @apply ml-2;
 }
+
+.single-icon {
+  @apply btn-xs btn-square btn-ghost;
+}

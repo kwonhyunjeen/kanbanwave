@@ -26,11 +26,11 @@
   }
 
   .app-main {
-    @apply bg-neutral-700 max-h-[calc(100vh-theme(height.header-height))] overflow-y-auto transition-all duration-300;
+    @apply bg-sky-950 max-h-[calc(100vh-theme(height.header-height))] overflow-y-auto transition-all duration-300;
   }
 
   .app-base {
-    @apply flex flex-col h-screen pt-4 pl-10;
+    @apply flex flex-col h-screen py-3.5 pl-10;
   }
 
   .list {
