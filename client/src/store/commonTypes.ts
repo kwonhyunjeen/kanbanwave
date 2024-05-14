@@ -1,35 +1,32 @@
-export type ListUUID = string;
 export type CardUUID = string;
-
-export type List = {
-  uuid: ListUUID;
-  title: string;
-};
+export type ListUUID = string;
 
 export type User = {
-  uuid: string;
+  id: string;
   name: string;
   email: string;
 };
 
 export type Card = {
-  uuid: CardUUID;
-  writer: User;
+  id: CardUUID;
+  writer?: User;
   title: string;
-  description: string;
-  date: string;
-  relativeDate: string | null;
+  description?: string;
+  startDate?: string;
+  dueDate?: string;
+  relativeDate?: string | null;
 };
 
-export type CardIdListId = {
+export type List = {
+  id: ListUUID;
+  title: string;
+  cards?: CardUUID[];
+};
+
+export type ListIdCardIds = { listId: ListUUID; cardIds: CardUUID[] };
+export type ListIdCardId = {
   cardId: CardUUID;
   listId: ListUUID;
-};
-
-export type ListIdCardId = CardIdListId;
-export type ListIdCardIdS = { listId: ListUUID; cardIds: CardUUID[] };
-export type CardIdListIdIndex = CardIdListId & {
-  index: number;
 };
 
 export type ListMgmtState = Record<string, List>;

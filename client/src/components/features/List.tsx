@@ -1,4 +1,4 @@
-import { List as IList} from 'store/commonTypes';
+import { List as IList } from 'store/commonTypes';
 import {
   IconButton,
   AddItemForm,
@@ -20,16 +20,10 @@ type ListProps = {
   onListRemove?: () => void;
 };
 
-const List = ({
-  index,
-  list,
-  onListMove,
-  onListRemove,
-  ...props
-}: ListProps) => {
+const List = ({ index, list, onListMove, onListRemove, ...props }: ListProps) => {
   const dispatch = useDispatch();
 
-  const cards = useSelector(selectCards)(list.uuid);
+  const cards = useSelector(selectCards(list.id));
 
   const onCardAdd = useCallback(
     (title: string) => {
@@ -41,24 +35,25 @@ const List = ({
         title,
         Dummy.randomParagraphs(5),
         Dummy.makeDayMonthYear(currentDate),
+        Dummy.makeDayMonthYear(currentDate),
         Dummy.makeRelativeDate(currentDate)
       );
       dispatch(CARD.addCard(card));
-      dispatch(CARD.appendCardToList({ listId: list.uuid, cardId: card.uuid }));
+      dispatch(CARD.addCardToList({ listId: list.id, cardId: card.id }));
     },
-    [dispatch, list.uuid]
+    [dispatch, list.id]
   );
 
   const onCardRemove = useCallback(
     (cardId: string) => () => {
       dispatch(CARD.removeCard(cardId));
-      dispatch(CARD.removeCardFromList({ listId: list.uuid, cardId: cardId }));
+      dispatch(CARD.removeCardFromList({ listId: list.id, cardId: cardId }));
     },
-    [dispatch, list.uuid]
+    [dispatch, list.id]
   );
 
   return (
-    <ListDraggable id={list.uuid} index={index} onMove={onListMove}>
+    <ListDraggable id={list.id} index={index} onMove={onListMove}>
       <div {...props} className="w-64 p-2 mr-2 bg-white rounded-lg shadow-lg h-fit">
         <div className="flex items-center justify-between mb-2">
           <Subtitle className="flex-1 pl-2 break-all" size="lg">
@@ -73,13 +68,13 @@ const List = ({
             />
           </div>
         </div>
-        <CardDroppable droppableId={list.uuid}>
+        <CardDroppable droppableId={list.id}>
           {cards?.map((card, index) => (
             <Card
-              key={card.uuid}
+              key={card.id}
               card={card}
-              onCardRemove={onCardRemove(card.uuid)}
-              draggableId={card.uuid}
+              onCardRemove={onCardRemove(card.id)}
+              draggableId={card.id}
               index={index}
             />
           ))}

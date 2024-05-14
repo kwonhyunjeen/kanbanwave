@@ -26,23 +26,24 @@ const Board = () => {
   const onListAdd = useCallback(
     (title: string) => {
       // @todo Update to real data once server integration is completed
-      const uuid = Dummy.randomUUID();
-      const list = { uuid, title };
-      dispatch(LIST.addListToOrders(uuid));
+      const id = Dummy.randomUUID();
+      const list = { id, title };
+      dispatch(LIST.addListToBoard(id));
       dispatch(LIST.addList(list));
-      dispatch(CARD.setCardOrdersFromList({ listId: list.uuid, cardIds: [] }));
+      dispatch(CARD.setCardFromList({ listId: list.id, cardIds: [] }));
     },
     [dispatch]
   );
 
   const onListRemove = useCallback(
     (listId: string) => () => {
+      console.log(cardOrders);
       cardOrders[listId].forEach(cardId => {
         dispatch(CARD.removeCard(cardId));
       });
-      dispatch(CARD.removeList(listId));
+      dispatch(CARD.removeListFromCard(listId));
       dispatch(LIST.removeList(listId));
-      dispatch(LIST.removeListFromOrders(listId));
+      dispatch(LIST.removeListFromBoard(listId));
     },
     [dispatch, cardOrders]
   );
@@ -56,7 +57,7 @@ const Board = () => {
           ? listOrders[dragIndex]
           : item
       );
-      dispatch(LIST.setListOrders(newOrders));
+      dispatch(LIST.setListFromBoard(newOrders));
     },
     [dispatch, listOrders]
   );
@@ -76,7 +77,7 @@ const Board = () => {
       if (droppableIdListId === draggableListId) {
         const cardIdOrders = cardOrders[droppableIdListId];
         dispatch(
-          CARD.setCardOrdersFromList({
+          CARD.setCardFromList({
             listId: droppableIdListId,
             cardIds: cardIdOrders.map((item, index) =>
               index === draggableCardIndex
@@ -91,7 +92,7 @@ const Board = () => {
       } else {
         const draggableCardIdOrders = cardOrders[draggableListId];
         dispatch(
-          CARD.setCardOrdersFromList({
+          CARD.setCardFromList({
             listId: draggableListId,
             cardIds: draggableCardIdOrders.filter(
               (notUsed, index) => index !== draggableCardIndex
@@ -100,7 +101,7 @@ const Board = () => {
         );
         const droppableIdCardIdOrders = cardOrders[droppableIdListId];
         dispatch(
-          CARD.setCardOrdersFromList({
+          CARD.setCardFromList({
             listId: droppableIdListId,
             cardIds: [
               ...droppableIdCardIdOrders.slice(0, droppableIdCardIndex),
@@ -123,11 +124,11 @@ const Board = () => {
             <div className="flex">
               {lists?.map((list, index) => (
                 <List
-                  key={list.uuid}
+                  key={list.id}
                   list={list}
                   index={index}
                   onListMove={onListMove}
-                  onListRemove={onListRemove(list.uuid)}
+                  onListRemove={onListRemove(list.id)}
                 />
               ))}
             </div>

@@ -1,49 +1,45 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { List, ListMgmtState, ListOrdersState, ListUUID } from 'store/commonTypes';
+import { List, ListState, ListUUID } from 'store/commonTypes';
 
-const initialListOrdersState: ListOrdersState = [];
-const initialListMgmtState: ListMgmtState = {};
+const initialState: ListState = {
+  listOrders: [],
+  listMgmt: {}
+};
 
-// 목록 추가, 드래그 앤 드롭으로 순서를 변경, 목록 삭제할 때 발생하는 목록의 순서를 관리
-const listOrdersSlice = createSlice({
-  name: 'listOrders',
-  initialState: initialListOrdersState,
+// list 추가 및 삭제, 드래그 앤 드롭으로 순서를 변경할 때 발생하는 list의 순서 관리
+const listSlice = createSlice({
+  name: 'list',
+  initialState: initialState,
   reducers: {
-    // 목로의 순서 변경이 있을 때마다 목록의 순서를 설정
-    setListOrders: (state: ListOrdersState, action: PayloadAction<ListUUID[]>) => {
-      return action.payload || initialListOrdersState;
+    //특정 board에 속한 list의 순서를 설정
+    setListFromBoard: (state: ListState, action: PayloadAction<ListUUID[]>) => {
+      state.listOrders = action.payload || initialState.listOrders;
     },
-    // 새로운 목록의 uuid를 목록 순서 배열에 추가
-    addListToOrders: (state: ListOrdersState, action: PayloadAction<ListUUID>) => {
-      state.push(action.payload);
+    // 특정 board에 새로운 list 추가
+    addListToBoard: (state: ListState, action: PayloadAction<ListUUID>) => {
+      state.listOrders.push(action.payload);
     },
-    // 특정 목록의 uuid를 목록 순서 배열에서 제거
-    removeListFromOrders: (state: ListOrdersState, action: PayloadAction<ListUUID>) => {
-      return (state || []).filter(uuid => uuid !== action.payload);
+    // 특정 board에서 list 제거
+    removeListFromBoard: (state: ListState, action: PayloadAction<ListUUID>) => {
+      state.listOrders = (state.listOrders || []).filter(uuid => uuid !== action.payload);
+    },
+    // 새로운 list 추가
+    addList: (state: ListState, action: PayloadAction<List>) => {
+      state.listMgmt[action.payload.id] = action.payload;
+    },
+    // 특정 list 삭제
+    removeList: (state: ListState, action: PayloadAction<string>) => {
+      const { [action.payload]: _, ...newListMgmt } = state.listMgmt;
+      state.listMgmt = newListMgmt;
     }
   }
 });
 
-// 모든 목록에 대한 정보를 유지하고 갱신(추가, 삭제)
-const listMgmtSlice = createSlice({
-  name: 'listMgmt',
-  initialState: initialListMgmtState,
-  reducers: {
-    // 새로운 목록 추가
-    addList: (state: ListMgmtState, action: PayloadAction<List>) => {
-      state[action.payload.uuid] = action.payload;
-    },
-    // 특정 목록 삭제
-    removeList: (state: ListMgmtState, action: PayloadAction<string>) => {
-        const { [action.payload]: _, ...newState } = state;
-        return newState;
-    }
-  }
-});
-
-export const { setListOrders, addListToOrders, removeListFromOrders } =
-  listOrdersSlice.actions;
-export const listOrdersReducer = listOrdersSlice.reducer;
-
-export const { addList, removeList } = listMgmtSlice.actions;
-export const listMgmtReducer = listMgmtSlice.reducer;
+export const {
+  setListFromBoard,
+  addListToBoard,
+  removeListFromBoard,
+  addList,
+  removeList
+} = listSlice.actions;
+export const listReducer = listSlice.reducer;

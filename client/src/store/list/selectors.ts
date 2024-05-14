@@ -1,20 +1,16 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { ListState } from 'store/commonTypes';
+import { AppState } from 'store/AppState';
 
-export const listSelector = (state: ListState) => state;
+export const listSelector = (state: AppState) => state.list;
 
-export const selectListOrders = createSelector(listSelector, statte => {
-  return statte.listOrders;
+export const selectListOrders = createSelector(listSelector, state => {
+  return state.listOrders;
 });
 
 export const selectListMgmt = createSelector(listSelector, state => {
   return state.listMgmt;
 });
 
-export const selectLists = createSelector(
-  selectListOrders,
-  selectListMgmt,
-  (listOrders, listMgmt) => {
-    return listOrders.map(uuid => listMgmt[uuid]);
-  }
-);
+export const selectLists = createSelector(listSelector, list => {
+  return list.listOrders.map(id => list.listMgmt[id]);
+});
