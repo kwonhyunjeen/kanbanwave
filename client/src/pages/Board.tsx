@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AddItemForm, ListDroppable, Title } from 'components';
+import { AddItemForm, ListDroppable, Title, List } from 'components';
 import { useCallback, useRef } from 'react';
 import * as Dummy from 'dummy';
-import { BoardList } from 'pages';
-import * as LIST from 'store/list';
 import * as CARD from 'store/card';
+import * as LIST from 'store/list';
 import { selectListOrders, selectLists } from 'store/list/selectors';
 import { selectCardOrders } from 'store/card/selectors';
 import { useDrop } from 'react-dnd';
@@ -123,7 +122,7 @@ const Board = () => {
           <div className="flex justify-start">
             <div className="flex">
               {lists?.map((list, index) => (
-                <BoardList
+                <List
                   key={list.uuid}
                   list={list}
                   index={index}

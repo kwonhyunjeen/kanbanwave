@@ -1,9 +1,9 @@
 import { useToggle } from 'hooks';
 import { IconButton, CardDraggable } from 'components';
-import { Card } from 'store/commonTypes';
+import { Card as ICard } from 'store/commonTypes';
 
-type ListCardProps = {
-  card: Card;
+type CardProps = {
+  card: ICard;
   draggableId: string;
   index: number;
   onCardClick?: () => void;
@@ -11,14 +11,14 @@ type ListCardProps = {
   onCardRemove?: () => void;
 };
 
-const ListCard = ({
+const Card = ({
   card,
   draggableId,
   index,
   onCardClick,
   onCardEdit,
   onCardRemove
-}: ListCardProps) => {
+}: CardProps) => {
   const [open, menuOpen] = useToggle(false);
   const handleMenuOpen = () => {
     menuOpen();
@@ -50,4 +50,4 @@ const ListCard = ({
   );
 };
 
-export default ListCard;
+export default Card;

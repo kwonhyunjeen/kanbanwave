@@ -1,4 +1,4 @@
-import { List } from 'store/commonTypes';
+import { List as IList} from 'store/commonTypes';
 import {
   IconButton,
   AddItemForm,
@@ -8,25 +8,25 @@ import {
 } from 'components';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ListCard from './ListCard';
+import { Card } from 'components';
 import * as Dummy from 'dummy';
 import * as CARD from 'store/card';
 import { selectCards } from 'store/card/selectors';
 
-type BoardListProps = {
+type ListProps = {
   index: number;
-  list: List;
+  list: IList;
   onListMove?: (dragIndex: number, hoverIndex: number) => void;
   onListRemove?: () => void;
 };
 
-const BoardList = ({
+const List = ({
   index,
   list,
   onListMove,
   onListRemove,
   ...props
-}: BoardListProps) => {
+}: ListProps) => {
   const dispatch = useDispatch();
 
   const cards = useSelector(selectCards)(list.uuid);
@@ -75,7 +75,7 @@ const BoardList = ({
         </div>
         <CardDroppable droppableId={list.uuid}>
           {cards?.map((card, index) => (
-            <ListCard
+            <Card
               key={card.uuid}
               card={card}
               onCardRemove={onCardRemove(card.uuid)}
@@ -90,4 +90,4 @@ const BoardList = ({
   );
 };
 
-export default BoardList;
+export default List;
