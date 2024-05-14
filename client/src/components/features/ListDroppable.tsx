@@ -12,7 +12,7 @@ const ListDroppable = ({ children }: ListDroppableProps) => {
   });
 
   return (
-    <div ref={node => dropRef(node)} className="h-full">
+    <div ref={node => dropRef(node)} className="h-full mt-10">
       {children}
     </div>
   );

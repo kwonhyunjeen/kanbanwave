@@ -7,7 +7,6 @@ type NavProps = {
 };
 
 const Nav = ({ open, onClickDrawer }: NavProps) => {
-  const drawerIconStyle = 'btn-xs btn-ghost btn-square';
   return (
     <nav
       className={clsx('app-nav', {
@@ -22,7 +21,7 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
             <IconButton
               name="double_arrow"
               onClick={onClickDrawer}
-              className={clsx(drawerIconStyle, 'rotate-180')}
+              className="rotate-180 single-icon"
             />
           </div>
           <ul className="menu">
@@ -54,13 +53,10 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
           </ul>
         </>
       ) : (
-        <div className="absolute h-full bg-zinc-200 -right-1" onClick={onClickDrawer}>
+        <div className="absolute h-full bg-sky-100 -right-1" onClick={onClickDrawer}>
           <IconButton
             name="double_arrow"
-            className={clsx(
-              drawerIconStyle,
-              'w-6 h-full  hover:bg-zinc-200 border-0 shadow-none rounded-none'
-            )}
+            className="w-6 h-full border-0 rounded-none shadow-none single-icon hover:bg-sky-100"
           />
         </div>
       )}

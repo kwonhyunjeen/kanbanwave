@@ -1,4 +1,4 @@
-import { List } from 'store/commonTypes';
+import { List as IList } from 'store/commonTypes';
 import {
   IconButton,
   AddItemForm,
@@ -8,28 +8,22 @@ import {
 } from 'components';
 import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ListCard from './ListCard';
+import { Card } from 'components';
 import * as Dummy from 'dummy';
 import * as CARD from 'store/card';
 import { selectCards } from 'store/card/selectors';
 
-type BoardListProps = {
+type ListProps = {
   index: number;
-  list: List;
+  list: IList;
   onListMove?: (dragIndex: number, hoverIndex: number) => void;
   onListRemove?: () => void;
 };
 
-const BoardList = ({
-  index,
-  list,
-  onListMove,
-  onListRemove,
-  ...props
-}: BoardListProps) => {
+const List = ({ index, list, onListMove, onListRemove, ...props }: ListProps) => {
   const dispatch = useDispatch();
 
-  const cards = useSelector(selectCards)(list.uuid);
+  const cards = useSelector(selectCards(list.id));
 
   const onCardAdd = useCallback(
     (title: string) => {
@@ -41,24 +35,25 @@ const BoardList = ({
         title,
         Dummy.randomParagraphs(5),
         Dummy.makeDayMonthYear(currentDate),
+        Dummy.makeDayMonthYear(currentDate),
         Dummy.makeRelativeDate(currentDate)
       );
       dispatch(CARD.addCard(card));
-      dispatch(CARD.appendCardToList({ listId: list.uuid, cardId: card.uuid }));
+      dispatch(CARD.addCardToList({ listId: list.id, cardId: card.id }));
     },
-    [dispatch, list.uuid]
+    [dispatch, list.id]
   );
 
   const onCardRemove = useCallback(
     (cardId: string) => () => {
       dispatch(CARD.removeCard(cardId));
-      dispatch(CARD.removeCardFromList({ listId: list.uuid, cardId: cardId }));
+      dispatch(CARD.removeCardFromList({ listId: list.id, cardId: cardId }));
     },
-    [dispatch, list.uuid]
+    [dispatch, list.id]
   );
 
   return (
-    <ListDraggable id={list.uuid} index={index} onMove={onListMove}>
+    <ListDraggable id={list.id} index={index} onMove={onListMove}>
       <div {...props} className="w-64 p-2 mr-2 bg-white rounded-lg shadow-lg h-fit">
         <div className="flex items-center justify-between mb-2">
           <Subtitle className="flex-1 pl-2 break-all" size="lg">
@@ -67,19 +62,19 @@ const BoardList = ({
           <div className="flex justify-between ml-2">
             <IconButton
               name="remove"
-              className="w-8 bg-transparent border-0 shadow-transparent tn-xs"
+              className="single-icon"
               aria-label="delete a list"
               onClick={onListRemove}
             />
           </div>
         </div>
-        <CardDroppable droppableId={list.uuid}>
+        <CardDroppable droppableId={list.id}>
           {cards?.map((card, index) => (
-            <ListCard
-              key={card.uuid}
+            <Card
+              key={card.id}
               card={card}
-              onCardRemove={onCardRemove(card.uuid)}
-              draggableId={card.uuid}
+              onCardRemove={onCardRemove(card.id)}
+              draggableId={card.id}
               index={index}
             />
           ))}
@@ -90,4 +85,4 @@ const BoardList = ({
   );
 };
 
-export default BoardList;
+export default List;

@@ -1,10 +1,11 @@
 import { Card, User } from 'store/commonTypes';
 
 export const makeCard = (
-  uuid: string,
+  id: string,
   writer: User,
   title: string,
   description: string,
-  date: string,
+  startDate: string,
+  dueDate: string,
   relativeDate: string | null
-): Card => ({ uuid, writer, title, description, date, relativeDate });
+): Card => ({ id, writer, title, description, startDate, dueDate, relativeDate });

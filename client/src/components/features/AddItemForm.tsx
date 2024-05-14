@@ -66,6 +66,7 @@ const AddItemForm = ({
               type="button"
               aria-label="cancel"
               onClick={handleCancel}
+              className='btn-square'
             />
           </div>
         </div>

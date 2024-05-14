@@ -19,7 +19,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
     ...rest
   } = props;
   return (
-    <Button {...rest} ref={ref} className={clsx(className, 'btn-xs')}>
+    <Button {...rest} ref={ref} className={clsx(className)}>
       {iconPosition === 'start' && <Icon name={name} className={iconClassName} />}
       {children}
       {iconPosition === 'end' && <Icon name={name} className={iconClassName} />}
