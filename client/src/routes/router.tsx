@@ -1,12 +1,15 @@
 import { BaseLayout } from 'components';
-import { Board } from 'pages';
+import { Board, Workspace } from 'pages';
 import { createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <BaseLayout />,
-    children: [{ path: '/board/:id/:title', element: <Board /> }]
+    children: [
+      { path: '/board/:id/:title', element: <Board /> },
+      { path: '/workspace/:id', element: <Workspace /> }
+    ]
   }
 ]);
 
