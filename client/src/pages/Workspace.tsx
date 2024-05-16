@@ -1,11 +1,71 @@
-import { Subtitle, Title } from 'components';
-import { boards } from 'dummy/board';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Input,
+  Subtitle,
+  Title
+} from 'components';
+import { useToggle } from 'hooks';
+import { useCallback } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Dummy from 'dummy';
 import * as BOARD from 'store/board';
 import bgBoard from 'assets/bg-board.jpg';
 
 const Workspace = () => {
+  const dispatch = useDispatch();
+  const [open, dialogOpen] = useToggle(false);
+
+  const boards = useSelector(BOARD.selectBoards);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm({
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      title: ''
+    }
+  });
+
+  const handleClose = () => {
+    dialogOpen();
+    reset();
+  };
+
+  const handleBoardSubmit = useCallback(
+    (data: { title: string }) => {
+      const { title } = data;
+      const board = Dummy.makeBoard(Dummy.randomUUID(), title);
+      dispatch(BOARD.addBoardToOrders(board.id));
+      dispatch(BOARD.addBoard(board));
+      dialogOpen();
+      reset();
+    },
+    [dispatch, dialogOpen, reset]
+  );
+
+  const handleBoardDelete = useCallback(
+    (boardId: string) => (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dispatch(BOARD.removeBoard(boardId));
+      dispatch(BOARD.removeBoardFromOrders(boardId));
+    },
+    [dispatch]
+  );
+
+  const allBoards = [...Dummy.defaultBoards, ...boards];
+
   return (
     <section className="app-base">
       <Title className="mb-4 text-white">Boards</Title>
@@ -70,7 +130,7 @@ const Workspace = () => {
                       aria-label="delete a board"
                       className="self-end opacity-0 btn-square group-hover:opacity-100"
                       iconClassName="w-4"
-                      onClick={() => handleBoardDelete(board.id)}
+                      onClick={(e) => handleBoardDelete(board.id)(e)}
                     />
                   </div>
                 </div>

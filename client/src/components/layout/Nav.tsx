@@ -21,7 +21,6 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
     setAllBoards([...defaultBoards, ...selectBoards]);
   }, [selectBoards]);
 
-
   return (
     <nav
       className={clsx('app-nav', {
@@ -60,7 +59,7 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
                     <li key={board.id}>
                       <Link
                         to={`/board/${board.id}/${formatTitleToUrl(board.title)}`}
-                        data-original-title={board.title}>
+                        state={{ board }}>
                         {board.title}
                       </Link>
                     </li>

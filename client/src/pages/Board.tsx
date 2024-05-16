@@ -9,9 +9,13 @@ import { selectCardOrders } from 'store/card/selectors';
 import { useDrop } from 'react-dnd';
 import { ItemType } from 'store';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { useLocation } from 'react-router-dom';
 
 const Board = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const boardTitle = location.state?.board?.title;
 
   const divRef = useRef<HTMLDivElement>(null);
   const [, drop] = useDrop({
@@ -117,7 +121,7 @@ const Board = () => {
 
   return (
     <section className="app-base">
-      <Title className="mb-4 text-white">Board</Title>
+      <Title className="mb-4 text-white">{boardTitle}</Title>
       <DragDropContext onDragEnd={onDragEnd}>
         <ListDroppable>
           <div className="flex justify-start">

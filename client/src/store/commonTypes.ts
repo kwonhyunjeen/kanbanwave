@@ -1,5 +1,6 @@
 export type CardUUID = string;
 export type ListUUID = string;
+export type BoardUUID = string;
 
 export type User = {
   id: string;
@@ -23,11 +24,16 @@ export type List = {
   cards?: CardUUID[];
 };
 
+export type Board = {
+  id: BoardUUID;
+  title: string;
+};
+
 export type ListIdCardIds = { listId: ListUUID; cardIds: CardUUID[] };
 export type ListIdCardId = {
-  cardId: CardUUID;
   listId: ListUUID;
-};
+  cardId: CardUUID;
+}
 
 export type ListMgmtState = Record<string, List>;
 export type ListOrdersState = ListUUID[];
@@ -43,6 +49,14 @@ export type CardOrdersState = Record<ListUUID, CardUUID[]>;
 export type CardState = {
   cardMgmt: CardMgmtState;
   cardOrders: CardOrdersState;
+};
+
+export type BoardMgmtState = Record<string, Board>;
+export type BoardOrdersState = BoardUUID[];
+
+export type BoardState = {
+  boardMgmt: BoardMgmtState;
+  boardOrders: BoardOrdersState;
 };
 
 export const ItemType = {
