@@ -1,20 +1,18 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { BoardState } from 'store/commonTypes';
+import { BoardUUID } from 'store/commonTypes';
+import { RootState } from 'store/useStore';
 
-export const boardSelector = (state: BoardState) => state;
+export const selectBoardState = (state: RootState) => state.board;
 
-export const selectBoardOrders = createSelector(boardSelector, state => {
+export const selectAllBoards = createSelector(selectBoardState, state => {
+  return state.allBoards;
+});
+
+export const selectBoardOrders = createSelector(selectBoardState, state => {
   return state.boardOrders;
 });
 
-export const selectBoardMgmt = createSelector(boardSelector, state => {
-  return state.boardMgmt;
-});
-
-export const selectBoards = createSelector(
-  selectBoardOrders,
-  selectBoardMgmt,
-  (boardOrders, boardMgmt) => {
-    return boardOrders.map(id => boardMgmt[id]);
-  }
-);
+export const selectBoardById = (boardId: BoardUUID) =>
+  createSelector(selectAllBoards, allBoards => {
+    return allBoards.find(board => board.id === boardId);
+  });

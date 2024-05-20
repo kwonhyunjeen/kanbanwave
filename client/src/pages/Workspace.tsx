@@ -22,7 +22,7 @@ const Workspace = () => {
   const dispatch = useDispatch();
   const [open, dialogOpen] = useToggle(false);
 
-  const boards = useSelector(BOARD.selectBoards);
+  const boards = useSelector(BOARD.selectAllBoards);
 
   const {
     register,
@@ -46,7 +46,6 @@ const Workspace = () => {
     (data: { title: string }) => {
       const { title } = data;
       const board = Dummy.makeBoard(Dummy.randomUUID(), title);
-      dispatch(BOARD.addBoardToOrders(board.id));
       dispatch(BOARD.addBoard(board));
       dialogOpen();
       reset();
@@ -58,8 +57,7 @@ const Workspace = () => {
     (boardId: string) => (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      dispatch(BOARD.removeBoard(boardId));
-      dispatch(BOARD.removeBoardFromOrders(boardId));
+      dispatch(BOARD.deleteBoard(boardId));
     },
     [dispatch]
   );
@@ -70,7 +68,10 @@ const Workspace = () => {
     <section className="app-base">
       <Title className="mb-4 text-white">Boards</Title>
       <div className="m-9">
-        <IconButton name="dashboard_customize" className="mb-10 ml-2" onClick={dialogOpen}>
+        <IconButton
+          name="dashboard_customize"
+          className="mb-10 ml-2"
+          onClick={dialogOpen}>
           Create new board
         </IconButton>
         <Dialog open={open} closeIcon onClose={handleClose} className="w-80">
@@ -130,7 +131,7 @@ const Workspace = () => {
                       aria-label="delete a board"
                       className="self-end opacity-0 btn-square group-hover:opacity-100"
                       iconClassName="w-4"
-                      onClick={(e) => handleBoardDelete(board.id)(e)}
+                      onClick={e => handleBoardDelete(board.id)(e)}
                     />
                   </div>
                 </div>

@@ -1,16 +1,26 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { AppState } from 'store/AppState';
+import { BoardUUID, List, ListUUID } from 'store/commonTypes';
+import { RootState } from 'store/useStore';
 
-export const listSelector = (state: AppState) => state.list;
+export const selectListState = (state: RootState) => state.list;
 
-export const selectListOrders = createSelector(listSelector, state => {
+export const selectAllLists = createSelector(selectListState, state => {
+  return state.allLists;
+});
+
+export const selectListOrders = createSelector(selectListState, state => {
   return state.listOrders;
 });
 
-export const selectListMgmt = createSelector(listSelector, state => {
-  return state.listMgmt;
-});
+export const selectListById = (listId: ListUUID) =>
+  createSelector(selectAllLists, allLists => {
+    return allLists.find(list => list.id === listId);
+  });
 
-export const selectLists = createSelector(listSelector, list => {
-  return list.listOrders.map(id => list.listMgmt[id]);
-});
+export const selectListsByBoardId = (boardId: BoardUUID) =>
+  createSelector(selectAllLists, selectListOrders, (allLists, listOrders) => {
+    const listIds = listOrders[boardId] || [];
+    return listIds
+      .map(listId => allLists.find(list => list.id === listId))
+      .filter(Boolean) as List[];
+  });

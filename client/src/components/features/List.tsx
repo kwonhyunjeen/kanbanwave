@@ -11,19 +11,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card } from 'components';
 import * as Dummy from 'dummy';
 import * as CARD from 'store/card';
-import { selectCards } from 'store/card/selectors';
 
 type ListProps = {
   index: number;
   list: IList;
   onListMove?: (dragIndex: number, hoverIndex: number) => void;
-  onListRemove?: () => void;
+  onListDelete?: () => void;
 };
 
-const List = ({ index, list, onListMove, onListRemove, ...props }: ListProps) => {
+const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) => {
   const dispatch = useDispatch();
 
-  const cards = useSelector(selectCards(list.id));
+  const cards = useSelector(CARD.selectCardsByListId(list.id));
 
   const onCardAdd = useCallback(
     (title: string) => {
@@ -38,16 +37,14 @@ const List = ({ index, list, onListMove, onListRemove, ...props }: ListProps) =>
         Dummy.makeDayMonthYear(currentDate),
         Dummy.makeRelativeDate(currentDate)
       );
-      dispatch(CARD.addCard(card));
-      dispatch(CARD.addCardToList({ listId: list.id, cardId: card.id }));
+      dispatch(CARD.addCard({ listId: list.id, card }));
     },
     [dispatch, list.id]
   );
 
   const onCardRemove = useCallback(
     (cardId: string) => () => {
-      dispatch(CARD.removeCard(cardId));
-      dispatch(CARD.removeCardFromList({ listId: list.id, cardId: cardId }));
+      dispatch(CARD.deleteCard({ listId: list.id, cardId: cardId }));
     },
     [dispatch, list.id]
   );
@@ -64,7 +61,7 @@ const List = ({ index, list, onListMove, onListRemove, ...props }: ListProps) =>
               name="remove"
               className="single-icon"
               aria-label="delete a list"
-              onClick={onListRemove}
+              onClick={onListDelete}
             />
           </div>
         </div>

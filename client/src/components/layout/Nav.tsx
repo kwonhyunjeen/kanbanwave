@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Board } from 'store/commonTypes';
 import { formatTitleToUrl } from 'utils';
-import * as BOARD from 'store/board';
 import { defaultBoards } from 'dummy';
+import * as BOARD from 'store/board';
 
 type NavProps = {
   open: boolean;
@@ -15,11 +15,11 @@ type NavProps = {
 
 const Nav = ({ open, onClickDrawer }: NavProps) => {
   const [allBoards, setAllBoards] = useState<Board[]>([]);
-  const selectBoards = useSelector(BOARD.selectBoards);
+  const boards = useSelector(BOARD.selectAllBoards);
 
   useEffect(() => {
-    setAllBoards([...defaultBoards, ...selectBoards]);
-  }, [selectBoards]);
+    setAllBoards([...defaultBoards, ...boards]);
+  }, [boards]);
 
   return (
     <nav
