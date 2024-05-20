@@ -24,7 +24,7 @@ const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) =>
 
   const cards = useSelector(CARD.selectCardsByListId(list.id));
 
-  const onCardAdd = useCallback(
+  const handleCardAdd = useCallback(
     (title: string) => {
       // @todo Update to real data once server integration is completed
       const currentDate = Dummy.getCurrentDate();
@@ -42,7 +42,7 @@ const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) =>
     [dispatch, list.id]
   );
 
-  const onCardRemove = useCallback(
+  const handleCardDelete = useCallback(
     (cardId: string) => () => {
       dispatch(CARD.deleteCard({ listId: list.id, cardId: cardId }));
     },
@@ -70,13 +70,13 @@ const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) =>
             <Card
               key={card.id}
               card={card}
-              onCardRemove={onCardRemove(card.id)}
+              onCardDelete={handleCardDelete(card.id)}
               draggableId={card.id}
               index={index}
             />
           ))}
         </CardDroppable>
-        <AddItemForm itemMode="card" onItemAdd={onCardAdd} listsLength={cards?.length} />
+        <AddItemForm itemMode="card" onItemAdd={handleCardAdd} listsLength={cards?.length} />
       </div>
     </ListDraggable>
   );

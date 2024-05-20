@@ -25,7 +25,7 @@ const Board = () => {
   const cardOrders = useSelector(CARD.selectCardOrders);
   const lists = useSelector(LIST.selectListsByBoardId(boardId));
 
-  const onListAdd = useCallback(
+  const handleListAdd = useCallback(
     (title: string) => {
       // @todo Update to real data once server integration is completed
       const id = Dummy.randomUUID();
@@ -36,7 +36,7 @@ const Board = () => {
     [dispatch, boardId]
   );
 
-  const onListDelete = useCallback(
+  const handleListDelete = useCallback(
     (listId: string) => () => {
       cardOrders[listId].forEach(cardId => {
         dispatch(CARD.deleteCard({ listId, cardId }));
@@ -46,7 +46,7 @@ const Board = () => {
     [dispatch, cardOrders, boardId]
   );
 
-  const onListMove = useCallback(
+  const handleListMove = useCallback(
     (dragIndex: number, hoverIndex: number) => {
       const newOrders = [...lists];
       const [draggedItem] = newOrders.splice(dragIndex, 1); // 드래그된 아이템 제거
@@ -57,7 +57,7 @@ const Board = () => {
     [dispatch, lists, boardId]
   );
 
-  const onDragEnd = useCallback(
+  const handleDragEnd = useCallback(
     (result: DropResult) => {
       const droppableIdListId = result.destination?.droppableId;
       const droppableIdCardIndex = result.destination?.index;
@@ -113,7 +113,7 @@ const Board = () => {
   return (
     <section className="app-base">
       <Title className="mb-4 text-white">{boardTitle}</Title>
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragEnd={handleDragEnd}>
         <ListDroppable>
           <div className="flex justify-start">
             <div className="flex">
@@ -122,14 +122,14 @@ const Board = () => {
                   key={list.id}
                   list={list}
                   index={index}
-                  onListMove={onListMove}
-                  onListDelete={onListDelete(list.id)}
+                  onListMove={handleListMove}
+                  onListDelete={handleListDelete(list.id)}
                 />
               ))}
             </div>
             <AddItemForm
               itemMode="list"
-              onItemAdd={onListAdd}
+              onItemAdd={handleListAdd}
               listsLength={lists.length}
             />
           </div>
