@@ -1,5 +1,12 @@
 import clsx from 'clsx';
 import { Icon, IconButton } from 'components';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Board } from 'store/commonTypes';
+import { formatTitleToUrl } from 'utils';
+import { defaultBoards } from 'dummy';
+import * as BOARD from 'store/board';
 
 type NavProps = {
   open: boolean;
@@ -7,6 +14,13 @@ type NavProps = {
 };
 
 const Nav = ({ open, onClickDrawer }: NavProps) => {
+  const [allBoards, setAllBoards] = useState<Board[]>([]);
+  const boards = useSelector(BOARD.selectAllBoards);
+
+  useEffect(() => {
+    setAllBoards([...defaultBoards, ...boards]);
+  }, [boards]);
+
   return (
     <nav
       className={clsx('app-nav', {
@@ -26,10 +40,10 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
           </div>
           <ul className="menu">
             <li>
-              <a>
+              <Link to="/workspace/abcde">
                 <Icon name="dashboard" />
                 Boards
-              </a>
+              </Link>
             </li>
             <li>
               <a>
@@ -41,12 +55,15 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
               <details open>
                 <summary className="font-semibold">Your boards</summary>
                 <ul>
-                  <li>
-                    <a>Untitled board 1</a>
-                  </li>
-                  <li>
-                    <a>Untitled board 2</a>
-                  </li>
+                  {allBoards.map(board => (
+                    <li key={board.id}>
+                      <Link
+                        to={`/board/${board.id}/${formatTitleToUrl(board.title)}`}
+                        state={{ board }}>
+                        {board.title}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </details>
             </li>

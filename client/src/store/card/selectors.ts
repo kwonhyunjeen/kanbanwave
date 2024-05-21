@@ -1,21 +1,26 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { AppState } from 'store/AppState';
+import { Card, CardUUID, ListUUID } from 'store/commonTypes';
+import { RootState } from 'store/useStore';
 
-export const CardSelector = (state: AppState) => state.card;
+export const selectCardState = (state: RootState) => state.card;
 
-export const selectCardOrders = createSelector(CardSelector, state => {
+export const selectAllCards = createSelector(selectCardState, state => {
+  return state.allCards;
+});
+
+export const selectCardOrders = createSelector(selectCardState, state => {
   return state.cardOrders;
 });
 
-export const selectCardMgmt = createSelector(CardSelector, state => {
-  return state.cardMgmt;
-});
+export const selectCardById = (cardId: CardUUID) =>
+  createSelector(selectAllCards, allCards => {
+    return allCards.find(card => card.id === cardId);
+  });
 
-export const selectCards = (listId: string) =>
-  createSelector(selectCardOrders, selectCardMgmt, (cardOrders, cardMgmt) => {
-    const cardIds = cardOrders[listId];
-    if (!cardIds) {
-      return [];
-    }
-    return cardIds.map(cardId => cardMgmt[cardId]);
+export const selectCardsByListId = (listId: ListUUID) =>
+  createSelector(selectAllCards, selectCardOrders, (allCards, cardOrders) => {
+    const cardIds = cardOrders[listId] || [];
+    return cardIds
+      .map(cardId => allCards.find(card => card.id === cardId))
+      .filter(Boolean) as Card[];
   });

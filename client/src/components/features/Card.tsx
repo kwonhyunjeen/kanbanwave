@@ -8,7 +8,7 @@ type CardProps = {
   index: number;
   onCardClick?: () => void;
   onCardEdit?: () => void;
-  onCardRemove?: () => void;
+  onCardDelete?: () => void;
 };
 
 const Card = ({
@@ -17,7 +17,7 @@ const Card = ({
   index,
   onCardClick,
   onCardEdit,
-  onCardRemove
+  onCardDelete
 }: CardProps) => {
   const [open, menuOpen] = useToggle(false);
   const handleMenuOpen = () => {
@@ -27,8 +27,9 @@ const Card = ({
   return (
     <CardDraggable draggableId={draggableId} index={index}>
       <div className="card group" onClick={onCardClick}>
-        <a className="relative flex items-center justify-between break-words whitespace-normal">
-          <div>{card.title}</div>
+        {/* @todo 카드 상세 페이지 개발되면, 링크 연결 */}
+        <a className="relative flex items-center justify-between overflow-hidden break-words whitespace-normal">
+          <div className="w-[calc(100%-32px)]">{card.title}</div>
           <IconButton
             name="edit"
             className="single-icon group-hover:flex"
@@ -41,7 +42,7 @@ const Card = ({
           <li onClick={onCardEdit}>
             <a>Edit card</a>
           </li>
-          <li onClick={onCardRemove}>
+          <li onClick={onCardDelete}>
             <a>Delete card</a>
           </li>
         </ul>

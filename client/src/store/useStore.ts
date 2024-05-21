@@ -28,3 +28,5 @@ export function useStore() {
   const store = useMemo(() => initializeStore(), []);
   return store;
 }
+
+export type RootState = ReturnType<typeof rootReducer>;

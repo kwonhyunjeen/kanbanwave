@@ -11,21 +11,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card } from 'components';
 import * as Dummy from 'dummy';
 import * as CARD from 'store/card';
-import { selectCards } from 'store/card/selectors';
 
 type ListProps = {
   index: number;
   list: IList;
   onListMove?: (dragIndex: number, hoverIndex: number) => void;
-  onListRemove?: () => void;
+  onListDelete?: () => void;
 };
 
-const List = ({ index, list, onListMove, onListRemove, ...props }: ListProps) => {
+const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) => {
   const dispatch = useDispatch();
 
-  const cards = useSelector(selectCards(list.id));
+  const cards = useSelector(CARD.selectCardsByListId(list.id));
 
-  const onCardAdd = useCallback(
+  const handleCardAdd = useCallback(
     (title: string) => {
       // @todo Update to real data once server integration is completed
       const currentDate = Dummy.getCurrentDate();
@@ -38,16 +37,14 @@ const List = ({ index, list, onListMove, onListRemove, ...props }: ListProps) =>
         Dummy.makeDayMonthYear(currentDate),
         Dummy.makeRelativeDate(currentDate)
       );
-      dispatch(CARD.addCard(card));
-      dispatch(CARD.addCardToList({ listId: list.id, cardId: card.id }));
+      dispatch(CARD.addCard({ listId: list.id, card }));
     },
     [dispatch, list.id]
   );
 
-  const onCardRemove = useCallback(
+  const handleCardDelete = useCallback(
     (cardId: string) => () => {
-      dispatch(CARD.removeCard(cardId));
-      dispatch(CARD.removeCardFromList({ listId: list.id, cardId: cardId }));
+      dispatch(CARD.deleteCard({ listId: list.id, cardId: cardId }));
     },
     [dispatch, list.id]
   );
@@ -64,7 +61,7 @@ const List = ({ index, list, onListMove, onListRemove, ...props }: ListProps) =>
               name="remove"
               className="single-icon"
               aria-label="delete a list"
-              onClick={onListRemove}
+              onClick={onListDelete}
             />
           </div>
         </div>
@@ -73,13 +70,13 @@ const List = ({ index, list, onListMove, onListRemove, ...props }: ListProps) =>
             <Card
               key={card.id}
               card={card}
-              onCardRemove={onCardRemove(card.id)}
+              onCardDelete={handleCardDelete(card.id)}
               draggableId={card.id}
               index={index}
             />
           ))}
         </CardDroppable>
-        <AddItemForm itemMode="card" onItemAdd={onCardAdd} listsLength={cards?.length} />
+        <AddItemForm itemMode="card" onItemAdd={handleCardAdd} listsLength={cards?.length} />
       </div>
     </ListDraggable>
   );

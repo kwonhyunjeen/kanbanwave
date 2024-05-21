@@ -4,14 +4,17 @@ import { useCallback, useRef } from 'react';
 import * as Dummy from 'dummy';
 import * as CARD from 'store/card';
 import * as LIST from 'store/list';
-import { selectListOrders, selectLists } from 'store/list/selectors';
-import { selectCardOrders } from 'store/card/selectors';
 import { useDrop } from 'react-dnd';
 import { ItemType } from 'store';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { useLocation } from 'react-router-dom';
 
 const Board = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const boardTitle = location.state?.board?.title;
+  const boardId = location.state?.board?.id;
 
   const divRef = useRef<HTMLDivElement>(null);
   const [, drop] = useDrop({
@@ -19,50 +22,42 @@ const Board = () => {
   });
   drop(divRef);
 
-  const cardOrders = useSelector(selectCardOrders);
-  const listOrders = useSelector(selectListOrders);
-  const lists = useSelector(selectLists);
+  const cardOrders = useSelector(CARD.selectCardOrders);
+  const lists = useSelector(LIST.selectListsByBoardId(boardId));
 
-  const onListAdd = useCallback(
+  const handleListAdd = useCallback(
     (title: string) => {
       // @todo Update to real data once server integration is completed
       const id = Dummy.randomUUID();
       const list = { id, title };
-      dispatch(LIST.addListToBoard(id));
-      dispatch(LIST.addList(list));
-      dispatch(CARD.setCardFromList({ listId: list.id, cardIds: [] }));
+      dispatch(LIST.addList({ boardId, list: list }));
+      dispatch(CARD.setCard({ listId: list.id, cardIds: [] }));
     },
-    [dispatch]
+    [dispatch, boardId]
   );
 
-  const onListRemove = useCallback(
+  const handleListDelete = useCallback(
     (listId: string) => () => {
-      console.log(cardOrders);
       cardOrders[listId].forEach(cardId => {
-        dispatch(CARD.removeCard(cardId));
+        dispatch(CARD.deleteCard({ listId, cardId }));
       });
-      dispatch(CARD.removeListFromCard(listId));
-      dispatch(LIST.removeList(listId));
-      dispatch(LIST.removeListFromBoard(listId));
+      dispatch(LIST.deleteList({ boardId, listId }));
     },
-    [dispatch, cardOrders]
+    [dispatch, cardOrders, boardId]
   );
 
-  const onListMove = useCallback(
+  const handleListMove = useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      const newOrders = listOrders.map((item, index) =>
-        index === dragIndex
-          ? listOrders[hoverIndex]
-          : index === hoverIndex
-          ? listOrders[dragIndex]
-          : item
-      );
-      dispatch(LIST.setListFromBoard(newOrders));
+      const newOrders = [...lists];
+      const [draggedItem] = newOrders.splice(dragIndex, 1); // 드래그된 아이템 제거
+      newOrders.splice(hoverIndex, 0, draggedItem); // 새로운 위치에 아이템 추가
+
+      dispatch(LIST.setList({ boardId, listIds: newOrders.map(list => list.id) }));
     },
-    [dispatch, listOrders]
+    [dispatch, lists, boardId]
   );
 
-  const onDragEnd = useCallback(
+  const handleDragEnd = useCallback(
     (result: DropResult) => {
       const droppableIdListId = result.destination?.droppableId;
       const droppableIdCardIndex = result.destination?.index;
@@ -77,7 +72,7 @@ const Board = () => {
       if (droppableIdListId === draggableListId) {
         const cardIdOrders = cardOrders[droppableIdListId];
         dispatch(
-          CARD.setCardFromList({
+          CARD.setCard({
             listId: droppableIdListId,
             cardIds: cardIdOrders.map((item, index) =>
               index === draggableCardIndex
@@ -92,7 +87,7 @@ const Board = () => {
       } else {
         const draggableCardIdOrders = cardOrders[draggableListId];
         dispatch(
-          CARD.setCardFromList({
+          CARD.setCard({
             listId: draggableListId,
             cardIds: draggableCardIdOrders.filter(
               (notUsed, index) => index !== draggableCardIndex
@@ -101,7 +96,7 @@ const Board = () => {
         );
         const droppableIdCardIdOrders = cardOrders[droppableIdListId];
         dispatch(
-          CARD.setCardFromList({
+          CARD.setCard({
             listId: droppableIdListId,
             cardIds: [
               ...droppableIdCardIdOrders.slice(0, droppableIdCardIndex),
@@ -117,8 +112,8 @@ const Board = () => {
 
   return (
     <section className="app-base">
-      <Title className="mb-4 text-white">Board</Title>
-      <DragDropContext onDragEnd={onDragEnd}>
+      <Title className="mb-4 text-white">{boardTitle}</Title>
+      <DragDropContext onDragEnd={handleDragEnd}>
         <ListDroppable>
           <div className="flex justify-start">
             <div className="flex">
@@ -127,14 +122,14 @@ const Board = () => {
                   key={list.id}
                   list={list}
                   index={index}
-                  onListMove={onListMove}
-                  onListRemove={onListRemove(list.id)}
+                  onListMove={handleListMove}
+                  onListDelete={handleListDelete(list.id)}
                 />
               ))}
             </div>
             <AddItemForm
               itemMode="list"
-              onItemAdd={onListAdd}
+              onItemAdd={handleListAdd}
               listsLength={lists.length}
             />
           </div>
