@@ -4,13 +4,12 @@ import {
   AddItemForm,
   Subtitle,
   ListDraggable,
-  CardDroppable
+  CardDroppable,
+  useKanbanStorage
 } from 'components';
 import { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Card } from 'components';
 import * as Dummy from 'dummy';
-import * as CARD from 'store/card';
 
 type ListProps = {
   index: number;
@@ -20,9 +19,9 @@ type ListProps = {
 };
 
 const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) => {
-  const dispatch = useDispatch();
+  const kanbanStorage = useKanbanStorage();
 
-  const cards = useSelector(CARD.selectCardsByListId(list.id));
+  const cards = kanbanStorage.card.getAll(list.id);
 
   const handleCardAdd = useCallback(
     (title: string) => {
@@ -37,16 +36,16 @@ const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) =>
         Dummy.makeDayMonthYear(currentDate),
         Dummy.makeRelativeDate(currentDate)
       );
-      dispatch(CARD.addCard({ listId: list.id, card }));
+      kanbanStorage.card.create(list.id, card);
     },
-    [dispatch, list.id]
+    [kanbanStorage.card, list.id]
   );
 
   const handleCardDelete = useCallback(
     (cardId: string) => () => {
-      dispatch(CARD.deleteCard({ listId: list.id, cardId: cardId }));
+      kanbanStorage.card.delete(list.id, cardId);
     },
-    [dispatch, list.id]
+    [kanbanStorage.card, list.id]
   );
 
   return (
@@ -76,7 +75,11 @@ const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) =>
             />
           ))}
         </CardDroppable>
-        <AddItemForm itemMode="card" onItemAdd={handleCardAdd} listsLength={cards?.length} />
+        <AddItemForm
+          itemMode="card"
+          onItemAdd={handleCardAdd}
+          listsLength={cards?.length}
+        />
       </div>
     </ListDraggable>
   );

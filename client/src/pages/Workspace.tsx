@@ -7,22 +7,21 @@ import {
   IconButton,
   Input,
   Subtitle,
-  Title
+  Title,
+  useKanbanStorage
 } from 'components';
 import { useToggle } from 'hooks';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as Dummy from 'dummy';
-import * as BOARD from 'store/board';
 import bgBoard from 'assets/bg-board.jpg';
 
 const Workspace = () => {
-  const dispatch = useDispatch();
   const [open, dialogOpen] = useToggle(false);
 
-  const boards = useSelector(BOARD.selectAllBoards);
+  const kanbanStorage = useKanbanStorage();
+  const boards = kanbanStorage.board.getAll();
 
   const {
     register,
@@ -46,20 +45,20 @@ const Workspace = () => {
     (data: { title: string }) => {
       const { title } = data;
       const board = Dummy.makeBoard(Dummy.randomUUID(), title);
-      dispatch(BOARD.addBoard(board));
+      kanbanStorage.board.create(board);
       dialogOpen();
       reset();
     },
-    [dispatch, dialogOpen, reset]
+    [kanbanStorage.board, dialogOpen, reset]
   );
 
   const handleBoardDelete = useCallback(
     (boardId: string) => (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      dispatch(BOARD.deleteBoard(boardId));
+      kanbanStorage.board.delete(boardId);
     },
-    [dispatch]
+    [kanbanStorage.board]
   );
 
   const allBoards = [...Dummy.defaultBoards, ...boards];

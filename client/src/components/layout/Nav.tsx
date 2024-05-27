@@ -1,12 +1,10 @@
 import clsx from 'clsx';
-import { Icon, IconButton } from 'components';
+import { Icon, IconButton, useKanbanStorage } from 'components';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Board } from 'store/commonTypes';
 import { formatTitleToUrl } from 'utils';
 import { defaultBoards } from 'dummy';
-import * as BOARD from 'store/board';
 
 type NavProps = {
   open: boolean;
@@ -14,8 +12,11 @@ type NavProps = {
 };
 
 const Nav = ({ open, onClickDrawer }: NavProps) => {
+  const kanbanStorage = useKanbanStorage();
+
+  const boards = kanbanStorage.board.getAll();
+
   const [allBoards, setAllBoards] = useState<Board[]>([]);
-  const boards = useSelector(BOARD.selectAllBoards);
 
   useEffect(() => {
     setAllBoards([...defaultBoards, ...boards]);
