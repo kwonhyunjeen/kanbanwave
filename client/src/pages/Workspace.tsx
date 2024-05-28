@@ -8,7 +8,7 @@ import {
   Input,
   Subtitle,
   Title,
-  useKanbanStorage
+  useKanbanBoard
 } from 'components';
 import { useToggle } from 'hooks';
 import { useCallback } from 'react';
@@ -20,8 +20,8 @@ import bgBoard from 'assets/bg-board.jpg';
 const Workspace = () => {
   const [open, dialogOpen] = useToggle(false);
 
-  const kanbanStorage = useKanbanStorage();
-  const boards = kanbanStorage.board.getAll();
+  const boardStore = useKanbanBoard();
+  const boards = boardStore.getAll();
 
   const {
     register,
@@ -45,20 +45,20 @@ const Workspace = () => {
     (data: { title: string }) => {
       const { title } = data;
       const board = Dummy.makeBoard(Dummy.randomUUID(), title);
-      kanbanStorage.board.create(board);
+      boardStore.create(board);
       dialogOpen();
       reset();
     },
-    [kanbanStorage.board, dialogOpen, reset]
+    [boardStore, dialogOpen, reset]
   );
 
   const handleBoardDelete = useCallback(
     (boardId: string) => (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      kanbanStorage.board.delete(boardId);
+      boardStore.delete(boardId);
     },
-    [kanbanStorage.board]
+    [boardStore]
   );
 
   return (

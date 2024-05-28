@@ -1,4 +1,11 @@
-import { AddItemForm, ListDroppable, Title, List, useKanbanStorage } from 'components';
+import {
+  AddItemForm,
+  ListDroppable,
+  Title,
+  List,
+  useKanbanList,
+  useKanbanCard
+} from 'components';
 import { useCallback, useRef } from 'react';
 import * as Dummy from 'dummy';
 import { useDrop } from 'react-dnd';
@@ -12,32 +19,31 @@ const Board = () => {
   const boardTitle = location.state?.board?.title;
   const boardId = location.state?.board?.id;
 
-  const kanbanStorage = useKanbanStorage();
-
   const divRef = useRef<HTMLDivElement>(null);
   const [, drop] = useDrop({
     accept: ItemType.LIST
   });
   drop(divRef);
 
-  const lists = kanbanStorage.list.getAll(boardId);
+  const listStore = useKanbanList();
+  const cardStore = useKanbanCard();
+  const lists = listStore.getAll(boardId);
 
   const handleListAdd = useCallback(
     (title: string) => {
-      // @todo Update to real data once server integration is completed
       const id = Dummy.randomUUID();
       const list = { id, title };
-      kanbanStorage.list.create(boardId, list);
-      kanbanStorage.card.reorder(list.id, []);
+      listStore.create(boardId, list);
+      cardStore.reorder(list.id, []);
     },
-    [kanbanStorage.list, kanbanStorage.card, boardId]
+    [listStore, cardStore, boardId]
   );
 
   const handleListDelete = useCallback(
     (listId: string) => () => {
-      kanbanStorage.list.delete(boardId, listId);
+      listStore.delete(boardId, listId);
     },
-    [kanbanStorage.list, boardId]
+    [listStore, boardId]
   );
 
   const handleListMove = useCallback(
@@ -46,12 +52,12 @@ const Board = () => {
       const [draggedItem] = newOrders.splice(dragIndex, 1); // 드래그된 아이템 제거
       newOrders.splice(hoverIndex, 0, draggedItem); // 새로운 위치에 아이템 추가
 
-      kanbanStorage.list.reorder(
+      listStore.reorder(
         boardId,
         newOrders.map(list => list.id)
       );
     },
-    [kanbanStorage.list, lists, boardId]
+    [listStore, lists, boardId]
   );
 
   const handleDragEnd = useCallback(
@@ -67,8 +73,8 @@ const Board = () => {
 
       // 같은 목록에서 카드 옮길 때: 두 카드의 index 교체
       if (droppableIdListId === draggableListId) {
-        const cardIdOrders = kanbanStorage.card.getOrders(droppableIdListId);
-        kanbanStorage.card.reorder(
+        const cardIdOrders = cardStore.getOrders(droppableIdListId);
+        cardStore.reorder(
           droppableIdListId,
           cardIdOrders.map((item, index) =>
             index === draggableCardIndex
@@ -80,20 +86,20 @@ const Board = () => {
         );
         // 다른 목록으로 카드 옮길 때: 기존 리스트에서 카드 uuid 삭제, 드롭 리스트에서 카드 uuid 추가
       } else {
-        const draggableCardIdOrders = kanbanStorage.card.getOrders(draggableListId);
-        kanbanStorage.card.reorder(
+        const draggableCardIdOrders = cardStore.getOrders(draggableListId);
+        cardStore.reorder(
           draggableListId,
           draggableCardIdOrders.filter((notUsed, index) => index !== draggableCardIndex)
         );
-        const droppableIdCardIdOrders = kanbanStorage.card.getOrders(droppableIdListId);
-        kanbanStorage.card.reorder(droppableIdListId, [
+        const droppableIdCardIdOrders = cardStore.getOrders(droppableIdListId);
+        cardStore.reorder(droppableIdListId, [
           ...droppableIdCardIdOrders.slice(0, droppableIdCardIndex),
           result.draggableId,
           ...droppableIdCardIdOrders.slice(droppableIdCardIndex)
         ]);
       }
     },
-    [kanbanStorage.card]
+    [cardStore]
   );
 
   return (

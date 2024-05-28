@@ -1,8 +1,6 @@
 import clsx from 'clsx';
-import { Icon, IconButton, useKanbanStorage } from 'components';
-import { useEffect, useState } from 'react';
+import { Icon, IconButton, useKanbanBoard } from 'components';
 import { Link } from 'react-router-dom';
-import { Board } from 'store/commonTypes';
 import { formatTitleToUrl } from 'utils';
 
 type NavProps = {
@@ -11,9 +9,8 @@ type NavProps = {
 };
 
 const Nav = ({ open, onClickDrawer }: NavProps) => {
-  const kanbanStorage = useKanbanStorage();
-
-  const boards = kanbanStorage.board.getAll();
+  const boardStore = useKanbanBoard();
+  const boards = boardStore.getAll();
 
   return (
     <nav
