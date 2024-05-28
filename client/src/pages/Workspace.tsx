@@ -61,8 +61,6 @@ const Workspace = () => {
     [kanbanStorage.board]
   );
 
-  const allBoards = [...Dummy.defaultBoards, ...boards];
-
   return (
     <section className="app-base">
       <Title className="mb-4 text-white">Boards</Title>
@@ -104,7 +102,7 @@ const Workspace = () => {
           </form>
         </Dialog>
         <ul className="flex flex-wrap gap-4">
-          {allBoards.map(board => (
+          {boards.map(board => (
             <li
               key={board.id}
               className="w-[23%] group hover:bg-zinc-500/50 transition-all rounded-lg p-2">

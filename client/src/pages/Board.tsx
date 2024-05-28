@@ -35,12 +35,9 @@ const Board = () => {
 
   const handleListDelete = useCallback(
     (listId: string) => () => {
-      kanbanStorage.card.getOrders(listId).forEach(cardId => {
-        kanbanStorage.card.delete(listId, cardId);
-      });
       kanbanStorage.list.delete(boardId, listId);
     },
-    [kanbanStorage.list, kanbanStorage.card, boardId]
+    [kanbanStorage.list, boardId]
   );
 
   const handleListMove = useCallback(

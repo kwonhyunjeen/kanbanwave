@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useContext } from 'react';
 import { Board, BoardUUID, Card, CardUUID, List, ListUUID } from 'store';
 
-const defaultStorage = {
+const dummyStorage = {
   board: {
     getAll: (): Board[] => [],
     getOrders: (): BoardUUID[] => [],
@@ -25,9 +25,9 @@ const defaultStorage = {
   }
 };
 
-export type KanbanStorage = typeof defaultStorage;
+export type KanbanStorage = typeof dummyStorage;
 
-const KanbanStorageContext = createContext<KanbanStorage>(defaultStorage);
+const KanbanStorageContext = createContext<KanbanStorage>(dummyStorage);
 
 type KanbanStorageProviderProps = {
   children?: ReactNode;
@@ -35,7 +35,7 @@ type KanbanStorageProviderProps = {
 };
 
 const KanbanStorageProvider = ({
-  storage = defaultStorage,
+  storage = dummyStorage,
   children
 }: KanbanStorageProviderProps) => {
   return (
