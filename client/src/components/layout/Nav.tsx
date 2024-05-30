@@ -1,10 +1,7 @@
 import clsx from 'clsx';
-import { Icon, IconButton, useKanbanStorage } from 'components';
-import { useEffect, useState } from 'react';
+import { Icon, IconButton, useKanbanBoard } from 'components';
 import { Link } from 'react-router-dom';
-import { Board } from 'store/commonTypes';
 import { formatTitleToUrl } from 'utils';
-import { defaultBoards } from 'dummy';
 
 type NavProps = {
   open: boolean;
@@ -12,15 +9,8 @@ type NavProps = {
 };
 
 const Nav = ({ open, onClickDrawer }: NavProps) => {
-  const kanbanStorage = useKanbanStorage();
-
-  const boards = kanbanStorage.board.getAll();
-
-  const [allBoards, setAllBoards] = useState<Board[]>([]);
-
-  useEffect(() => {
-    setAllBoards([...defaultBoards, ...boards]);
-  }, [boards]);
+  const boardStore = useKanbanBoard();
+  const boards = boardStore.getAll();
 
   return (
     <nav
@@ -56,7 +46,7 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
               <details open>
                 <summary className="font-semibold">Your boards</summary>
                 <ul>
-                  {allBoards.map(board => (
+                  {boards.map(board => (
                     <li key={board.id}>
                       <Link
                         to={`/board/${board.id}/${formatTitleToUrl(board.title)}`}

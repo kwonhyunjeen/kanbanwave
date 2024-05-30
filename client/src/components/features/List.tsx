@@ -5,7 +5,7 @@ import {
   Subtitle,
   ListDraggable,
   CardDroppable,
-  useKanbanStorage
+  useKanbanCard
 } from 'components';
 import { useCallback } from 'react';
 import { Card } from 'components';
@@ -19,13 +19,11 @@ type ListProps = {
 };
 
 const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) => {
-  const kanbanStorage = useKanbanStorage();
-
-  const cards = kanbanStorage.card.getAll(list.id);
+  const cardStore = useKanbanCard();
+  const cards = cardStore.getAll(list.id);
 
   const handleCardAdd = useCallback(
     (title: string) => {
-      // @todo Update to real data once server integration is completed
       const currentDate = Dummy.getCurrentDate();
       const card = Dummy.makeCard(
         Dummy.randomUUID(),
@@ -36,16 +34,16 @@ const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) =>
         Dummy.makeDayMonthYear(currentDate),
         Dummy.makeRelativeDate(currentDate)
       );
-      kanbanStorage.card.create(list.id, card);
+      cardStore.create(list.id, card);
     },
-    [kanbanStorage.card, list.id]
+    [cardStore, list.id]
   );
 
   const handleCardDelete = useCallback(
     (cardId: string) => () => {
-      kanbanStorage.card.delete(list.id, cardId);
+      cardStore.delete(list.id, cardId);
     },
-    [kanbanStorage.card, list.id]
+    [cardStore, list.id]
   );
 
   return (
