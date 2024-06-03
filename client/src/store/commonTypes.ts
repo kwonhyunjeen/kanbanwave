@@ -2,61 +2,61 @@ export type CardUUID = string;
 export type ListUUID = string;
 export type BoardUUID = string;
 
-export type User = {
+export type KWUser = {
   id: string;
   name: string;
   email: string;
 };
 
-export type Card = {
+export type KWCard = {
   id: CardUUID;
   title: string;
-  writer?: User;
+  writer?: KWUser;
   description?: string;
   startDate?: string;
   dueDate?: string;
   relativeDate?: string | null;
 };
 
-export type List = {
+export type KWList = {
   id: ListUUID;
   title: string;
   cards?: CardUUID[];
 };
 
-export type Board = {
+export type KWBoard = {
   id: BoardUUID;
   title: string;
   lists?: ListUUID[];
 };
 
-export type CardOrdersState = {
+export type KWCardOrdersState = {
   [listId: ListUUID]: CardUUID[];
 };
 
-export type CardState = {
-  allCards: Card[]; 
-  cardOrders: CardOrdersState; 
+export type KWCardState = {
+  allCards: KWCard[];
+  cardOrders: KWCardOrdersState;
 };
 
-export type ListOrdersState = {
+export type KWListOrdersState = {
   [boardId: BoardUUID]: ListUUID[];
 };
 
-export type ListState = {
-  allLists: List[];
-  listOrders: ListOrdersState;
+export type KWListState = {
+  allLists: KWList[];
+  listOrders: KWListOrdersState;
 };
 
-export type BoardOrdersState = BoardUUID[];
+export type KWBoardOrdersState = BoardUUID[];
 
-export type BoardState = {
-  allBoards: Board[];
-  boardOrders: BoardOrdersState;
+export type KWBoardState = {
+  allBoards: KWBoard[];
+  boardOrders: KWBoardOrdersState;
 };
 
-export const ItemType = {
+export const KWItemType = {
   CARD: 'card',
   LIST: 'list'
 } as const;
-export type ItemType = (typeof ItemType)[keyof typeof ItemType];
+export type KWItemType = (typeof KWItemType)[keyof typeof KWItemType];
