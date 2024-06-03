@@ -1,4 +1,4 @@
-import { Board, BoardUUID, Card, CardUUID, List, ListUUID } from 'store';
+import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'store';
 
 const getItem = (key: string) => JSON.parse(localStorage.getItem(key) ?? 'null');
 const setItem = (key: string, value: unknown) =>
@@ -12,15 +12,15 @@ const LIST_ORDERS_KEY_OF_BOARD = (boardId: string) => `kanban_list_orders_${boar
 const CARD_KEY_OF_LIST = (listId: string) => `kanban_cards_${listId}`;
 const CARD_ORDERS_KEY_OF_LIST = (listId: string) => `kanban_card_orders_${listId}`;
 
-export const getBoards = (): Board[] => getItem(BOARD_KEY()) || [];
-export const setBoards = (boards: Board[]) => setItem(BOARD_KEY(), boards);
+export const getBoards = (): KWBoard[] => getItem(BOARD_KEY()) || [];
+export const setBoards = (boards: KWBoard[]) => setItem(BOARD_KEY(), boards);
 export const getBoardOrders = (): BoardUUID[] => getItem(BOARD_ORDERS_KEY()) || [];
 export const setBoardOrders = (boardIds: BoardUUID[]) =>
   setItem(BOARD_ORDERS_KEY(), boardIds);
 
-export const getListsOfBoard = (boardId: BoardUUID): List[] =>
+export const getListsOfBoard = (boardId: BoardUUID): KWList[] =>
   getItem(LIST_KEY_OF_BOARD(boardId)) || [];
-export const setListsOfBoard = (boardId: BoardUUID, lists: List[]) =>
+export const setListsOfBoard = (boardId: BoardUUID, lists: KWList[]) =>
   setItem(LIST_KEY_OF_BOARD(boardId), lists);
 export const removeListsOfBoard = (boardId: BoardUUID) =>
   removeItem(LIST_KEY_OF_BOARD(boardId));
@@ -31,9 +31,9 @@ export const setListOrdersOfBoard = (boardId: BoardUUID, listIds: ListUUID[]) =>
 export const removeListOrdersOfBoard = (boardId: BoardUUID) =>
   removeItem(LIST_ORDERS_KEY_OF_BOARD(boardId));
 
-export const getCardsOfList = (listId: ListUUID): Card[] =>
+export const getCardsOfList = (listId: ListUUID): KWCard[] =>
   getItem(CARD_KEY_OF_LIST(listId)) || [];
-export const setCardsOfList = (listId: ListUUID, cards: Card[]) =>
+export const setCardsOfList = (listId: ListUUID, cards: KWCard[]) =>
   setItem(CARD_KEY_OF_LIST(listId), cards);
 export const removeCardsOfList = (listId: ListUUID) =>
   removeItem(CARD_KEY_OF_LIST(listId));

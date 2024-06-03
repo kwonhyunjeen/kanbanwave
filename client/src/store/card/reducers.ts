@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Card, CardState, CardUUID, ListUUID } from 'store/commonTypes';
+import { KWCard, KWCardState, CardUUID, ListUUID } from 'store';
 
-const initialState: CardState = {
+const initialState: KWCardState = {
   allCards: [],
   cardOrders: {}
 };
@@ -10,7 +10,7 @@ const cardSlice = createSlice({
   name: 'card',
   initialState: initialState,
   reducers: {
-    addCard: (state, action: PayloadAction<{ listId: ListUUID; card: Card }>) => {
+    addCard: (state, action: PayloadAction<{ listId: ListUUID; card: KWCard }>) => {
       const { listId, card } = action.payload;
       state.allCards.push(card);
       state.cardOrders[listId] = state.cardOrders[listId]
@@ -39,4 +39,3 @@ const cardSlice = createSlice({
 
 export const { addCard, deleteCard, setCard } = cardSlice.actions;
 export const cardReducer = cardSlice.reducer;
-

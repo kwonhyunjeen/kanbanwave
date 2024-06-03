@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { ReactNode, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { ItemType } from 'store';
+import { KWItemType } from 'store';
 import { Identifier } from 'dnd-core';
 
 type ListDraggableProps = {
@@ -29,7 +29,7 @@ const ListDraggable = ({
   const ref = useRef<HTMLDivElement>(null);
 
   const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemType.LIST,
+    type: KWItemType.LIST,
     item: () => {
       return { id, index };
     },
@@ -41,7 +41,7 @@ const ListDraggable = ({
 
   const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>(
     {
-      accept: ItemType.LIST,
+      accept: KWItemType.LIST,
       collect: monitor => ({
         handlerId: monitor.getHandlerId()
       }),

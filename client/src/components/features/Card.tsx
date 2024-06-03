@@ -1,9 +1,9 @@
 import { useToggle } from 'hooks';
 import { IconButton, CardDraggable } from 'components';
-import { Card as ICard } from 'store/commonTypes';
+import { KWCard } from 'store';
 
 type CardProps = {
-  card: ICard;
+  card: KWCard;
   draggableId: string;
   index: number;
   onCardClick?: () => void;

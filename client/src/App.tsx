@@ -4,7 +4,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { KanbanStorageProvider } from 'components';
 import { PropsWithChildren } from 'react';
-import { Board, BoardUUID, Card, CardUUID, List, ListUUID } from 'store';
+import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'store';
 import { DB } from 'utils';
 
 function sortItemsByOrders<T extends { id: string }>(items: T[], orders: string[]): T[] {
@@ -17,13 +17,13 @@ export const sampleKanbanStorage = {
   board: {
     getAll: () => sortItemsByOrders(DB.getBoards(), DB.getBoardOrders()),
     getOrders: () => DB.getBoardOrders(),
-    create: (board: Board) => {
+    create: (board: KWBoard) => {
       const boards = [...DB.getBoards(), board];
       DB.setBoards(boards);
       DB.setBoardOrders(boards.map(board => board.id));
     },
     delete: (boardId: BoardUUID) => {
-      DB.getListsOfBoard(boardId).forEach((list: List) => {
+      DB.getListsOfBoard(boardId).forEach((list: KWList) => {
         DB.removeCardsOfList(list.id);
         DB.removeCardOrdersOfList(list.id);
       });
@@ -40,7 +40,7 @@ export const sampleKanbanStorage = {
     getAll: (boardId: BoardUUID) =>
       sortItemsByOrders(DB.getListsOfBoard(boardId), DB.getListOrdersOfBoard(boardId)),
     getOrders: (boardId: BoardUUID) => DB.getListOrdersOfBoard(boardId),
-    create: (boardId: BoardUUID, list: List) => {
+    create: (boardId: BoardUUID, list: KWList) => {
       const lists = [...DB.getListsOfBoard(boardId), list];
       DB.setListsOfBoard(boardId, lists);
       DB.setListOrdersOfBoard(
@@ -68,7 +68,7 @@ export const sampleKanbanStorage = {
     getAll: (listId: ListUUID) =>
       sortItemsByOrders(DB.getCardsOfList(listId), DB.getCardOrders(listId)),
     getOrders: (listId: ListUUID) => DB.getCardOrders(listId),
-    create: (listId: ListUUID, card: Card) => {
+    create: (listId: ListUUID, card: KWCard) => {
       const cards = [...DB.getCardsOfList(listId), card];
       DB.setCardsOfList(listId, cards);
       DB.setCardOrdersOfList(

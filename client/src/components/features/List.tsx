@@ -1,4 +1,4 @@
-import { List as IList } from 'store/commonTypes';
+import { KWList } from 'store';
 import {
   IconButton,
   AddItemForm,
@@ -13,7 +13,7 @@ import * as Dummy from 'dummy';
 
 type ListProps = {
   index: number;
-  list: IList;
+  list: KWList;
   onListMove?: (dragIndex: number, hoverIndex: number) => void;
   onListDelete?: () => void;
 };

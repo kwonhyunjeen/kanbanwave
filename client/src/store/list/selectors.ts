@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { BoardUUID, List, ListUUID } from 'store/commonTypes';
+import { BoardUUID, KWList, ListUUID } from 'store';
 import { RootState } from 'store/useStore';
 
 export const selectListState = (state: RootState) => state.list;
@@ -22,5 +22,5 @@ export const selectListsByBoardId = (boardId: BoardUUID) =>
     const listIds = listOrders[boardId] || [];
     return listIds
       .map(listId => allLists.find(list => list.id === listId))
-      .filter(Boolean) as List[];
+      .filter(Boolean) as KWList[];
   });
