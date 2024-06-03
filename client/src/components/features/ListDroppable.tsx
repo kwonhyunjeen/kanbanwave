@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { useDrop } from 'react-dnd';
-import { ItemType } from 'store';
+import { KWItemType } from 'store';
 
 type ListDroppableProps = {
   children: ReactNode;
@@ -8,7 +8,7 @@ type ListDroppableProps = {
 
 const ListDroppable = ({ children }: ListDroppableProps) => {
   const [, dropRef] = useDrop({
-    accept: ItemType.LIST
+    accept: KWItemType.LIST
   });
 
   return (

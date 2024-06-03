@@ -1,6 +1,6 @@
-import { Board, Card, User } from 'store/commonTypes';
+import { KWBoard, KWCard, KWUser } from 'store';
 
-export const defaultBoards = [
+export const defaultKWBoards = [
   {
     id: 'b3c2QPDV',
     title: 'Project 1'
@@ -25,12 +25,12 @@ export const defaultBoards = [
 
 export const makeCard = (
   id: string,
-  writer: User,
+  writer: KWUser,
   title: string,
   description: string,
   startDate: string,
   dueDate: string,
   relativeDate: string | null
-): Card => ({ id, writer, title, description, startDate, dueDate, relativeDate });
+): KWCard => ({ id, writer, title, description, startDate, dueDate, relativeDate });
 
-export const makeBoard = (id: string, title: string): Board => ({ id, title });
+export const makeBoard = (id: string, title: string): KWBoard => ({ id, title });

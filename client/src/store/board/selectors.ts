@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { BoardUUID } from 'store/commonTypes';
+import { BoardUUID } from 'store';
 import { RootState } from 'store/useStore';
 
 export const selectBoardState = (state: RootState) => state.board;

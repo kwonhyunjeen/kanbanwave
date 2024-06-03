@@ -1,11 +1,11 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button, IconButton, TextArea } from 'components';
 import clsx from 'clsx';
-import { ItemType } from 'store';
+import { KWItemType } from 'store';
 
 type AddItemFormProps = {
   className?: string;
-  itemMode: ItemType;
+  itemMode: KWItemType;
   listsLength?: number;
   onItemAdd?: (title: string) => void;
 };
@@ -52,7 +52,9 @@ const AddItemForm = ({
       {isInputVisible ? (
         <div className={clsx('p-2', className)}>
           <TextArea
-            placeholder={`Enter a ${itemMode === ItemType.CARD ? 'card' : 'list'} title`}
+            placeholder={`Enter a ${
+              itemMode === KWItemType.CARD ? 'card' : 'list'
+            } title`}
             value={title}
             onChange={handleChange}
             className="w-full py-1 leading-8 min-h-11 "
@@ -66,7 +68,7 @@ const AddItemForm = ({
               type="button"
               aria-label="cancel"
               onClick={handleCancel}
-              className='btn-square'
+              className="btn-square"
             />
           </div>
         </div>
@@ -76,10 +78,10 @@ const AddItemForm = ({
           aria-label={`add a ${itemMode}`}
           onClick={() => setIsInputVisible(true)}
           className={clsx('h-11', {
-            'mt-1': itemMode === ItemType.CARD
+            'mt-1': itemMode === KWItemType.CARD
           })}>
           <span className="text-sm">
-            {itemMode === ItemType.CARD ? 'Add a card' : 'Add another list'}
+            {itemMode === KWItemType.CARD ? 'Add a card' : 'Add another list'}
           </span>
         </IconButton>
       )}

@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { BoardUUID, List, ListState, ListUUID } from 'store/commonTypes';
+import { BoardUUID, KWList, KWListState, ListUUID } from 'store';
 
-const initialState: ListState = {
+const initialState: KWListState = {
   allLists: [],
   listOrders: {}
 };
@@ -10,7 +10,7 @@ const listSlice = createSlice({
   name: 'list',
   initialState: initialState,
   reducers: {
-    addList: (state, action: PayloadAction<{ boardId: BoardUUID; list: List }>) => {
+    addList: (state, action: PayloadAction<{ boardId: BoardUUID; list: KWList }>) => {
       const { boardId, list } = action.payload;
       state.allLists.push(list);
       state.listOrders[boardId] = state.listOrders[boardId]

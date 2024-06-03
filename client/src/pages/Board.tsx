@@ -9,7 +9,7 @@ import {
 import { useCallback, useRef } from 'react';
 import * as Dummy from 'dummy';
 import { useDrop } from 'react-dnd';
-import { ItemType } from 'store';
+import { KWItemType } from 'store';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useLocation } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const Board = () => {
 
   const divRef = useRef<HTMLDivElement>(null);
   const [, drop] = useDrop({
-    accept: ItemType.LIST
+    accept: KWItemType.LIST
   });
   drop(divRef);
 

@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { Board, BoardUUID, Card, CardUUID, List, ListUUID } from 'store';
+import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'store';
 
 export type KanbanStorageUnit = {
   getAll: (...args: any[]) => unknown;
@@ -10,25 +10,25 @@ export type KanbanStorageUnit = {
 };
 
 export type KanbanBoardStorage = {
-  getAll: () => Board[];
+  getAll: () => KWBoard[];
   getOrders: () => BoardUUID[];
-  create: (board: Board) => void;
+  create: (board: KWBoard) => void;
   delete: (boardId: BoardUUID) => void;
   reorder: (boardIds: BoardUUID[]) => void;
 };
 
 export type KanbanListStorage = {
-  getAll: (boardId: BoardUUID) => List[];
+  getAll: (boardId: BoardUUID) => KWList[];
   getOrders: (boardId: BoardUUID) => ListUUID[];
-  create: (boardId: BoardUUID, list: List) => void;
+  create: (boardId: BoardUUID, list: KWList) => void;
   delete: (boardId: BoardUUID, listId: ListUUID) => void;
   reorder: (boardId: BoardUUID, listIds: ListUUID[]) => void;
 };
 
 export type KanbanCardStorage = {
-  getAll: (listId: ListUUID) => Card[];
+  getAll: (listId: ListUUID) => KWCard[];
   getOrders: (listId: ListUUID) => CardUUID[];
-  create: (listId: ListUUID, card: Card) => void;
+  create: (listId: ListUUID, card: KWCard) => void;
   delete: (listId: ListUUID, cardId: CardUUID) => void;
   reorder: (listId: ListUUID, cardIds: CardUUID[]) => void;
 };

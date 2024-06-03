@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Board, BoardState, BoardUUID } from 'store/commonTypes';
+import { KWBoard, KWBoardState, BoardUUID } from 'store';
 
-const initialState: BoardState = {
+const initialState: KWBoardState = {
   allBoards: [],
   boardOrders: []
 };
@@ -10,7 +10,7 @@ const boardSlice = createSlice({
   name: 'board',
   initialState: initialState,
   reducers: {
-    addBoard: (state, action: PayloadAction<Board>) => {
+    addBoard: (state, action: PayloadAction<KWBoard>) => {
       const board = action.payload;
       state.allBoards.push(board);
       state.boardOrders.push(board.id);

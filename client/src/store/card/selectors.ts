@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { Card, CardUUID, ListUUID } from 'store/commonTypes';
+import { KWCard, CardUUID, ListUUID } from 'store';
 import { RootState } from 'store/useStore';
 
 export const selectCardState = (state: RootState) => state.card;
@@ -22,5 +22,5 @@ export const selectCardsByListId = (listId: ListUUID) =>
     const cardIds = cardOrders[listId] || [];
     return cardIds
       .map(cardId => allCards.find(card => card.id === cardId))
-      .filter(Boolean) as Card[];
+      .filter(Boolean) as KWCard[];
   });
