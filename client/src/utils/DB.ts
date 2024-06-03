@@ -37,7 +37,7 @@ export const setCardsOfList = (listId: ListUUID, cards: KWCard[]) =>
   setItem(CARD_KEY_OF_LIST(listId), cards);
 export const removeCardsOfList = (listId: ListUUID) =>
   removeItem(CARD_KEY_OF_LIST(listId));
-export const getCardOrders = (listId: ListUUID): CardUUID[] =>
+export const getCardOrdersList = (listId: ListUUID): CardUUID[] =>
   getItem(CARD_ORDERS_KEY_OF_LIST(listId)) || [];
 export const setCardOrdersOfList = (listId: ListUUID, cardIds: CardUUID[]) =>
   setItem(CARD_ORDERS_KEY_OF_LIST(listId), cardIds);

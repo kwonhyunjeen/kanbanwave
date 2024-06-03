@@ -66,8 +66,8 @@ export const sampleKanbanStorage = {
   },
   card: {
     getAll: (listId: ListUUID) =>
-      sortItemsByOrders(DB.getCardsOfList(listId), DB.getCardOrders(listId)),
-    getOrders: (listId: ListUUID) => DB.getCardOrders(listId),
+      sortItemsByOrders(DB.getCardsOfList(listId), DB.getCardOrdersList(listId)),
+    getOrders: (listId: ListUUID) => DB.getCardOrdersList(listId),
     create: (listId: ListUUID, card: KWCard) => {
       const cards = [...DB.getCardsOfList(listId), card];
       DB.setCardsOfList(listId, cards);
@@ -83,7 +83,7 @@ export const sampleKanbanStorage = {
       );
       DB.setCardOrdersOfList(
         listId,
-        DB.getCardOrders(listId).filter(id => id !== cardId)
+        DB.getCardOrdersList(listId).filter(id => id !== cardId)
       );
     },
     reorder: (listId: ListUUID, cardIds: CardUUID[]) =>
