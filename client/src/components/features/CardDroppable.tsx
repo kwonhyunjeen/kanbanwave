@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
+import { KWItemType } from 'store';
+import StrictModeDroppable from './StrictModeDroppable';
 
 type CardDroppableProps = {
   children: ReactNode;
@@ -8,7 +10,7 @@ type CardDroppableProps = {
 
 const CardDroppable = ({ children, droppableId }: CardDroppableProps) => {
   return (
-    <Droppable droppableId={droppableId}>
+    <StrictModeDroppable droppableId={droppableId} type={KWItemType.CARD}>
       {provided => {
         return (
           <div
@@ -20,7 +22,7 @@ const CardDroppable = ({ children, droppableId }: CardDroppableProps) => {
           </div>
         );
       }}
-    </Droppable>
+    </StrictModeDroppable>
   );
 };
 

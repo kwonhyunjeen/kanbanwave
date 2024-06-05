@@ -1,10 +1,10 @@
 import {
   AddItemForm,
-  ListDroppable,
   Title,
   List,
   useKanbanList,
-  useKanbanCard
+  useKanbanCard,
+  StrictModeDroppable
 } from 'components';
 import { useCallback, useRef } from 'react';
 import * as Dummy from 'dummy';
@@ -46,86 +46,83 @@ const Board = () => {
     [listStore, boardId]
   );
 
-  const handleListMove = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
-      const newOrders = [...lists];
-      const [draggedItem] = newOrders.splice(dragIndex, 1); // 드래그된 아이템 제거
-      newOrders.splice(hoverIndex, 0, draggedItem); // 새로운 위치에 아이템 추가
-
-      listStore.reorder(
-        boardId,
-        newOrders.map(list => list.id)
-      );
-    },
-    [listStore, lists, boardId]
-  );
-
   const handleDragEnd = useCallback(
     (result: DropResult) => {
-      const droppableIdListId = result.destination?.droppableId;
-      const droppableIdCardIndex = result.destination?.index;
-      if (droppableIdListId === undefined || droppableIdCardIndex === undefined) {
-        return;
-      }
+      if (!result.destination) return;
 
-      const draggableListId = result.source.droppableId;
-      const draggableCardIndex = result.source.index;
+      const { source: dragLocation, destination: dropLocation, type } = result;
 
-      // 같은 목록에서 카드 옮길 때: 두 카드의 index 교체
-      if (droppableIdListId === draggableListId) {
-        const cardIdOrders = cardStore.getOrders(droppableIdListId);
-        cardStore.reorder(
-          droppableIdListId,
-          cardIdOrders.map((item, index) =>
-            index === draggableCardIndex
-              ? cardIdOrders[droppableIdCardIndex]
-              : index === droppableIdCardIndex
-              ? cardIdOrders[draggableCardIndex]
-              : item
-          )
+      if (type === KWItemType.LIST) {
+        const newOrder = Array.from(lists);
+        const [removed] = newOrder.splice(dragLocation.index, 1);
+        newOrder.splice(dropLocation.index, 0, removed);
+        listStore.reorder(
+          boardId,
+          newOrder.map(list => list.id)
         );
-        // 다른 목록으로 카드 옮길 때: 기존 리스트에서 카드 uuid 삭제, 드롭 리스트에서 카드 uuid 추가
-      } else {
-        const draggableCardIdOrders = cardStore.getOrders(draggableListId);
-        cardStore.reorder(
-          draggableListId,
-          draggableCardIdOrders.filter((notUsed, index) => index !== draggableCardIndex)
-        );
-        const droppableIdCardIdOrders = cardStore.getOrders(droppableIdListId);
-        cardStore.reorder(droppableIdListId, [
-          ...droppableIdCardIdOrders.slice(0, droppableIdCardIndex),
-          result.draggableId,
-          ...droppableIdCardIdOrders.slice(droppableIdCardIndex)
-        ]);
+      } else if (type === KWItemType.CARD) {
+        const listIdOfDragLocation = dragLocation.droppableId;
+        const listIdOfDropLocation = dropLocation.droppableId;
+
+        const draggedCards = Array.from(cardStore.getAll(listIdOfDragLocation));
+        const [removed] = draggedCards.splice(dragLocation.index, 1);
+
+        // 같은 목록에서 카드 옮길 때: 두 카드의 index 교체
+        if (listIdOfDragLocation === listIdOfDropLocation) {
+          draggedCards.splice(dropLocation.index, 0, removed);
+          cardStore.reorder(
+            listIdOfDragLocation,
+            draggedCards.map(card => card.id)
+          );
+          // 다른 목록으로 카드 옮길 때: 기존 리스트에서 카드 uuid 삭제, 드롭 리스트에서 카드 uuid 추가
+        } else {
+          const dropLocationCards = Array.from(cardStore.getAll(listIdOfDropLocation));
+          dropLocationCards.splice(dropLocation.index, 0, removed);
+          console.log(listIdOfDragLocation, listIdOfDropLocation);
+          cardStore.reorder(
+            listIdOfDragLocation,
+            draggedCards.map(card => card.id)
+          );
+          cardStore.reorder(
+            listIdOfDropLocation,
+            dropLocationCards.map(card => card.id)
+          );
+        }
       }
     },
-    [cardStore]
+    [lists, listStore, cardStore, boardId]
   );
 
   return (
     <section className="app-base">
       <Title className="mb-4 text-white">{boardTitle}</Title>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <ListDroppable>
-          <div className="flex justify-start">
-            <div className="flex">
-              {lists?.map((list, index) => (
+        <StrictModeDroppable
+          droppableId="board"
+          direction="horizontal"
+          type={KWItemType.LIST}>
+          {provided => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className="flex justify-start">
+              {lists.map((list, index) => (
                 <List
                   key={list.id}
                   list={list}
                   index={index}
-                  onListMove={handleListMove}
                   onListDelete={handleListDelete(list.id)}
                 />
               ))}
+              {provided.placeholder}
+              <AddItemForm
+                itemMode="list"
+                onItemAdd={handleListAdd}
+                listsLength={lists.length}
+              />
             </div>
-            <AddItemForm
-              itemMode="list"
-              onItemAdd={handleListAdd}
-              listsLength={lists.length}
-            />
-          </div>
-        </ListDroppable>
+          )}
+        </StrictModeDroppable>
       </DragDropContext>
     </section>
   );
