@@ -8,7 +8,6 @@ import {
 } from 'components';
 import { useCallback, useRef } from 'react';
 import * as Dummy from 'dummy';
-import { useDrop } from 'react-dnd';
 import { KWItemType } from 'store';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useLocation } from 'react-router-dom';
@@ -18,12 +17,6 @@ const Board = () => {
 
   const boardTitle = location.state?.board?.title;
   const boardId = location.state?.board?.id;
-
-  const divRef = useRef<HTMLDivElement>(null);
-  const [, drop] = useDrop({
-    accept: KWItemType.LIST
-  });
-  drop(divRef);
 
   const listStore = useKanbanList();
   const cardStore = useKanbanCard();

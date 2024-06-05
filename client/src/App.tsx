@@ -1,7 +1,5 @@
 import { RouterProvider } from 'react-router-dom';
 import router from 'routes/router';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import { KanbanStorageProvider } from 'components';
 import { PropsWithChildren } from 'react';
 import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'store';
@@ -101,11 +99,9 @@ function KanbanProvider({ children }: PropsWithChildren) {
 
 function App() {
   return (
-    <DndProvider backend={HTML5Backend}>
-      <KanbanProvider>
-        <RouterProvider router={router} />
-      </KanbanProvider>
-    </DndProvider>
+    <KanbanProvider>
+      <RouterProvider router={router} />
+    </KanbanProvider>
   );
 }
 
