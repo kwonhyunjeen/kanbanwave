@@ -6,7 +6,7 @@ export type KanbanStorageUnit = {
   getOrders: (...args: any[]) => unknown;
   create: (...args: any[]) => unknown;
   delete: (...args: any[]) => unknown;
-  reorder: (...args: any[]) => unknown;
+  reorder?: (...args: any[]) => unknown;
 };
 
 export type KanbanBoardStorage = {
@@ -14,7 +14,6 @@ export type KanbanBoardStorage = {
   getOrders: () => BoardUUID[];
   create: (board: KWBoard) => void;
   delete: (boardId: BoardUUID) => void;
-  reorder: (boardIds: BoardUUID[]) => void;
 };
 
 export type KanbanListStorage = {
@@ -22,7 +21,11 @@ export type KanbanListStorage = {
   getOrders: (boardId: BoardUUID) => ListUUID[];
   create: (boardId: BoardUUID, list: KWList) => void;
   delete: (boardId: BoardUUID, listId: ListUUID) => void;
-  reorder: (boardId: BoardUUID, listIds: ListUUID[]) => void;
+  reorder: (
+    boardId: BoardUUID,
+    draggedListId: ListUUID,
+    droppedListIndex: number
+  ) => void;
 };
 
 export type KanbanCardStorage = {
@@ -30,7 +33,12 @@ export type KanbanCardStorage = {
   getOrders: (listId: ListUUID) => CardUUID[];
   create: (listId: ListUUID, card: KWCard) => void;
   delete: (listId: ListUUID, cardId: CardUUID) => void;
-  reorder: (listId: ListUUID, cardIds: CardUUID[]) => void;
+  reorder: (
+    fromListId: ListUUID,
+    toListId: ListUUID,
+    draggedCardId: CardUUID,
+    droppedCardIndex: number
+  ) => void;
 };
 
 export type KanbanStorage = {
@@ -44,7 +52,9 @@ export type KanbanExternalStore<T extends KanbanStorageUnit> = {
   getSnapshot: () => { getAll: T['getAll']; getOrders: T['getOrders'] };
   create: (...args: Parameters<T['create']>) => ReturnType<T['create']>;
   delete: (...args: Parameters<T['delete']>) => ReturnType<T['delete']>;
-  reorder: (...args: Parameters<T['reorder']>) => ReturnType<T['reorder']>;
+  reorder: (
+    ...args: Parameters<NonNullable<T['reorder']>>
+  ) => ReturnType<NonNullable<T['reorder']>>;
 };
 
 export const makeKanbanExternalStore = <T extends KanbanStorageUnit>(
@@ -77,7 +87,7 @@ export const makeKanbanExternalStore = <T extends KanbanStorageUnit>(
       emitChange();
     },
     reorder(...args: unknown[]) {
-      storageUnit.reorder(...args);
+      storageUnit.reorder?.(...args);
       emitChange();
     }
   } as unknown as KanbanExternalStore<T>;

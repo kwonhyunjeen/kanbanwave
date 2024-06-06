@@ -22,7 +22,6 @@ const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) =>
   const cardStore = useKanbanCard();
   const cards = cardStore.getAll(list.id);
 
-  console.log(list);
   const handleCardAdd = useCallback(
     (title: string) => {
       const currentDate = Dummy.getCurrentDate();

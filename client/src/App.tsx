@@ -5,87 +5,103 @@ import { PropsWithChildren } from 'react';
 import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'store';
 import { DB } from 'utils';
 
-function sortItemsByOrders<T extends { id: string }>(items: T[], orders: string[]): T[] {
-  const itemMap = new Map<string, T>();
-  items.forEach(item => itemMap.set(item.id, item));
-  return orders.map(id => itemMap.get(id)!);
-}
-
 export const sampleKanbanStorage = {
   board: {
-    getAll: () => sortItemsByOrders(DB.getBoards(), DB.getBoardOrders()),
+    getAll: () => DB.getBoards(DB.getBoardOrders()),
     getOrders: () => DB.getBoardOrders(),
     create: (board: KWBoard) => {
-      const boards = [...DB.getBoards(), board];
-      DB.setBoards(boards);
-      DB.setBoardOrders(boards.map(board => board.id));
+      DB.setBoards([...DB.getBoards(), board]);
+      DB.setBoardOrders([...DB.getBoardOrders(), board.id]);
     },
     delete: (boardId: BoardUUID) => {
-      DB.getListsOfBoard(boardId).forEach((list: KWList) => {
-        DB.removeCardsOfList(list.id);
-        DB.removeCardOrdersOfList(list.id);
-      });
-
-      DB.removeListsOfBoard(boardId);
-      DB.removeListOrdersOfBoard(boardId);
-
-      DB.setBoards(DB.getBoards().filter(board => board.id !== boardId));
       DB.setBoardOrders(DB.getBoardOrders().filter(id => id !== boardId));
-    },
-    reorder: (boardIds: BoardUUID[]) => DB.setBoardOrders(boardIds)
+      DB.removeBoards([boardId]);
+
+      const listIds = DB.getListOrdersByBoardId(boardId);
+      DB.removeListOrdersByBoardId(boardId);
+      DB.removeLists(listIds);
+
+      listIds.forEach(listId => {
+        const cardIds = DB.getCardOrdersByListId(listId);
+        DB.removeCardOrdersByListId(listId);
+        DB.removeCards(cardIds);
+      });
+    }
   },
   list: {
-    getAll: (boardId: BoardUUID) =>
-      sortItemsByOrders(DB.getListsOfBoard(boardId), DB.getListOrdersOfBoard(boardId)),
-    getOrders: (boardId: BoardUUID) => DB.getListOrdersOfBoard(boardId),
+    getAll: (boardId: BoardUUID) => DB.getLists(DB.getListOrdersByBoardId(boardId)),
+    getOrders: (boardId: BoardUUID) => DB.getListOrdersByBoardId(boardId),
     create: (boardId: BoardUUID, list: KWList) => {
-      const lists = [...DB.getListsOfBoard(boardId), list];
-      DB.setListsOfBoard(boardId, lists);
-      DB.setListOrdersOfBoard(
-        boardId,
-        lists.map(list => list.id)
-      );
+      DB.setLists([...DB.getLists(), list]);
+      DB.setListOrdersByBoardId(boardId, [
+        ...DB.getListOrdersByBoardId(boardId),
+        list.id
+      ]);
     },
     delete: (boardId: BoardUUID, listId: ListUUID) => {
-      DB.removeCardsOfList(listId);
-      DB.removeCardOrdersOfList(listId);
+      DB.setListOrdersByBoardId(
+        boardId,
+        DB.getListOrdersByBoardId(boardId).filter(id => id !== listId)
+      );
+      DB.removeLists([listId]);
 
-      DB.setListsOfBoard(
-        boardId,
-        DB.getListsOfBoard(boardId).filter(list => list.id !== listId)
-      );
-      DB.setListOrdersOfBoard(
-        boardId,
-        DB.getListOrdersOfBoard(boardId).filter(id => id !== listId)
-      );
+      const cardIds = DB.getCardOrdersByListId(listId);
+      DB.removeCardOrdersByListId(listId);
+      DB.removeCards(cardIds);
     },
-    reorder: (boardId: BoardUUID, listIds: ListUUID[]) =>
-      DB.setListOrdersOfBoard(boardId, listIds)
+    reorder: (boardId: BoardUUID, draggedListId: ListUUID, droppedListIndex: number) => {
+      const listOrders = DB.getListOrdersByBoardId(boardId);
+
+      const draggedListIndex = listOrders.findIndex(id => id === draggedListId);
+      if (draggedListIndex === -1) {
+        throw new Error(`List not found by '${draggedListId}'.`);
+      }
+
+      listOrders.splice(draggedListIndex, 1);
+      listOrders.splice(droppedListIndex, 0, draggedListId);
+
+      DB.setListOrdersByBoardId(boardId, listOrders);
+    }
   },
   card: {
-    getAll: (listId: ListUUID) =>
-      sortItemsByOrders(DB.getCardsOfList(listId), DB.getCardOrdersList(listId)),
-    getOrders: (listId: ListUUID) => DB.getCardOrdersList(listId),
+    getAll: (listId: ListUUID) => DB.getCards(DB.getCardOrdersByListId(listId)),
+    getOrders: (listId: ListUUID) => DB.getCardOrdersByListId(listId),
     create: (listId: ListUUID, card: KWCard) => {
-      const cards = [...DB.getCardsOfList(listId), card];
-      DB.setCardsOfList(listId, cards);
-      DB.setCardOrdersOfList(
-        listId,
-        cards.map(card => card.id)
-      );
+      DB.setCards([...DB.getCards(), card]);
+      DB.setCardOrdersByListId(listId, [...DB.getCardOrdersByListId(listId), card.id]);
     },
     delete: (listId: ListUUID, cardId: CardUUID) => {
-      DB.setCardsOfList(
+      DB.setCardOrdersByListId(
         listId,
-        DB.getCardsOfList(listId).filter(card => card.id !== cardId)
+        DB.getCardOrdersByListId(listId).filter(id => id !== cardId)
       );
-      DB.setCardOrdersOfList(
-        listId,
-        DB.getCardOrdersList(listId).filter(id => id !== cardId)
-      );
+      DB.removeCards([cardId]);
     },
-    reorder: (listId: ListUUID, cardIds: CardUUID[]) =>
-      DB.setCardOrdersOfList(listId, cardIds)
+    reorder: (
+      fromListId: ListUUID,
+      toListId: ListUUID,
+      draggedCardId: CardUUID,
+      droppedCardIndex: number
+    ) => {
+      const isSameList = fromListId === toListId;
+
+      // from과 to가 같다면, cardOrders는 같은 객체를 참조함
+      const cardOrdersFromList = DB.getCardOrdersByListId(fromListId);
+      const cardOrdersToList = !isSameList
+        ? DB.getCardOrdersByListId(toListId)
+        : cardOrdersFromList;
+
+      const draggedCardIndex = cardOrdersFromList.findIndex(id => id === draggedCardId);
+      if (draggedCardIndex === -1) {
+        throw new Error(`Card not found by '${draggedCardId}'.`);
+      }
+
+      cardOrdersFromList.splice(draggedCardIndex, 1);
+      cardOrdersToList.splice(droppedCardIndex, 0, draggedCardId);
+
+      if (!isSameList) DB.setCardOrdersByListId(fromListId, cardOrdersFromList);
+      DB.setCardOrdersByListId(toListId, cardOrdersToList);
+    }
   }
 };
 
