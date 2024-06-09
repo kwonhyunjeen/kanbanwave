@@ -30,31 +30,6 @@ export type KWBoard = {
   lists?: ListUUID[];
 };
 
-export type KWCardOrdersState = {
-  [listId: ListUUID]: CardUUID[];
-};
-
-export type KWCardState = {
-  allCards: KWCard[];
-  cardOrders: KWCardOrdersState;
-};
-
-export type KWListOrdersState = {
-  [boardId: BoardUUID]: ListUUID[];
-};
-
-export type KWListState = {
-  allLists: KWList[];
-  listOrders: KWListOrdersState;
-};
-
-export type KWBoardOrdersState = BoardUUID[];
-
-export type KWBoardState = {
-  allBoards: KWBoard[];
-  boardOrders: KWBoardOrdersState;
-};
-
 export const KWItemType = {
   CARD: 'card',
   LIST: 'list'

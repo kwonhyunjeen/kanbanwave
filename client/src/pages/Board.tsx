@@ -8,7 +8,7 @@ import {
 } from 'components';
 import { useCallback } from 'react';
 import * as Dummy from 'dummy';
-import { KWItemType } from 'store';
+import { KWItemType } from 'types';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useLocation } from 'react-router-dom';
 

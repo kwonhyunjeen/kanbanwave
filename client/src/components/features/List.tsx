@@ -1,4 +1,4 @@
-import { KWList } from 'store';
+import { KWList } from 'types';
 import {
   IconButton,
   AddItemForm,

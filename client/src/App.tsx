@@ -2,7 +2,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from 'routes/router';
 import { KanbanStorageProvider } from 'components';
 import { PropsWithChildren } from 'react';
-import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'store';
+import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'types';
 import { DB } from 'utils';
 
 export const sampleKanbanStorage = {

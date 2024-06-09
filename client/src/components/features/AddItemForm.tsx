@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button, IconButton, TextArea } from 'components';
 import clsx from 'clsx';
-import { KWItemType } from 'store';
+import { KWItemType } from 'types';
 
 type AddItemFormProps = {
   className?: string;

@@ -1,4 +1,4 @@
-import { KWBoard, KWCard, KWUser } from 'store';
+import { KWBoard, KWCard, KWUser } from 'types';
 
 export const defaultKWBoards = [
   {

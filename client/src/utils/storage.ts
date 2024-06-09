@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'store';
+import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'types';
 
 export type KanbanStorageUnit = {
   getAll: (...args: any[]) => unknown;
