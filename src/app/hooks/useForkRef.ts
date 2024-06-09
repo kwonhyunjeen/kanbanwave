@@ -1,5 +1,5 @@
 import { Ref, RefCallback, useCallback } from 'react';
-import { setRef } from 'utils';
+import { setRef } from 'app/utils';
 
 const useForkRef = <Instance>(
   ...refs: Array<Ref<Instance> | undefined>

@@ -1,6 +1,6 @@
-import { BaseLayout } from 'components';
-import { NoMatch } from 'components/routes';
-import { Board, Workspace } from 'pages';
+import { BaseLayout } from 'app/components';
+import { NoMatch } from 'app/components/routes';
+import { Board, Workspace } from 'app/pages';
 import { createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([

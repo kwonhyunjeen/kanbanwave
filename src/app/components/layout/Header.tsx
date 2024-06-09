@@ -1,4 +1,4 @@
-import { Avatar, Icon, Input, Subtitle } from 'components';
+import { Avatar, Icon, Input, Subtitle } from 'app/components';
 
 const Header = () => {
   return (

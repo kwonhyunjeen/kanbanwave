@@ -5,10 +5,10 @@ import {
   useKanbanList,
   useKanbanCard,
   StrictModeDroppable
-} from 'components';
+} from 'app/components';
 import { useCallback } from 'react';
-import * as Dummy from 'dummy';
-import { KWItemType } from 'types';
+import * as Dummy from 'app/dummy';
+import { KWItemType } from 'app/types';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useLocation } from 'react-router-dom';
 

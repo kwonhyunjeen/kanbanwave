@@ -9,13 +9,13 @@ import {
   Subtitle,
   Title,
   useKanbanBoard
-} from 'components';
-import { useToggle } from 'hooks';
+} from 'app/components';
+import { useToggle } from 'app/hooks';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import * as Dummy from 'dummy';
-import bgBoard from 'assets/bg-board.jpg';
+import * as Dummy from 'app/dummy';
+import bgBoard from 'app/assets/bg-board.jpg';
 
 const Workspace = () => {
   const [open, dialogOpen] = useToggle(false);

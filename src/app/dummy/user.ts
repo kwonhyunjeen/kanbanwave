@@ -1,4 +1,4 @@
-import { KWUser } from 'types';
+import { KWUser } from 'app/types';
 import * as chance from './chance';
 
 export const makeUser = (id: string, name: string, email: string): KWUser => ({

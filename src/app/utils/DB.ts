@@ -1,4 +1,4 @@
-import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'types';
+import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'app/types';
 
 const getItem = <T = unknown>(key: string): T | null =>
   JSON.parse(localStorage.getItem(key) ?? 'null');

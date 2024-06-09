@@ -12,7 +12,7 @@ import {
   KanbanListStorage,
   KanbanStorage,
   makeKanbanExternalStore
-} from 'utils';
+} from 'app/utils';
 
 export type KanbanStorageContextValue = {
   board: KanbanExternalStore<KanbanBoardStorage>;

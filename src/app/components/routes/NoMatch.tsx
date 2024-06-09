@@ -1,5 +1,5 @@
-import noMatch from 'assets/no-match.png';
-import { Subtitle } from 'components/common';
+import noMatch from 'app/assets/no-match.png';
+import { Subtitle } from 'app/components/common';
 
 const NoMatch = () => {
   return (

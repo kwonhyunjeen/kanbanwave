@@ -1,14 +1,14 @@
-import { KWList } from 'types';
+import { KWList } from 'app/types';
 import {
   IconButton,
   AddItemForm,
   Subtitle,
   CardDroppable,
   useKanbanCard
-} from 'components';
+} from 'app/components';
 import { useCallback } from 'react';
-import { Card } from 'components';
-import * as Dummy from 'dummy';
+import { Card } from 'app/components';
+import * as Dummy from 'app/dummy';
 import { Draggable } from 'react-beautiful-dnd';
 
 type ListProps = {

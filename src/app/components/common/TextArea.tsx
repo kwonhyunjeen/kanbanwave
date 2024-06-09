@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useForkRef } from 'hooks';
+import { useForkRef } from 'app/hooks';
 import { ChangeEvent, forwardRef, useCallback, useRef } from 'react';
 
 type TextAreaProps = React.ComponentPropsWithoutRef<'textarea'> & {};
