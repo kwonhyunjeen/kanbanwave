@@ -107,7 +107,7 @@ const Workspace = () => {
               key={board.id}
               className="w-[23%] group hover:bg-zinc-500/50 transition-all rounded-lg p-2">
               <Link
-                to={`/board/${board.id}/${board.title}`}
+                to={`/boards/${board.id}`}
                 className="flex flex-col justify-between h-full rounded-lg"
                 state={{ board }}>
                 <div className="relative flex-shrink-0">

@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { Icon, IconButton } from 'app/components';
 import { Link } from 'react-router-dom';
-import { formatTitleToUrl } from 'app/utils';
 import { useKanbanBoard } from 'kanbanwave';
 
 type NavProps = {
@@ -50,7 +49,7 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
                   {boards.map(board => (
                     <li key={board.id}>
                       <Link
-                        to={`/board/${board.id}/${formatTitleToUrl(board.title)}`}
+                        to={`/boards/${board.id}`}
                         state={{ board }}>
                         {board.title}
                       </Link>

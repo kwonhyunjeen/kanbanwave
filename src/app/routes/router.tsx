@@ -1,6 +1,6 @@
 import { BaseLayout } from 'app/components';
 import { NoMatch } from 'app/components/routes';
-import { Board, Workspace } from 'app/pages';
+import { BoardPage, Workspace } from 'app/pages';
 import { createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
@@ -8,8 +8,8 @@ const router = createBrowserRouter([
     path: '/',
     element: <BaseLayout />,
     children: [
-      { path: '/board/:id/:title', element: <Board /> },
-      { path: '/workspace/:id', element: <Workspace /> }
+      { path: '/workspace/:id', element: <Workspace /> },
+      { path: '/boards/:id', element: <BoardPage /> },
     ]
   },
   { path: '*', element: <NoMatch /> }

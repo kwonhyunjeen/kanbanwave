@@ -1,37 +1,40 @@
-import {
-  Title,
-} from 'app/components';
+import { Title } from 'app/components';
 import { useCallback } from 'react';
 import * as Dummy from 'app/dummy';
-import { AddItemForm, KWItemType, List, useKanbanCard, useKanbanList } from 'kanbanwave';
+import {
+  AddItemForm,
+  KWBoard,
+  KWItemType,
+  List,
+  useKanbanCard,
+  useKanbanList
+} from 'kanbanwave';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { useLocation } from 'react-router-dom';
 import StrictModeDroppable from 'kanbanwave/StrictModeDroppable';
 
-const Board = () => {
-  const location = useLocation();
+type BoardProps = {
+  board: KWBoard;
+};
 
-  const boardTitle = location.state?.board?.title;
-  const boardId = location.state?.board?.id;
-
+const Board = ({ board }: BoardProps) => {
   const listStore = useKanbanList();
   const cardStore = useKanbanCard();
-  const lists = listStore.getAll(boardId);
+  const lists = listStore.getAll(board.id);
 
   const handleListAdd = useCallback(
     (title: string) => {
       const id = Dummy.randomUUID();
       const list = { id, title };
-      listStore.create(boardId, list);
+      listStore.create(board.id, list);
     },
-    [listStore, boardId]
+    [listStore, board.id]
   );
 
   const handleListDelete = useCallback(
     (listId: string) => () => {
-      listStore.delete(boardId, listId);
+      listStore.delete(board.id, listId);
     },
-    [listStore, boardId]
+    [listStore, board.id]
   );
 
   const handleDragEnd = useCallback(
@@ -55,10 +58,10 @@ const Board = () => {
 
   return (
     <section className="app-base">
-      <Title className="mb-4 text-white">{boardTitle}</Title>
+      <Title className="mb-4 text-white">{board.title}</Title>
       <DragDropContext onDragEnd={handleDragEnd}>
         <StrictModeDroppable
-          droppableId={boardId}
+          droppableId={board.id}
           direction="horizontal"
           type={KWItemType.LIST}>
           {provided => (
