@@ -4,8 +4,7 @@ export * from './types';
 export {
   default as KanbanStorageProvider,
   useKanbanBoard,
-  useKanbanList,
-  useKanbanCard,
+  useKanbanBoardContent,
   type KanbanStorageContextValue
 } from './KanbanStorageProvider';
 
