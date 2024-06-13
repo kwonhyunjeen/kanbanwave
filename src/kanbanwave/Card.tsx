@@ -1,6 +1,7 @@
 import { useToggle } from 'app/hooks';
-import { IconButton, CardDraggable } from 'app/components';
-import { KWCard } from 'kanbanwave';
+import { IconButton } from 'app/components';
+import { KWCard } from './types';
+import CardDraggable from './CardDraggable';
 
 type CardProps = {
   card: KWCard;
