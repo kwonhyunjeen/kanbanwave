@@ -1,7 +1,6 @@
-import { KWList, useKanbanCard } from 'kanbanwave';
+import { AddItemForm, KWList, useKanbanCard } from 'kanbanwave';
 import {
   IconButton,
-  AddItemForm,
   Subtitle,
   CardDroppable,
 } from 'app/components';

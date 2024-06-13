@@ -1,4 +1,3 @@
-export { default as AddItemForm } from './AddItemForm';
 export { default as CardDraggable } from './CardDraggable';
 export { default as CardDroppable } from './CardDroppable';
 export { default as Card } from './Card';

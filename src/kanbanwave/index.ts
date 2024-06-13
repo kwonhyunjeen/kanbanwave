@@ -1,4 +1,3 @@
-
 export * from './storage';
 export * from './types';
 
@@ -9,3 +8,5 @@ export {
   useKanbanCard,
   type KanbanStorageContextValue
 } from './KanbanStorageProvider';
+
+export { default as AddItemForm } from './AddItemForm'
