@@ -1,4 +1,4 @@
-import { KWBoard, KWCard, KWUser } from 'app/types';
+import { KWBoard, KWCard, KWUser } from 'kanbanwave';
 
 export const defaultKWBoards = [
   {

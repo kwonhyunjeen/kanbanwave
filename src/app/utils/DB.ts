@@ -1,4 +1,4 @@
-import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'app/types';
+import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'kanbanwave';
 
 const getItem = <T = unknown>(key: string): T | null =>
   JSON.parse(localStorage.getItem(key) ?? 'null');

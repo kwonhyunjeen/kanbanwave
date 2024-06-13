@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button, IconButton, TextArea } from 'app/components';
 import clsx from 'clsx';
-import { KWItemType } from 'app/types';
+import { KWItemType } from 'kanbanwave';
 
 type AddItemFormProps = {
   className?: string;

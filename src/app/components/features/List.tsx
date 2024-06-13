@@ -1,4 +1,4 @@
-import { KWList } from 'app/types';
+import { KWList } from 'kanbanwave';
 import {
   IconButton,
   AddItemForm,
