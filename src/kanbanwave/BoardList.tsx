@@ -17,7 +17,7 @@ import * as Dummy from 'app/dummy';
 import bgBoard from 'app/assets/bg-board.jpg';
 import { useKanbanBoard } from 'kanbanwave';
 
-const Workspace = () => {
+const BoardList = () => {
   const [open, dialogOpen] = useToggle(false);
 
   const boardStore = useKanbanBoard();
@@ -141,4 +141,4 @@ const Workspace = () => {
   );
 };
 
-export default Workspace;
+export default BoardList;

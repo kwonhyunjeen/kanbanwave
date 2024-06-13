@@ -31,7 +31,7 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
           </div>
           <ul className="menu">
             <li>
-              <Link to="/workspace/abcde">
+              <Link to="/boards">
                 <Icon name="dashboard" />
                 Boards
               </Link>
