@@ -1,7 +1,8 @@
 import clsx from 'clsx';
-import { Icon, IconButton, useKanbanBoard } from 'app/components';
+import { Icon, IconButton } from 'app/components';
 import { Link } from 'react-router-dom';
 import { formatTitleToUrl } from 'app/utils';
+import { useKanbanBoard } from 'kanbanwave';
 
 type NavProps = {
   open: boolean;

@@ -1,10 +1,9 @@
-import { KWList } from 'kanbanwave';
+import { KWList, useKanbanCard } from 'kanbanwave';
 import {
   IconButton,
   AddItemForm,
   Subtitle,
   CardDroppable,
-  useKanbanCard
 } from 'app/components';
 import { useCallback } from 'react';
 import { Card } from 'app/components';

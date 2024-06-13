@@ -4,10 +4,3 @@ export { default as CardDroppable } from './CardDroppable';
 export { default as Card } from './Card';
 export { default as List } from './List';
 export { default as StrictModeDroppable } from './StrictModeDroppable';
-export {
-  default as KanbanStorageProvider,
-  useKanbanBoard,
-  useKanbanList,
-  useKanbanCard,
-  type KanbanStorageContextValue
-} from './KanbanStorageProvider';

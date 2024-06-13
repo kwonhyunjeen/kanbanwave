@@ -8,7 +8,6 @@ import {
   Input,
   Subtitle,
   Title,
-  useKanbanBoard
 } from 'app/components';
 import { useToggle } from 'app/hooks';
 import { useCallback } from 'react';
@@ -16,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import * as Dummy from 'app/dummy';
 import bgBoard from 'app/assets/bg-board.jpg';
+import { useKanbanBoard } from 'kanbanwave';
 
 const Workspace = () => {
   const [open, dialogOpen] = useToggle(false);

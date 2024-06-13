@@ -2,13 +2,11 @@ import {
   AddItemForm,
   Title,
   List,
-  useKanbanList,
-  useKanbanCard,
   StrictModeDroppable
 } from 'app/components';
 import { useCallback } from 'react';
 import * as Dummy from 'app/dummy';
-import { KWItemType } from 'kanbanwave';
+import { KWItemType, useKanbanCard, useKanbanList } from 'kanbanwave';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { useLocation } from 'react-router-dom';
 
