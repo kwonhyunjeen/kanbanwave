@@ -1,51 +1,5 @@
 import { useSyncExternalStore } from 'react';
-import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'kanbanwave';
-
-export type KanbanStorageUnit = {
-  getAll: (...args: any[]) => unknown;
-  getOrders: (...args: any[]) => unknown;
-  create: (...args: any[]) => unknown;
-  delete: (...args: any[]) => unknown;
-  reorder?: (...args: any[]) => unknown;
-};
-
-export type KanbanBoardStorage = {
-  getAll: () => KWBoard[];
-  getOrders: () => BoardUUID[];
-  create: (board: KWBoard) => void;
-  delete: (boardId: BoardUUID) => void;
-};
-
-export type KanbanListStorage = {
-  getAll: (boardId: BoardUUID) => KWList[];
-  getOrders: (boardId: BoardUUID) => ListUUID[];
-  create: (boardId: BoardUUID, list: KWList) => void;
-  delete: (boardId: BoardUUID, listId: ListUUID) => void;
-  reorder: (
-    boardId: BoardUUID,
-    draggedListId: ListUUID,
-    droppedListIndex: number
-  ) => void;
-};
-
-export type KanbanCardStorage = {
-  getAll: (listId: ListUUID) => KWCard[];
-  getOrders: (listId: ListUUID) => CardUUID[];
-  create: (listId: ListUUID, card: KWCard) => void;
-  delete: (listId: ListUUID, cardId: CardUUID) => void;
-  reorder: (
-    fromListId: ListUUID,
-    toListId: ListUUID,
-    draggedCardId: CardUUID,
-    droppedCardIndex: number
-  ) => void;
-};
-
-export type KanbanStorage = {
-  board: KanbanBoardStorage;
-  list: KanbanListStorage;
-  card: KanbanCardStorage;
-};
+import type { KanbanStorageUnit } from './types';
 
 export type KanbanExternalStore<T extends KanbanStorageUnit> = {
   subscribe: Parameters<typeof useSyncExternalStore<unknown>>[0];
