@@ -7,13 +7,12 @@ import {
   IconButton,
   Input,
   Subtitle,
-  Title,
+  Title
 } from 'app/components';
 import { useToggle } from 'app/hooks';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import * as Dummy from 'app/dummy';
 import bgBoard from 'app/assets/bg-board.jpg';
 import { useKanbanBoard } from 'kanbanwave';
 
@@ -21,7 +20,7 @@ const BoardList = () => {
   const [open, dialogOpen] = useToggle(false);
 
   const boardStore = useKanbanBoard();
-  const boards = boardStore.getAll();
+  const boards = boardStore.getBoards();
 
   const {
     register,
@@ -44,8 +43,7 @@ const BoardList = () => {
   const handleBoardSubmit = useCallback(
     (data: { title: string }) => {
       const { title } = data;
-      const board = Dummy.makeBoard(Dummy.randomUUID(), title);
-      boardStore.create(board);
+      boardStore.createBoard({ title });
       dialogOpen();
       reset();
     },
@@ -56,7 +54,7 @@ const BoardList = () => {
     (boardId: string) => (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      boardStore.delete(boardId);
+      boardStore.deleteBoard(boardId);
     },
     [boardStore]
   );

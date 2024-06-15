@@ -10,8 +10,7 @@ type NavProps = {
 
 const Nav = ({ open, onClickDrawer }: NavProps) => {
   const boardStore = useKanbanBoard();
-  const boards = boardStore.getAll();
-
+  const boards = boardStore.getBoards();
   return (
     <nav
       className={clsx('app-nav', {
@@ -48,9 +47,7 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
                 <ul>
                   {boards.map(board => (
                     <li key={board.id}>
-                      <Link
-                        to={`/boards/${board.id}`}
-                        state={{ board }}>
+                      <Link to={`/boards/${board.id}`} state={{ board }}>
                         {board.title}
                       </Link>
                     </li>

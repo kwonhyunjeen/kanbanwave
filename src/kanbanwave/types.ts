@@ -41,13 +41,18 @@ export type KWCard<T extends object = object> = T & {
   description?: string;
   startDate?: string;
   dueDate?: string;
-  relativeDate?: string | null;
 };
-export type KWCardForm<T extends object = object> = Omit<KWCard<T>, 'id' | 'boardId' | 'listId'> &
+export type KWCardForm<T extends object = object> = Omit<
+  KWCard<T>,
+  'id' | 'boardId' | 'listId'
+> &
   Partial<Pick<KWCard<T>, 'id' | 'boardId' | 'listId'>>;
 
 export type KWBoardContent<T extends object = object> = KWBoard<T> & {
-  lists: KWList[];
+  lists: KWListContent[];
+};
+
+export type KWListContent<T extends object = object> = KWList<T> & {
   cards: KWCard[];
 };
 
@@ -55,27 +60,28 @@ export type KanbanwaveStorage = {
   getBoards: () => KWBoard[];
 
   getBoardContent: (boardId: KWBoardUUID) => KWBoardContent;
-  createBoard: (board: KWBoardForm) => KWBoard;
-  updateBoard: (board: KWBoard) => KWBoard;
+  createBoard: (board: KWBoardForm) => void;
+  updateBoard: (board: KWBoard) => void;
   deleteBoard: (boardId: KWBoardUUID) => void;
 
-  createList: (boardId: KWBoardUUID, list: KWListForm) => KWList;
-  updateList: (list: KWList) => KWList;
-  deleteList: (listId: KWListUUID) => void;
+  createList: (boardId: KWBoardUUID, list: KWListForm) => void;
+  updateList: (boardId: KWBoardUUID, list: KWList) => void;
+  deleteList: (boardId: KWBoardUUID, listId: KWListUUID) => void;
   reorderList: (
     boardId: KWBoardUUID,
     draggedListId: KWListUUID,
     droppedListIndex: number
-  ) => KWListUUID[];
+  ) => void;
 
-  getCard: (cardId: KWCardUUID) => KWCard;
-  createCard: (listId: KWListUUID, card: KWCardForm) => KWCard;
-  updateCard: (card: KWCard) => KWCard;
-  deleteCard: (cardId: KWCardUUID) => void;
+  getCard: (boardId: KWBoardUUID, listId: KWListUUID, cardId: KWCardUUID) => KWCard;
+  createCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCardForm) => void;
+  updateCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCard) => void;
+  deleteCard: (boardId: KWBoardUUID, listId: KWListUUID, cardId: KWCardUUID) => void;
   reorderCard: (
+    boardId: KWBoardUUID,
     fromListId: KWListUUID,
     toListId: KWListUUID,
     draggedCardId: KWCardUUID,
     droppedCardIndex: number
-  ) => KWCardUUID[];
+  ) => void;
 };
