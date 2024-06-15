@@ -1,9 +1,5 @@
 import { DateTime } from 'luxon';
 
-export const getCurrentDate= () => {
-  return new Date();
-};
-
 export const makeRelativeDate = (date: Date) =>
   DateTime.fromJSDate(date).startOf('day').toRelative();
 

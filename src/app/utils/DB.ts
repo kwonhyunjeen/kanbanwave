@@ -1,4 +1,4 @@
-import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID } from 'kanbanwave';
+import { KWBoard, KWBoardUUID, KWCard, KWCardUUID, KWList, KWListUUID } from 'kanbanwave';
 
 const getItem = <T = unknown>(key: string): T | null =>
   JSON.parse(localStorage.getItem(key) ?? 'null');
@@ -7,7 +7,6 @@ const setItem = <T = unknown>(key: string, value: T): void =>
 const removeItem = (key: string): void => localStorage.removeItem(key);
 
 const BOARD_KEY = () => 'kw_boards';
-const BOARD_ORDERS_KEY = () => 'kw_board_orders';
 const LIST_KEY = () => `kw_lists`;
 const LIST_ORDERS_KEY_BY_BOARD = (boardId: string) => `kw_list_orders_${boardId}`;
 const CARD_KEY = () => `kw_cards`;
@@ -25,16 +24,12 @@ const excludeItemsByIds = <T extends { id: string }>(items: T[], ids: string[]):
   return items.filter(item => !idSet.has(item.id));
 };
 
-export const getBoardOrders = (): BoardUUID[] => getItem(BOARD_ORDERS_KEY()) || [];
-export const setBoardOrders = (boardIds: BoardUUID[]) =>
-  setItem(BOARD_ORDERS_KEY(), boardIds);
-
-export const getBoards = (boardIds?: BoardUUID[]): KWBoard[] => {
+export const getBoards = (boardIds?: KWBoardUUID[]): KWBoard[] => {
   const allBoards = getItem<KWBoard[]>(BOARD_KEY()) || [];
   return boardIds == null ? allBoards : extractItemsByIds(allBoards, boardIds);
 };
 export const setBoards = (boards: KWBoard[]) => setItem(BOARD_KEY(), boards);
-export const removeBoards = (boardIds?: BoardUUID[]) => {
+export const removeBoards = (boardIds?: KWBoardUUID[]) => {
   const allBoards = getItem<KWBoard[]>(BOARD_KEY());
   if (allBoards == null) {
     return;
@@ -46,19 +41,19 @@ export const removeBoards = (boardIds?: BoardUUID[]) => {
   }
 };
 
-export const getListOrdersByBoardId = (boardId: BoardUUID): ListUUID[] =>
+export const getListOrdersByBoardId = (boardId: KWBoardUUID): KWListUUID[] =>
   getItem(LIST_ORDERS_KEY_BY_BOARD(boardId)) || [];
-export const setListOrdersByBoardId = (boardId: BoardUUID, listIds: ListUUID[]) =>
+export const setListOrdersByBoardId = (boardId: KWBoardUUID, listIds: KWListUUID[]) =>
   setItem(LIST_ORDERS_KEY_BY_BOARD(boardId), listIds);
-export const removeListOrdersByBoardId = (boardId: BoardUUID) =>
+export const removeListOrdersByBoardId = (boardId: KWBoardUUID) =>
   removeItem(LIST_ORDERS_KEY_BY_BOARD(boardId));
 
-export const getLists = (listIds?: ListUUID[]): KWList[] => {
+export const getLists = (listIds?: KWListUUID[]): KWList[] => {
   const allLists = getItem<KWList[]>(LIST_KEY()) || [];
   return listIds == null ? allLists : extractItemsByIds(allLists, listIds);
 };
 export const setLists = (lists: KWList[]) => setItem(LIST_KEY(), lists);
-export const removeLists = (listIds?: ListUUID[]) => {
+export const removeLists = (listIds?: KWListUUID[]) => {
   const allLists = getItem<KWList[]>(LIST_KEY());
   if (allLists == null) {
     return;
@@ -70,19 +65,19 @@ export const removeLists = (listIds?: ListUUID[]) => {
   }
 };
 
-export const getCardOrdersByListId = (listId: ListUUID): CardUUID[] =>
+export const getCardOrdersByListId = (listId: KWListUUID): KWCardUUID[] =>
   getItem(CARD_ORDERS_KEY_BY_LIST(listId)) || [];
-export const setCardOrdersByListId = (listId: ListUUID, cardIds: CardUUID[]) =>
+export const setCardOrdersByListId = (listId: KWListUUID, cardIds: KWCardUUID[]) =>
   setItem(CARD_ORDERS_KEY_BY_LIST(listId), cardIds);
-export const removeCardOrdersByListId = (listId: ListUUID) =>
+export const removeCardOrdersByListId = (listId: KWListUUID) =>
   removeItem(CARD_ORDERS_KEY_BY_LIST(listId));
 
-export const getCards = (cardIds?: CardUUID[]): KWCard[] => {
+export const getCards = (cardIds?: KWCardUUID[]): KWCard[] => {
   const allCards = getItem<KWCard[]>(CARD_KEY()) || [];
   return cardIds == null ? allCards : extractItemsByIds(allCards, cardIds);
 };
 export const setCards = (cards: KWCard[]) => setItem(CARD_KEY(), cards);
-export const removeCards = (cardIds?: CardUUID[]) => {
+export const removeCards = (cardIds?: KWCardUUID[]) => {
   const allCards = getItem<KWCard[]>(CARD_KEY());
   if (allCards == null) {
     return;
