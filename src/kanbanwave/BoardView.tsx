@@ -6,7 +6,10 @@ import NewList from './NewList';
 import { useKanbanBoardContent } from './KanbanStorageProvider';
 import List from './List';
 import ListDroppable from './ListDroppable';
-import { KWBoard, KWCard, KWCardForm, KWItemType, KWListForm, KWListUUID } from './types';
+import NewCard from './NewCard';
+import CardDroppable from './CardDroppable';
+import Card from './Card';
+import { KWBoard, KWCardForm, KWItemType, KWListForm } from './types';
 
 type BoardViewProps = {
   /** @todo board 대신 boardId를 받도록 리팩토링 */
@@ -17,11 +20,6 @@ const BoardView = ({ board: boardProp }: BoardViewProps) => {
   const boardContentStore = useKanbanBoardContent();
 
   const { lists, ...board } = boardContentStore.getBoardContent(boardProp.id);
-
-  const cardsByList = lists.reduce<Partial<Record<KWListUUID, KWCard[]>>>((acc, list) => {
-    acc[list.id] = list.cards;
-    return acc;
-  }, {});
 
   const handleListAdd = useCallback(
     (title: string) => {
@@ -58,7 +56,7 @@ const BoardView = ({ board: boardProp }: BoardViewProps) => {
   );
 
   const handleCardDelete = useCallback(
-    (listId: string) => (cardId: string) => {
+    (listId: string, cardId: string) => () => {
       boardContentStore.deleteCard(board.id, listId, cardId);
     },
     [boardContentStore, board.id]
@@ -101,11 +99,26 @@ const BoardView = ({ board: boardProp }: BoardViewProps) => {
               key={list.id}
               list={list}
               listIndex={index}
-              cards={cardsByList[list.id] ?? []}
-              onListDelete={handleListDelete(list.id)}
-              onCardAdd={handleCardAdd(list.id)}
-              onCardDelete={handleCardDelete(list.id)}
-            />
+              onDeleteClick={handleListDelete(list.id)}>
+              <CardDroppable
+                listId={list.id}
+                buttonSlot={
+                  <NewCard
+                    cardsLength={list.cards?.length}
+                    onAdd={handleCardAdd(list.id)}
+                  />
+                }
+                className="flex flex-col p-2">
+                {list.cards?.map((card, index) => (
+                  <Card
+                    key={card.id}
+                    card={card}
+                    cardIndex={index}
+                    onDeleteClick={handleCardDelete(list.id, card.id)}
+                  />
+                ))}
+              </CardDroppable>
+            </List>
           ))}
         </ListDroppable>
       </DragDropContext>

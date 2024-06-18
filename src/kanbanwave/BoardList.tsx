@@ -6,15 +6,14 @@ import {
   DialogTitle,
   IconButton,
   Input,
-  Subtitle,
   Title
 } from 'app/components';
 import { useToggle } from 'app/hooks';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import bgBoard from 'app/assets/bg-board.jpg';
 import { useKanbanBoard } from './KanbanStorageProvider';
+import Board from './Board';
 
 const BoardList = () => {
   const [open, dialogOpen] = useToggle(false);
@@ -50,7 +49,7 @@ const BoardList = () => {
     [boardStore, dialogOpen, reset]
   );
 
-  const handleBoardDelete = useCallback(
+  const handleBoardDeleteClick = useCallback(
     (boardId: string) => (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
@@ -101,35 +100,12 @@ const BoardList = () => {
         </Dialog>
         <ul className="flex flex-wrap gap-4">
           {boards.map(board => (
-            <li
-              key={board.id}
-              className="w-[23%] group hover:bg-zinc-500/50 transition-all rounded-lg p-2">
-              <Link
-                to={`/boards/${board.id}`}
-                className="flex flex-col justify-between h-full rounded-lg"
-                state={{ board }}>
-                <div className="relative flex-shrink-0">
-                  <img
-                    src={bgBoard}
-                    alt="Board"
-                    className="object-cover w-full h-full rounded-lg"
-                  />
-                  <div className="absolute flex flex-col justify-between inset-5">
-                    <Subtitle
-                      size="lg"
-                      className="mr-1 overflow-hidden text-white text-ellipsis whitespace-nowrap">
-                      {board.title}
-                    </Subtitle>
-                    <IconButton
-                      name="delete_outlined"
-                      type="button"
-                      aria-label="delete a board"
-                      className="self-end opacity-0 btn-square group-hover:opacity-100"
-                      iconClassName="w-4"
-                      onClick={e => handleBoardDelete(board.id)(e)}
-                    />
-                  </div>
-                </div>
+            <li className='w-[23%]'>
+              <Link to={`/boards/${board.id}`} state={{ board }}>
+                <Board
+                  board={board}
+                  onDeleteClick={e => handleBoardDeleteClick(board.id)(e)}
+                />
               </Link>
             </li>
           ))}
