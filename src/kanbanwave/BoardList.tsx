@@ -14,8 +14,6 @@ const BoardList = ({ boardRender }: BoardListProps) => {
 
   const handleBoardDeleteClick = useCallback(
     (boardId: string) => (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
       boardStore.deleteBoard(boardId);
     },
     [boardStore]
