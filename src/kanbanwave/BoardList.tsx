@@ -14,7 +14,7 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import bgBoard from 'app/assets/bg-board.jpg';
-import { useKanbanBoard } from 'kanbanwave';
+import { useKanbanBoard } from './KanbanStorageProvider';
 
 const BoardList = () => {
   const [open, dialogOpen] = useToggle(false);
