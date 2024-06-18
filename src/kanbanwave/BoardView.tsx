@@ -2,18 +2,11 @@ import { Title } from 'app/components';
 import { useCallback } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
-import AddItemForm from './AddItemForm';
+import NewList from './NewList';
 import { useKanbanBoardContent } from './KanbanStorageProvider';
 import List from './List';
 import StrictModeDroppable from './StrictModeDroppable';
-import {
-  KWBoard,
-  KWCard,
-  KWCardForm,
-  KWItemType,
-  KWListForm,
-  KWListUUID,
-} from './types';
+import { KWBoard, KWCard, KWCardForm, KWItemType, KWListForm, KWListUUID } from './types';
 
 type BoardViewProps = {
   /** @todo board 대신 boardId를 받도록 리팩토링 */
@@ -120,11 +113,7 @@ const BoardView = ({ board: boardProp }: BoardViewProps) => {
                 />
               ))}
               {provided.placeholder}
-              <AddItemForm
-                itemMode="list"
-                onItemAdd={handleListAdd}
-                listsLength={lists.length}
-              />
+              <NewList onAdd={handleListAdd} listsLength={lists.length} />
             </div>
           )}
         </StrictModeDroppable>

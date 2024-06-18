@@ -1,4 +1,4 @@
-import AddItemForm from './AddItemForm';
+import NewCard from './NewCard';
 import { KWCard, KWList } from './types';
 import { IconButton, Subtitle } from 'app/components';
 import { Draggable } from 'react-beautiful-dnd';
@@ -58,11 +58,7 @@ const List = ({
               />
             ))}
           </CardDroppable>
-          <AddItemForm
-            itemMode="card"
-            onItemAdd={onCardAdd}
-            listsLength={cards?.length}
-          />
+          <NewCard onAdd={onCardAdd} cardsLength={cards?.length} />
         </div>
       )}
     </Draggable>
