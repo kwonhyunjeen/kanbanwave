@@ -1,19 +1,23 @@
 import { KWItemType } from './types';
 import StrictModeDroppable from './StrictModeDroppable';
+import React from 'react';
 
-type CardDroppableProps = React.ComponentPropsWithoutRef<'div'> & {
+type ListDroppableProps = React.ComponentPropsWithoutRef<'div'> & {
   buttonSlot?: React.ReactNode;
-  listId: string;
+  boardId: string;
 };
 
-const CardDroppable: React.FC<CardDroppableProps> = ({
+const ListDroppable: React.FC<ListDroppableProps> = ({
   children,
   buttonSlot,
-  listId,
+  boardId,
   ...restProps
 }) => {
   return (
-    <StrictModeDroppable droppableId={listId} type={KWItemType.CARD}>
+    <StrictModeDroppable
+      droppableId={boardId}
+      type={KWItemType.LIST}
+      direction="horizontal">
       {provided => (
         <div {...provided.droppableProps} ref={provided.innerRef} {...restProps}>
           {children}
@@ -25,6 +29,6 @@ const CardDroppable: React.FC<CardDroppableProps> = ({
   );
 };
 
-CardDroppable.displayName = 'CardDroppable';
+ListDroppable.displayName = 'ListDroppable';
 
-export default CardDroppable;
+export default ListDroppable;

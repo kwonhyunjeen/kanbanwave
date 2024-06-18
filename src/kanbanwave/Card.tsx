@@ -5,8 +5,7 @@ import CardDraggable from './CardDraggable';
 
 type CardProps = {
   card: KWCard;
-  draggableId: string;
-  index: number;
+  cardIndex: number;
   onCardClick?: () => void;
   onCardEdit?: () => void;
   onCardDelete?: () => void;
@@ -14,8 +13,7 @@ type CardProps = {
 
 const Card = ({
   card,
-  draggableId,
-  index,
+  cardIndex,
   onCardClick,
   onCardEdit,
   onCardDelete
@@ -26,7 +24,7 @@ const Card = ({
   };
 
   return (
-    <CardDraggable draggableId={draggableId} index={index}>
+    <CardDraggable cardId={card.id} cardIndex={cardIndex}>
       <div className="card group" onClick={onCardClick}>
         {/* @todo 카드 상세 페이지 개발되면, 링크 연결 */}
         <a className="relative flex items-center justify-between overflow-hidden break-words whitespace-normal">

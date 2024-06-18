@@ -1,18 +1,18 @@
 import { Draggable } from 'react-beautiful-dnd';
 
-type CardDraggableProps = React.ComponentPropsWithoutRef<'div'> & {
-  cardId: string;
-  cardIndex: number;
+type ListDraggableProps = React.ComponentPropsWithoutRef<'div'> & {
+  listId: string;
+  listIndex: number;
 };
 
-const CardDraggable: React.FC<CardDraggableProps> = ({
+const ListDraggable: React.FC<ListDraggableProps> = ({
   children,
-  cardId,
-  cardIndex,
+  listId,
+  listIndex,
   ...restProps
 }) => {
   return (
-    <Draggable draggableId={cardId} index={cardIndex}>
+    <Draggable draggableId={listId} index={listIndex}>
       {provided => (
         <div
           {...provided.draggableProps}
@@ -26,6 +26,6 @@ const CardDraggable: React.FC<CardDraggableProps> = ({
   );
 };
 
-CardDraggable.displayName = 'CardDraggable';
+ListDraggable.displayName = 'ListDraggable';
 
-export default CardDraggable;
+export default ListDraggable;

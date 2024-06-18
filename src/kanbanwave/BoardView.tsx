@@ -5,7 +5,7 @@ import { date, dummy } from 'app/utils';
 import NewList from './NewList';
 import { useKanbanBoardContent } from './KanbanStorageProvider';
 import List from './List';
-import StrictModeDroppable from './StrictModeDroppable';
+import ListDroppable from './ListDroppable';
 import { KWBoard, KWCard, KWCardForm, KWItemType, KWListForm, KWListUUID } from './types';
 
 type BoardViewProps = {
@@ -92,31 +92,22 @@ const BoardView = ({ board: boardProp }: BoardViewProps) => {
     <section className="app-base">
       <Title className="mb-4 text-white">{board.title}</Title>
       <DragDropContext onDragEnd={handleDragEnd}>
-        <StrictModeDroppable
-          droppableId={board.id}
-          direction="horizontal"
-          type={KWItemType.LIST}>
-          {provided => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className="flex justify-start">
-              {lists.map((list, index) => (
-                <List
-                  key={list.id}
-                  list={list}
-                  cards={cardsByList[list.id] ?? []}
-                  index={index}
-                  onListDelete={handleListDelete(list.id)}
-                  onCardAdd={handleCardAdd(list.id)}
-                  onCardDelete={handleCardDelete(list.id)}
-                />
-              ))}
-              {provided.placeholder}
-              <NewList onAdd={handleListAdd} listsLength={lists.length} />
-            </div>
-          )}
-        </StrictModeDroppable>
+        <ListDroppable
+          boardId={board.id}
+          buttonSlot={<NewList onAdd={handleListAdd} listsLength={lists.length} />}
+          className="flex justify-start">
+          {lists.map((list, index) => (
+            <List
+              key={list.id}
+              list={list}
+              listIndex={index}
+              cards={cardsByList[list.id] ?? []}
+              onListDelete={handleListDelete(list.id)}
+              onCardAdd={handleCardAdd(list.id)}
+              onCardDelete={handleCardDelete(list.id)}
+            />
+          ))}
+        </ListDroppable>
       </DragDropContext>
     </section>
   );
