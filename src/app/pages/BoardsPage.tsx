@@ -89,9 +89,7 @@ const BoardsPage = () => {
         </Dialog>
         <BoardList
           boardRender={provided => (
-            <Link to={`/boards/${provided.board.id}`} state={{ board: provided.board }}>
-              {provided.children}
-            </Link>
+            <Link to={`/boards/${provided.board.id}`}>{provided.children}</Link>
           )}
         />
       </div>

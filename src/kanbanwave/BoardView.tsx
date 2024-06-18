@@ -9,11 +9,18 @@ import ListDroppable from './ListDroppable';
 import NewCard from './NewCard';
 import CardDroppable from './CardDroppable';
 import Card from './Card';
-import { KWBoard, KWCard, KWCardForm, KWItemType, KWList, KWListForm } from './types';
+import {
+  KWBoard,
+  KWBoardUUID,
+  KWCard,
+  KWCardForm,
+  KWItemType,
+  KWList,
+  KWListForm
+} from './types';
 
 type BoardViewProps = {
-  /** @todo board 대신 boardId를 받도록 리팩토링 */
-  board: KWBoard;
+  boardId: KWBoardUUID;
   cardRender?: (props: {
     board: KWBoard;
     list: KWList;
@@ -22,10 +29,10 @@ type BoardViewProps = {
   }) => React.ReactNode;
 };
 
-const BoardView = ({ board: boardProp, cardRender }: BoardViewProps) => {
+const BoardView = ({ boardId: boardIdProp, cardRender }: BoardViewProps) => {
   const boardContentStore = useKanbanBoardContent();
 
-  const { lists, ...board } = boardContentStore.getBoardContent(boardProp.id);
+  const { lists, ...board } = boardContentStore.getBoardContent(boardIdProp);
 
   const handleListAdd = useCallback(
     (title: string) => {
