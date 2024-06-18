@@ -1,12 +1,6 @@
 import AddItemForm from './AddItemForm';
-import { useKanbanCard } from './KanbanStorageProvider';
-import { KWList } from './types';
-import {
-  IconButton,
-  Subtitle,
-} from 'app/components';
-import { useCallback } from 'react';
-import * as Dummy from 'app/dummy';
+import { KWCard, KWList } from './types';
+import { IconButton, Subtitle } from 'app/components';
 import { Draggable } from 'react-beautiful-dnd';
 import CardDroppable from './CardDroppable';
 import Card from './Card';
@@ -14,38 +8,23 @@ import Card from './Card';
 type ListProps = {
   index: number;
   list: KWList;
+  cards: KWCard[];
   onListMove?: (dragIndex: number, hoverIndex: number) => void;
   onListDelete?: () => void;
+  onCardAdd?: (title: string) => void;
+  onCardDelete?: (cardId: string) => void;
 };
 
-const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) => {
-  const cardStore = useKanbanCard();
-  const cards = cardStore.getAll(list.id);
-
-  const handleCardAdd = useCallback(
-    (title: string) => {
-      const currentDate = Dummy.getCurrentDate();
-      const card = Dummy.makeCard(
-        Dummy.randomUUID(),
-        Dummy.makeRandomUser(),
-        title,
-        Dummy.randomParagraphs(5),
-        Dummy.makeDayMonthYear(currentDate),
-        Dummy.makeDayMonthYear(currentDate),
-        Dummy.makeRelativeDate(currentDate)
-      );
-      cardStore.create(list.id, card);
-    },
-    [cardStore, list.id]
-  );
-
-  const handleCardDelete = useCallback(
-    (cardId: string) => () => {
-      cardStore.delete(list.id, cardId);
-    },
-    [cardStore, list.id]
-  );
-
+const List = ({
+  index,
+  list,
+  cards,
+  onListMove,
+  onListDelete,
+  onCardAdd,
+  onCardDelete,
+  ...props
+}: ListProps) => {
   return (
     <Draggable draggableId={list.id} index={index}>
       {provided => (
@@ -73,7 +52,7 @@ const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) =>
               <Card
                 key={card.id}
                 card={card}
-                onCardDelete={handleCardDelete(card.id)}
+                onCardDelete={() => onCardDelete?.(card.id)}
                 draggableId={card.id}
                 index={index}
               />
@@ -81,7 +60,7 @@ const List = ({ index, list, onListMove, onListDelete, ...props }: ListProps) =>
           </CardDroppable>
           <AddItemForm
             itemMode="card"
-            onItemAdd={handleCardAdd}
+            onItemAdd={onCardAdd}
             listsLength={cards?.length}
           />
         </div>

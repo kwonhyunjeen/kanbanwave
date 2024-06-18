@@ -1,27 +1,19 @@
-import { useSyncExternalStore } from 'react';
-import type { KanbanStorageUnit } from './types';
+import type { KanbanwaveStorage } from './types';
 
-export type KanbanExternalStore<T extends KanbanStorageUnit> = {
-  subscribe: Parameters<typeof useSyncExternalStore<unknown>>[0];
-  getSnapshot: () => { getAll: T['getAll']; getOrders: T['getOrders'] };
-  create: (...args: Parameters<T['create']>) => ReturnType<T['create']>;
-  delete: (...args: Parameters<T['delete']>) => ReturnType<T['delete']>;
-  reorder: (
-    ...args: Parameters<NonNullable<T['reorder']>>
-  ) => ReturnType<NonNullable<T['reorder']>>;
-};
-
-export const makeKanbanExternalStore = <T extends KanbanStorageUnit>(
-  storageUnit: T
-): KanbanExternalStore<T> => {
-  let snapshot = { getAll: storageUnit.getAll, getOrders: storageUnit.getOrders };
+export const makeBoardStore = (storage: KanbanwaveStorage) => {
+  let snapshot = {
+    getBoards: storage.getBoards,
+    getBoardContent: storage.getBoardContent
+  };
   let listeners: Array<() => void> = [];
+
   const emitChange = () => {
-    snapshot = { getAll: storageUnit.getAll, getOrders: storageUnit.getOrders };
+    snapshot = { getBoards: storage.getBoards, getBoardContent: storage.getBoardContent };
     for (let listener of listeners) {
       listener();
     }
   };
+
   return {
     subscribe(listener: () => void) {
       listeners = [...listeners, listener];
@@ -32,17 +24,89 @@ export const makeKanbanExternalStore = <T extends KanbanStorageUnit>(
     getSnapshot() {
       return snapshot;
     },
-    create(...args: unknown[]) {
-      storageUnit.create(...args);
+    createBoard(...args: Parameters<typeof storage.createBoard>) {
+      storage.createBoard(...args);
       emitChange();
     },
-    delete(...args: unknown[]) {
-      storageUnit.delete(...args);
+    updateBoard(...args: Parameters<typeof storage.updateBoard>) {
+      storage.updateBoard(...args);
       emitChange();
     },
-    reorder(...args: unknown[]) {
-      storageUnit.reorder?.(...args);
+    deleteBoard(...args: Parameters<typeof storage.deleteBoard>) {
+      storage.deleteBoard?.(...args);
       emitChange();
     }
-  } as unknown as KanbanExternalStore<T>;
+  };
 };
+
+export type BoardStore = ReturnType<typeof makeBoardStore>;
+
+export const makeBoardContentStore = (storage: KanbanwaveStorage) => {
+  let snapshot = { getBoardContent: storage.getBoardContent };
+  let listeners: Array<() => void> = [];
+
+  const emitChange = () => {
+    snapshot = { getBoardContent: storage.getBoardContent };
+    for (let listener of listeners) {
+      listener();
+    }
+  };
+
+  return {
+    subscribe(listener: () => void) {
+      listeners = [...listeners, listener];
+      return () => {
+        listeners = listeners.filter(it => it !== listener);
+      };
+    },
+    getSnapshot() {
+      return snapshot;
+    },
+    updateBoard(...args: Parameters<typeof storage.updateBoard>) {
+      storage.updateBoard(...args);
+      emitChange();
+    },
+    deleteBoard(...args: Parameters<typeof storage.deleteBoard>) {
+      storage.deleteBoard(...args);
+      emitChange();
+    },
+    createList(...args: Parameters<typeof storage.createList>) {
+      storage.createList(...args);
+      emitChange();
+    },
+    updateList(...args: Parameters<typeof storage.updateList>) {
+      storage.updateList(...args);
+      emitChange();
+    },
+    deleteList(...args: Parameters<typeof storage.deleteList>) {
+      storage.deleteList(...args);
+      emitChange();
+    },
+    reorderList(...args: Parameters<typeof storage.reorderList>) {
+      storage.reorderList(...args);
+      emitChange();
+    },
+    getCard(...args: Parameters<typeof storage.getCard>) {
+      storage.getCard(...args);
+      emitChange();
+    },
+    createCard(...args: Parameters<typeof storage.createCard>) {
+      storage.createCard(...args);
+      emitChange();
+    },
+    updateCard(...args: Parameters<typeof storage.updateCard>) {
+      storage.updateCard(...args);
+      emitChange();
+    },
+    deleteCard(...args: Parameters<typeof storage.deleteCard>) {
+      storage.deleteCard(...args);
+      emitChange();
+    },
+    reorderCard(...args: Parameters<typeof storage.reorderCard>) {
+      storage.reorderCard(...args);
+      emitChange();
+    }
+  };
+};
+
+export type BoardContentStore = ReturnType<typeof makeBoardContentStore>;

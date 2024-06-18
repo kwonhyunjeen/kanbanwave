@@ -5,119 +5,80 @@ import {
   useMemo,
   useSyncExternalStore
 } from 'react';
-import { type KanbanExternalStore, makeKanbanExternalStore } from './storage';
 import {
-  KanbanBoardStorage,
-  KanbanCardStorage,
-  KanbanListStorage,
-  KanbanStorage
-} from './types';
+  BoardStore,
+  BoardContentStore,
+  makeBoardStore,
+  makeBoardContentStore
+} from './storage';
+import { KanbanwaveStorage } from './types';
 
 export type KanbanStorageContextValue = {
-  board: KanbanExternalStore<KanbanBoardStorage>;
-  list: KanbanExternalStore<KanbanListStorage>;
-  card: KanbanExternalStore<KanbanCardStorage>;
+  board: BoardStore;
+  boardContent: BoardContentStore;
 };
 
-const FALLBACK_FN = () => {
-  throw new Error(
-    'The useKanban* hooks must be used within a KanbanStorageProvider context. Please ensure that the component is wrapped in a KanbanStorageProvider.'
-  );
-};
-const FALLBACK_KANBAN_STORAGE_UNIT = {
-  getAll: FALLBACK_FN,
-  getOrders: FALLBACK_FN,
-  create: FALLBACK_FN,
-  delete: FALLBACK_FN,
-  reorder: FALLBACK_FN
-};
-const FALLBACK_KANBAN_STORAGE: KanbanStorage = {
-  board: FALLBACK_KANBAN_STORAGE_UNIT,
-  list: FALLBACK_KANBAN_STORAGE_UNIT,
-  card: FALLBACK_KANBAN_STORAGE_UNIT
-};
-const FALLBACK_CONTEXT_VALUE: KanbanStorageContextValue = {
-  board: makeKanbanExternalStore(FALLBACK_KANBAN_STORAGE.board),
-  list: makeKanbanExternalStore(FALLBACK_KANBAN_STORAGE.list),
-  card: makeKanbanExternalStore(FALLBACK_KANBAN_STORAGE.card)
-};
+const FALLBACK_STORE = new Proxy(
+  {},
+  {
+    get: () => {
+      throw new Error(
+        'The useKanban* hooks must be used within a KanbanStorageProvider context. Please ensure that the component is wrapped in a KanbanStorageProvider.'
+      );
+    }
+  }
+);
 
-const KanbanStorageContext =
-  createContext<KanbanStorageContextValue>(FALLBACK_CONTEXT_VALUE);
+const KanbanStorageContext = createContext<KanbanStorageContextValue>({
+  board: FALLBACK_STORE as BoardStore,
+  boardContent: FALLBACK_STORE as BoardContentStore
+});
 
 export const useKanbanBoard = () => {
   const context = useContext(KanbanStorageContext);
   const store = context.board;
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
-  return useMemo(
-    () => ({
-      getAll: snapshot.getAll,
-      getOrders: snapshot.getOrders,
-      create: store.create,
-      delete: store.delete,
-      reorder: store.reorder
-    }),
-    [snapshot, store]
-  );
+
+  return useMemo(() => {
+    const { subscribe, getSnapshot, ...methods } = store;
+    return {
+      ...snapshot,
+      ...methods
+    };
+  }, [snapshot, store]);
 };
 
-export const useKanbanList = () => {
+export const useKanbanBoardContent = () => {
   const context = useContext(KanbanStorageContext);
-  const store = context.list;
+  const store = context.boardContent;
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
-  return useMemo(
-    () => ({
-      getAll: snapshot.getAll,
-      getOrders: snapshot.getOrders,
-      create: store.create,
-      delete: store.delete,
-      reorder: store.reorder
-    }),
-    [snapshot, store]
-  );
-};
 
-export const useKanbanCard = () => {
-  const context = useContext(KanbanStorageContext);
-  const store = context.card;
-  const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
-  return useMemo(
-    () => ({
-      getAll: snapshot.getAll,
-      getOrders: snapshot.getOrders,
-      create: store.create,
-      delete: store.delete,
-      reorder: store.reorder
-    }),
-    [snapshot, store]
-  );
+  return useMemo(() => {
+    const { subscribe, getSnapshot, ...methods } = store;
+    return {
+      ...snapshot,
+      ...methods
+    };
+  }, [snapshot, store]);
 };
 
 type KanbanStorageProviderProps = {
   children?: ReactNode;
-  storage: KanbanStorage;
+  storage: KanbanwaveStorage;
 };
 
 const KanbanStorageProvider = ({ storage, children }: KanbanStorageProviderProps) => {
-  const boardExternalStore = useMemo(
-    () => makeKanbanExternalStore(storage.board),
-    [storage.board]
+  const boardExternalStore = useMemo(() => makeBoardStore(storage), [storage]);
+  const boardContentExternalStore = useMemo(
+    () => makeBoardContentStore(storage),
+    [storage]
   );
-  const listExternalStore = useMemo(
-    () => makeKanbanExternalStore(storage.list),
-    [storage.list]
-  );
-  const cardExternalStore = useMemo(
-    () => makeKanbanExternalStore(storage.card),
-    [storage.card]
-  );
-  const contextValue = useMemo<KanbanStorageContextValue>(
+  const contextValue = useMemo(
     () => ({
       board: boardExternalStore,
-      list: listExternalStore,
-      card: cardExternalStore
+      boardContent: boardContentExternalStore
     }),
-    [boardExternalStore, listExternalStore, cardExternalStore]
+    [boardExternalStore, boardContentExternalStore]
   );
 
   return (

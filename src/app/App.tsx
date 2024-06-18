@@ -1,107 +1,62 @@
 import { RouterProvider } from 'react-router-dom';
 import router from 'app/routes/router';
 import { PropsWithChildren } from 'react';
-import { KWBoard, BoardUUID, KWCard, CardUUID, KWList, ListUUID, KanbanStorageProvider } from 'kanbanwave';
-import { DB } from 'app/utils';
+import {
+  KWBoard,
+  KWBoardForm,
+  KWBoardUUID,
+  KWCard,
+  KWCardForm,
+  KWCardUUID,
+  KWList,
+  KWListForm,
+  KWListUUID,
+  KanbanStorageProvider,
+  KanbanwaveStorage
+} from 'kanbanwave';
+import * as API from 'app/api';
 
-export const sampleKanbanStorage = {
-  board: {
-    getAll: () => DB.getBoards(DB.getBoardOrders()),
-    getOrders: () => DB.getBoardOrders(),
-    create: (board: KWBoard) => {
-      DB.setBoards([...DB.getBoards(), board]);
-      DB.setBoardOrders([...DB.getBoardOrders(), board.id]);
-    },
-    delete: (boardId: BoardUUID) => {
-      DB.setBoardOrders(DB.getBoardOrders().filter(id => id !== boardId));
-      DB.removeBoards([boardId]);
+export const sampleKanbanStorage: KanbanwaveStorage = {
+  getBoards: () => API.getBoards(),
 
-      const listIds = DB.getListOrdersByBoardId(boardId);
-      DB.removeListOrdersByBoardId(boardId);
-      DB.removeLists(listIds);
+  getBoardContent: (boardId: KWBoardUUID) => API.getBoardContent(boardId),
 
-      listIds.forEach(listId => {
-        const cardIds = DB.getCardOrdersByListId(listId);
-        DB.removeCardOrdersByListId(listId);
-        DB.removeCards(cardIds);
-      });
-    }
-  },
-  list: {
-    getAll: (boardId: BoardUUID) => DB.getLists(DB.getListOrdersByBoardId(boardId)),
-    getOrders: (boardId: BoardUUID) => DB.getListOrdersByBoardId(boardId),
-    create: (boardId: BoardUUID, list: KWList) => {
-      DB.setLists([...DB.getLists(), list]);
-      DB.setListOrdersByBoardId(boardId, [
-        ...DB.getListOrdersByBoardId(boardId),
-        list.id
-      ]);
-    },
-    delete: (boardId: BoardUUID, listId: ListUUID) => {
-      DB.setListOrdersByBoardId(
-        boardId,
-        DB.getListOrdersByBoardId(boardId).filter(id => id !== listId)
-      );
-      DB.removeLists([listId]);
+  createBoard: (board: KWBoardForm) => API.createBoard(board),
 
-      const cardIds = DB.getCardOrdersByListId(listId);
-      DB.removeCardOrdersByListId(listId);
-      DB.removeCards(cardIds);
-    },
-    reorder: (boardId: BoardUUID, draggedListId: ListUUID, droppedListIndex: number) => {
-      const listOrders = DB.getListOrdersByBoardId(boardId);
+  updateBoard: (board: KWBoard) => API.updateBoard(board),
 
-      const draggedListIndex = listOrders.findIndex(id => id === draggedListId);
-      if (draggedListIndex === -1) {
-        throw new Error(`List not found by '${draggedListId}'.`);
-      }
+  deleteBoard: (boardId: KWBoardUUID) => API.deleteBoard(boardId),
 
-      listOrders.splice(draggedListIndex, 1);
-      listOrders.splice(droppedListIndex, 0, draggedListId);
+  createList: (boardId: KWBoardUUID, list: KWListForm) => API.createList(boardId, list),
 
-      DB.setListOrdersByBoardId(boardId, listOrders);
-    }
-  },
-  card: {
-    getAll: (listId: ListUUID) => DB.getCards(DB.getCardOrdersByListId(listId)),
-    getOrders: (listId: ListUUID) => DB.getCardOrdersByListId(listId),
-    create: (listId: ListUUID, card: KWCard) => {
-      DB.setCards([...DB.getCards(), card]);
-      DB.setCardOrdersByListId(listId, [...DB.getCardOrdersByListId(listId), card.id]);
-    },
-    delete: (listId: ListUUID, cardId: CardUUID) => {
-      DB.setCardOrdersByListId(
-        listId,
-        DB.getCardOrdersByListId(listId).filter(id => id !== cardId)
-      );
-      DB.removeCards([cardId]);
-    },
-    reorder: (
-      fromListId: ListUUID,
-      toListId: ListUUID,
-      draggedCardId: CardUUID,
-      droppedCardIndex: number
-    ) => {
-      const isSameList = fromListId === toListId;
+  updateList: (boardId: KWBoardUUID, list: KWList) => API.updateList(list),
 
-      // from과 to가 같다면, cardOrders는 같은 객체를 참조함
-      const cardOrdersFromList = DB.getCardOrdersByListId(fromListId);
-      const cardOrdersToList = !isSameList
-        ? DB.getCardOrdersByListId(toListId)
-        : cardOrdersFromList;
+  deleteList: (boardId: KWBoardUUID, listId: KWListUUID) => API.deleteList(listId),
 
-      const draggedCardIndex = cardOrdersFromList.findIndex(id => id === draggedCardId);
-      if (draggedCardIndex === -1) {
-        throw new Error(`Card not found by '${draggedCardId}'.`);
-      }
+  reorderList: (
+    boardId: KWBoardUUID,
+    draggedListId: KWListUUID,
+    droppedListIndex: number
+  ) => API.reorderList(boardId, draggedListId, droppedListIndex),
 
-      cardOrdersFromList.splice(draggedCardIndex, 1);
-      cardOrdersToList.splice(droppedCardIndex, 0, draggedCardId);
+  getCard: (cardId: KWCardUUID) => API.getCard(cardId),
 
-      if (!isSameList) DB.setCardOrdersByListId(fromListId, cardOrdersFromList);
-      DB.setCardOrdersByListId(toListId, cardOrdersToList);
-    }
-  }
+  createCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCardForm) =>
+    API.createCard(listId, card),
+
+  updateCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCard) =>
+    API.updateCard(card),
+
+  deleteCard: (boardId: KWBoardUUID, listId: KWListUUID, cardId: KWCardUUID) =>
+    API.deleteCard(cardId),
+
+  reorderCard: (
+    boardId: KWBoardUUID,
+    fromListId: KWListUUID,
+    toListId: KWListUUID,
+    draggedCardId: KWCardUUID,
+    droppedCardIndex: number
+  ) => API.reorderCard(fromListId, toListId, draggedCardId, droppedCardIndex)
 };
 
 function KanbanProvider({ children }: PropsWithChildren) {
