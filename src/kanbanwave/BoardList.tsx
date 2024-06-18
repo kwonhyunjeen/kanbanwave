@@ -2,8 +2,13 @@ import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Board from './Board';
 import { useKanbanBoard } from './KanbanStorageProvider';
+import { KWBoard } from './types';
 
-const BoardList = () => {
+type BoardListProps = {
+  boardRender?: (props: { board: KWBoard; children: React.ReactNode }) => React.ReactNode;
+};
+
+const BoardList = ({ boardRender }: BoardListProps) => {
   const boardStore = useKanbanBoard();
   const boards = boardStore.getBoards();
 
@@ -18,16 +23,16 @@ const BoardList = () => {
 
   return (
     <ul className="flex flex-wrap gap-4">
-      {boards.map(board => (
-        <li className="w-[23%]">
-          <Link to={`/boards/${board.id}`} state={{ board }}>
-            <Board
-              board={board}
-              onDeleteClick={e => handleBoardDeleteClick(board.id)(e)}
-            />
-          </Link>
-        </li>
-      ))}
+      {boards.map(board => {
+        const boardNode: React.ReactNode = (
+          <Board board={board} onDeleteClick={e => handleBoardDeleteClick(board.id)(e)} />
+        );
+        return (
+          <li className="w-[23%]">
+            {boardRender ? boardRender({ board, children: boardNode }) : boardNode}
+          </li>
+        );
+      })}
     </ul>
   );
 };

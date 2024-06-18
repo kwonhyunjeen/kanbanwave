@@ -9,14 +9,20 @@ import ListDroppable from './ListDroppable';
 import NewCard from './NewCard';
 import CardDroppable from './CardDroppable';
 import Card from './Card';
-import { KWBoard, KWCardForm, KWItemType, KWListForm } from './types';
+import { KWBoard, KWCard, KWCardForm, KWItemType, KWList, KWListForm } from './types';
 
 type BoardViewProps = {
   /** @todo board 대신 boardId를 받도록 리팩토링 */
   board: KWBoard;
+  cardRender?: (props: {
+    board: KWBoard;
+    list: KWList;
+    card: KWCard;
+    children: React.ReactNode;
+  }) => React.ReactNode;
 };
 
-const BoardView = ({ board: boardProp }: BoardViewProps) => {
+const BoardView = ({ board: boardProp, cardRender }: BoardViewProps) => {
   const boardContentStore = useKanbanBoardContent();
 
   const { lists, ...board } = boardContentStore.getBoardContent(boardProp.id);
@@ -109,14 +115,19 @@ const BoardView = ({ board: boardProp }: BoardViewProps) => {
                   />
                 }
                 className="flex flex-col p-2">
-                {list.cards?.map((card, index) => (
-                  <Card
-                    key={card.id}
-                    card={card}
-                    cardIndex={index}
-                    onDeleteClick={handleCardDelete(list.id, card.id)}
-                  />
-                ))}
+                {list.cards?.map((card, index) => {
+                  const cardNode: React.ReactNode = (
+                    <Card
+                      key={card.id}
+                      card={card}
+                      cardIndex={index}
+                      onDeleteClick={handleCardDelete(list.id, card.id)}
+                    />
+                  );
+                  return cardRender
+                    ? cardRender({ board, list, card, children: cardNode })
+                    : cardNode;
+                })}
               </CardDroppable>
             </List>
           ))}

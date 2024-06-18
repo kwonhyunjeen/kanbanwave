@@ -20,15 +20,14 @@ const Card = ({ card, cardIndex, onClick, onEditClick, onDeleteClick }: CardProp
   return (
     <CardDraggable cardId={card.id} cardIndex={cardIndex}>
       <div className="card group" onClick={onClick}>
-        {/* @todo 카드 상세 페이지 개발되면, 링크 연결 */}
-        <a className="relative flex items-center justify-between overflow-hidden break-words whitespace-normal">
+        <div className="relative flex items-center justify-between overflow-hidden break-words whitespace-normal">
           <div className="w-[calc(100%-32px)]">{card.title}</div>
           <IconButton
             name="edit"
             className="single-icon group-hover:flex"
             onClick={handleMenuOpen}
           />
-        </a>
+        </div>
       </div>
       {open && (
         <ul className="flex flex-row justify-around mb-1 menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">

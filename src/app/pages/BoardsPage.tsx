@@ -12,6 +12,7 @@ import {
   Title
 } from 'app/components';
 import { useToggle } from 'app/hooks';
+import { Link } from 'react-router-dom';
 
 const BoardsPage = () => {
   const [open, dialogOpen] = useToggle(false);
@@ -86,7 +87,13 @@ const BoardsPage = () => {
             </DialogActions>
           </form>
         </Dialog>
-        <BoardList />
+        <BoardList
+          boardRender={provided => (
+            <Link to={`/boards/${provided.board.id}`} state={{ board: provided.board }}>
+              {provided.children}
+            </Link>
+          )}
+        />
       </div>
     </section>
   );
