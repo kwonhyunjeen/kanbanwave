@@ -5,14 +5,13 @@ import {
   useMemo,
   useSyncExternalStore
 } from 'react';
+import { type KanbanExternalStore, makeKanbanExternalStore } from './storage';
 import {
   KanbanBoardStorage,
   KanbanCardStorage,
-  KanbanExternalStore,
   KanbanListStorage,
-  KanbanStorage,
-  makeKanbanExternalStore
-} from 'app/utils';
+  KanbanStorage
+} from './types';
 
 export type KanbanStorageContextValue = {
   board: KanbanExternalStore<KanbanBoardStorage>;

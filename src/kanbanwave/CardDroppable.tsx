@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
-import { Droppable } from 'react-beautiful-dnd';
-import { KWItemType } from 'app/types';
+import { KWItemType } from './types';
 import StrictModeDroppable from './StrictModeDroppable';
 
 type CardDroppableProps = {

@@ -1,4 +1,4 @@
-import { KWUser } from 'app/types';
+import { KWUser } from 'kanbanwave';
 import * as chance from './chance';
 
 export const makeUser = (id: string, name: string, email: string): KWUser => ({
