@@ -47,7 +47,7 @@ const List = ({
               />
             </div>
           </div>
-          <CardDroppable droppableId={list.id}>
+          <CardDroppable droppableId={list.id} className="flex flex-col p-2">
             {cards?.map((card, index) => (
               <Card
                 key={card.id}
