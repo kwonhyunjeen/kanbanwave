@@ -15,12 +15,12 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import StrictModeDroppable from 'kanbanwave/StrictModeDroppable';
 import { date, dummy } from 'app/utils';
 
-type BoardProps = {
+type BoardViewProps = {
   /** @todo board 대신 boardId를 받도록 리팩토링 */
   board: KWBoard;
 };
 
-const Board = ({ board: boardProp }: BoardProps) => {
+const BoardView = ({ board: boardProp }: BoardViewProps) => {
   const boardContentStore = useKanbanBoardContent();
 
   const { lists, ...board } = boardContentStore.getBoardContent(boardProp.id);
@@ -133,4 +133,4 @@ const Board = ({ board: boardProp }: BoardProps) => {
   );
 };
 
-export default Board;
+export default BoardView;
