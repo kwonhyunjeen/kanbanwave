@@ -1,16 +1,16 @@
-export * from './storage';
-export * from './types';
+export * from './core/storage';
+export * from './core/types';
 
 export {
   default as KanbanStorageProvider,
   useKanbanBoardCollection,
   useKanbanBoardView,
   type KanbanStorageContextValue
-} from './KanbanStorageProvider';
+} from './features/KanbanStorageProvider';
 
-export { default as BoardCollection } from './BoardCollection'
-export { default as BoardView } from './BoardView'
+export { default as BoardCollection } from './features/BoardCollection';
+export { default as BoardView } from './features/BoardView';
 
-export { default as Board } from './Board'
-export { default as Card } from './Card'
-export { default as List } from './List'
+export { default as Board } from './components/Board';
+export { default as Card } from './components/Card';
+export { default as List } from './components/List';

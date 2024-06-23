@@ -1,4 +1,4 @@
-import { KWItemType } from './types';
+import { KWItemType } from '../core/types';
 import StrictModeDroppable from './StrictModeDroppable';
 
 type CardDroppableProps = React.ComponentPropsWithoutRef<'div'> & {

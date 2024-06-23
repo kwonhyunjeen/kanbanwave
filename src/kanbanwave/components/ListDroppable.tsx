@@ -1,6 +1,6 @@
-import { KWItemType } from './types';
-import StrictModeDroppable from './StrictModeDroppable';
 import React from 'react';
+import { KWItemType } from '../core/types';
+import StrictModeDroppable from './StrictModeDroppable';
 
 type ListDroppableProps = React.ComponentPropsWithoutRef<'div'> & {
   buttonSlot?: React.ReactNode;

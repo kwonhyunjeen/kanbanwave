@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button, IconButton, TextArea } from 'app/components';
-import clsx from 'clsx';
 
 type NewListProps = {
   className?: string;

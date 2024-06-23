@@ -10,8 +10,8 @@ import {
   BoardViewStore,
   makeBoardCollectionStore,
   makeBoardViewStore
-} from './storage';
-import { KanbanwaveStorage } from './types';
+} from '../core/storage';
+import { KanbanwaveStorage } from '../core/types';
 
 export type KanbanStorageContextValue = {
   boardCollection: BoardCollectionStore;

@@ -2,13 +2,6 @@ import { Title } from 'app/components';
 import { Fragment, useCallback } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
-import NewList from './NewList';
-import { useKanbanBoardView } from './KanbanStorageProvider';
-import List from './List';
-import ListDroppable from './ListDroppable';
-import NewCard from './NewCard';
-import CardDroppable from './CardDroppable';
-import Card from './Card';
 import {
   KWBoard,
   KWBoardUUID,
@@ -17,7 +10,14 @@ import {
   KWItemType,
   KWList,
   KWListForm
-} from './types';
+} from '../core/types';
+import Card from '../components/Card';
+import CardDroppable from '../components/CardDroppable';
+import List from '../components/List';
+import ListDroppable from '../components/ListDroppable';
+import NewCard from '../components/NewCard';
+import NewList from '../components/NewList';
+import { useKanbanBoardView } from './KanbanStorageProvider';
 
 type BoardViewProps = {
   boardId: KWBoardUUID;

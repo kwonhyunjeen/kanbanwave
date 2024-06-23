@@ -1,6 +1,6 @@
 import { IconButton, Subtitle } from 'app/components';
 import bgBoard from 'app/assets/bg-board.jpg';
-import { KWBoard } from './types';
+import { KWBoard } from '../core/types';
 
 type BoardProps = {
   board: KWBoard;

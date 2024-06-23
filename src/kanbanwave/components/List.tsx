@@ -1,5 +1,5 @@
-import { KWList } from './types';
 import { IconButton, Subtitle } from 'app/components';
+import { KWList } from '../core/types';
 import ListDraggable from './ListDraggable';
 
 type ListProps = {

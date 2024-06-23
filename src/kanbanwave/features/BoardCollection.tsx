@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import Board from './Board';
-import NewBoard from './NewBoard';
+import { KWBoard, KWBoardForm } from '../core/types';
+import Board from '../components/Board';
+import NewBoard from '../components/NewBoard';
 import { useKanbanBoardCollection } from './KanbanStorageProvider';
-import { KWBoard, KWBoardForm } from './types';
 
 type BoardCollectionProps = {
   boardRender?: (provided: {

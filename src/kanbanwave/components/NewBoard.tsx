@@ -1,14 +1,13 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Button, IconButton, TextArea } from 'app/components';
 import clsx from 'clsx';
+import { ChangeEvent, useCallback, useState } from 'react';
+import { Button, IconButton, TextArea } from 'app/components';
 
-type NewCardProps = {
+type NewBoardProps = {
   className?: string;
-  cardsLength?: number;
   onAdd?: (title: string) => void;
 };
 
-const NewCard = ({ className, cardsLength, onAdd }: NewCardProps) => {
+const NewBoard = ({ className, onAdd }: NewBoardProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -16,43 +15,32 @@ const NewCard = ({ className, cardsLength, onAdd }: NewCardProps) => {
     setTitle(e.target.value);
   }, []);
 
-  const handleAddClick = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      if (title.trim() !== '') {
-        onAdd?.(title);
-        setTitle('');
-      }
-    },
-    [title, onAdd]
-  );
+  const handleAddClick = useCallback(() => {
+    if (title.trim() !== '') {
+      onAdd?.(title);
+      setIsInputVisible(false);
+      setTitle('');
+    }
+  }, [title, onAdd]);
 
   const handleCancelClick = () => {
-    setTitle('');
     setIsInputVisible(false);
+    setTitle('');
   };
 
-  useEffect(() => {
-    if (cardsLength === 0) {
-      setIsInputVisible(true);
-    } else {
-      setIsInputVisible(false);
-    }
-  }, [cardsLength]);
-
   return (
-    <div className="flex flex-col w-full rounded-lg max-w-64 bg-zinc-50 shrink-0 h-fit">
+    <div className="h-[272px] rounded-lg w-[23%] bg-zinc-50 shrink-0">
       {isInputVisible ? (
         <div className={clsx('p-2', className)}>
           <TextArea
-            placeholder={`Enter a card title`}
+            placeholder={`Enter a board title`}
             value={title}
             onChange={handleChange}
             className="w-full py-1 leading-8 min-h-11 "
           />
           <div className="flex items-start mt-1">
             <Button type="button" className="mr-2" onClick={handleAddClick}>
-              Add card
+              Add board
             </Button>
             <IconButton
               name="close"
@@ -66,14 +54,14 @@ const NewCard = ({ className, cardsLength, onAdd }: NewCardProps) => {
       ) : (
         <IconButton
           name="add"
-          aria-label={`add a card`}
+          aria-label={`add a board`}
           onClick={() => setIsInputVisible(true)}
-          className={clsx('h-11', 'mt-1')}>
-          <span className="text-sm">Add a card</span>
+          className={clsx('w-full h-full')}>
+          <span className="text-sm">Add another board</span>
         </IconButton>
       )}
     </div>
   );
 };
 
-export default NewCard;
+export default NewBoard;
