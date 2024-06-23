@@ -3,7 +3,7 @@ import { Fragment, useCallback } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
 import NewList from './NewList';
-import { useKanbanBoardContent } from './KanbanStorageProvider';
+import { useKanbanBoardView } from './KanbanStorageProvider';
 import List from './List';
 import ListDroppable from './ListDroppable';
 import NewCard from './NewCard';
@@ -38,23 +38,23 @@ const BoardView = ({
   cardRender,
   newCardRender
 }: BoardViewProps) => {
-  const boardContentStore = useKanbanBoardContent();
+  const boardViewStore = useKanbanBoardView();
 
-  const { lists, ...board } = boardContentStore.getBoardContent(boardIdProp);
+  const { lists, ...board } = boardViewStore.getBoardContent(boardIdProp);
 
   const handleListAdd = useCallback(
     (title: string) => {
       const list: KWListForm = { title };
-      boardContentStore.createList(board.id, list);
+      boardViewStore.createList(board.id, list);
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
   const makeListDeleteClickHandler = useCallback(
     (listId: string) => () => {
-      boardContentStore.deleteList(board.id, listId);
+      boardViewStore.deleteList(board.id, listId);
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
   const makeCardAddHandler = useCallback(
@@ -71,16 +71,16 @@ const BoardView = ({
         startDate: date.makeDayMonthYear(currentDate),
         dueDate: date.makeDayMonthYear(currentDate)
       };
-      boardContentStore.createCard(board.id, listId, card);
+      boardViewStore.createCard(board.id, listId, card);
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
   const makeCardDeleteClickHandler = useCallback(
     (listId: string, cardId: string) => () => {
-      boardContentStore.deleteCard(board.id, listId, cardId);
+      boardViewStore.deleteCard(board.id, listId, cardId);
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
   const handleDragEnd = useCallback(
@@ -89,13 +89,13 @@ const BoardView = ({
       if (!destination) return;
 
       if (type === KWItemType.LIST) {
-        boardContentStore.reorderList(
+        boardViewStore.reorderList(
           destination.droppableId,
           draggableId,
           destination.index
         );
       } else if (type === KWItemType.CARD) {
-        boardContentStore.reorderCard(
+        boardViewStore.reorderCard(
           board.id,
           source.droppableId,
           destination.droppableId,
@@ -104,7 +104,7 @@ const BoardView = ({
         );
       }
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
   return (
