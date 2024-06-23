@@ -89,7 +89,9 @@ const BoardsPage = () => {
         </Dialog>
         <BoardList
           boardRender={provided => (
-            <Link to={`/boards/${provided.board.id}`}>{provided.children}</Link>
+            <Link to={`/boards/${provided.meta.board.id}`}>
+              <provided.Component {...provided.props} />
+            </Link>
           )}
         />
       </div>

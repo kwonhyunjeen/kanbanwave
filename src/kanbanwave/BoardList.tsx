@@ -5,7 +5,11 @@ import { useKanbanBoard } from './KanbanStorageProvider';
 import { KWBoard, KWBoardForm } from './types';
 
 type BoardListProps = {
-  boardRender?: (props: { board: KWBoard; children: React.ReactNode }) => React.ReactNode;
+  boardRender?: (provided: {
+    Component: typeof Board;
+    props: React.ComponentPropsWithRef<typeof Board>;
+    meta: { board: KWBoard };
+  }) => React.ReactNode;
 };
 
 const BoardList = ({ boardRender }: BoardListProps) => {
@@ -30,12 +34,21 @@ const BoardList = ({ boardRender }: BoardListProps) => {
   return (
     <ul className="flex flex-wrap gap-4">
       {boards.map(board => {
-        const boardNode: React.ReactNode = (
-          <Board board={board} onDeleteClick={handleBoardDeleteClick(board.id)} />
-        );
+        const boardProps = {
+          board: board,
+          onDeleteClick: handleBoardDeleteClick(board.id)
+        };
         return (
-          <li className="w-[23%]">
-            {boardRender ? boardRender({ board, children: boardNode }) : boardNode}
+          <li key={board.id} className="w-[23%]">
+            {boardRender ? (
+              boardRender({
+                Component: Board,
+                props: boardProps,
+                meta: { board }
+              })
+            ) : (
+              <Board {...boardProps} />
+            )}
           </li>
         );
       })}

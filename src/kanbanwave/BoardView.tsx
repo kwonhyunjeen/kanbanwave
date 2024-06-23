@@ -1,5 +1,5 @@
 import { Title } from 'app/components';
-import { useCallback } from 'react';
+import { Fragment, useCallback } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
 import NewList from './NewList';
@@ -21,11 +21,10 @@ import {
 
 type BoardViewProps = {
   boardId: KWBoardUUID;
-  cardRender?: (props: {
-    board: KWBoard;
-    list: KWList;
-    card: KWCard;
-    children: React.ReactNode;
+  cardRender?: (provided: {
+    Component: typeof Card;
+    props: React.ComponentPropsWithRef<typeof Card>;
+    meta: { board: KWBoard; list: KWList; card: KWCard };
   }) => React.ReactNode;
 };
 
@@ -123,17 +122,24 @@ const BoardView = ({ boardId: boardIdProp, cardRender }: BoardViewProps) => {
                 }
                 className="flex flex-col p-2">
                 {list.cards?.map((card, index) => {
-                  const cardNode: React.ReactNode = (
-                    <Card
-                      key={card.id}
-                      card={card}
-                      cardIndex={index}
-                      onDeleteClick={handleCardDelete(list.id, card.id)}
-                    />
+                  const cardProps = {
+                    card: card,
+                    cardIndex: index,
+                    onDeleteClick: handleCardDelete(list.id, card.id)
+                  };
+                  return (
+                    <Fragment key={`${list.id}:${card.id}`}>
+                      {cardRender ? (
+                        cardRender({
+                          Component: Card,
+                          props: cardProps,
+                          meta: { board, list, card }
+                        })
+                      ) : (
+                        <Card {...cardProps} />
+                      )}
+                    </Fragment>
                   );
-                  return cardRender
-                    ? cardRender({ board, list, card, children: cardNode })
-                    : cardNode;
                 })}
               </CardDroppable>
             </List>
