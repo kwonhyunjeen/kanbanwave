@@ -15,7 +15,7 @@ const NewBoard = ({ className, onAdd }: NewBoardProps) => {
     setTitle(e.target.value);
   }, []);
 
-  const handleClick = useCallback(() => {
+  const handleAddClick = useCallback(() => {
     if (title.trim() !== '') {
       onAdd?.(title);
       setIsInputVisible(false);
@@ -23,7 +23,7 @@ const NewBoard = ({ className, onAdd }: NewBoardProps) => {
     }
   }, [title, onAdd]);
 
-  const handleCancel = () => {
+  const handleCancelClick = () => {
     setIsInputVisible(false);
     setTitle('');
   };
@@ -39,14 +39,14 @@ const NewBoard = ({ className, onAdd }: NewBoardProps) => {
             className="w-full py-1 leading-8 min-h-11 "
           />
           <div className="flex items-start mt-1">
-            <Button type="button" className="mr-2" onClick={handleClick}>
+            <Button type="button" className="mr-2" onClick={handleAddClick}>
               Add board
             </Button>
             <IconButton
               name="close"
               type="button"
               aria-label="cancel"
-              onClick={handleCancel}
+              onClick={handleCancelClick}
               className="btn-square"
             />
           </div>

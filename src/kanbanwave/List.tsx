@@ -1,4 +1,4 @@
-import { KWCard, KWList } from './types';
+import { KWList } from './types';
 import { IconButton, Subtitle } from 'app/components';
 import ListDraggable from './ListDraggable';
 
@@ -6,6 +6,8 @@ type ListProps = {
   children?: React.ReactNode;
   list: KWList;
   listIndex: number;
+  /** @todo edit(save) 버튼 만들어서 이벤트 핸들러에 연결 */
+  onTitleEdit?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 

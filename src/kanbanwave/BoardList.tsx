@@ -29,7 +29,7 @@ const BoardList = ({ boardRender, newBoardRender }: BoardListProps) => {
     [boardStore]
   );
 
-  const handleBoardDeleteClick = useCallback(
+  const makeBoardDeleteClickHandler = useCallback(
     (boardId: string) => () => {
       boardStore.deleteBoard(boardId);
     },
@@ -41,7 +41,7 @@ const BoardList = ({ boardRender, newBoardRender }: BoardListProps) => {
       {boards.map(board => {
         const boardProps = {
           board: board,
-          onDeleteClick: handleBoardDeleteClick(board.id)
+          onDeleteClick: makeBoardDeleteClickHandler(board.id)
         };
         return (
           <li key={board.id} className="w-[23%]">

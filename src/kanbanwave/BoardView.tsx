@@ -50,14 +50,14 @@ const BoardView = ({
     [boardContentStore, board.id]
   );
 
-  const handleListDelete = useCallback(
+  const makeListDeleteClickHandler = useCallback(
     (listId: string) => () => {
       boardContentStore.deleteList(board.id, listId);
     },
     [boardContentStore, board.id]
   );
 
-  const handleCardAdd = useCallback(
+  const makeCardAddHandler = useCallback(
     (listId: string) => (title: string) => {
       const currentDate = new Date();
       const card: KWCardForm = {
@@ -76,7 +76,7 @@ const BoardView = ({
     [boardContentStore, board.id]
   );
 
-  const handleCardDelete = useCallback(
+  const makeCardDeleteClickHandler = useCallback(
     (listId: string, cardId: string) => () => {
       boardContentStore.deleteCard(board.id, listId, cardId);
     },
@@ -109,6 +109,7 @@ const BoardView = ({
 
   return (
     <section className="app-base">
+      {/** @todo edit(save) 버튼 만들기 */}
       <Title className="mb-4 text-white">{board.title}</Title>
       <DragDropContext onDragEnd={handleDragEnd}>
         <ListDroppable
@@ -120,13 +121,13 @@ const BoardView = ({
               key={list.id}
               list={list}
               listIndex={index}
-              onDeleteClick={handleListDelete(list.id)}>
+              onDeleteClick={makeListDeleteClickHandler(list.id)}>
               <CardDroppable
                 listId={list.id}
                 buttonSlot={(() => {
                   const newCardProps = {
                     cardsLength: list.cards?.length,
-                    onAdd: handleCardAdd(list.id)
+                    onAdd: makeCardAddHandler(list.id)
                   };
                   return newCardRender ? (
                     newCardRender({
@@ -143,7 +144,7 @@ const BoardView = ({
                   const cardProps = {
                     card: card,
                     cardIndex: index,
-                    onDeleteClick: handleCardDelete(list.id, card.id)
+                    onDeleteClick: makeCardDeleteClickHandler(list.id, card.id)
                   };
                   return (
                     <Fragment key={`${list.id}:${card.id}`}>

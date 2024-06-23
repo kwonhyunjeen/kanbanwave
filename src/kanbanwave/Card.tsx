@@ -8,11 +8,12 @@ type CardProps = {
   cardIndex: number;
   /** @todo cardRender에서 onClick을 주입할 수 있도록 리팩토링 */
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-  onEditClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  /** @todo edit(save) 버튼 만들어서 이벤트 핸들러에 연결 */
+  onTitleEdit?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const Card = ({ card, cardIndex, onClick, onEditClick, onDeleteClick }: CardProps) => {
+const Card = ({ card, cardIndex, onClick, onTitleEdit, onDeleteClick }: CardProps) => {
   const [open, menuOpen] = useToggle(false);
   const handleMenuOpen = () => {
     menuOpen();
@@ -43,11 +44,6 @@ const Card = ({ card, cardIndex, onClick, onEditClick, onDeleteClick }: CardProp
       </div>
       {open && (
         <ul className="flex flex-row justify-around mb-1 menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-          <li>
-            <button type="button" onClick={onEditClick}>
-              Edit card
-            </button>
-          </li>
           <li>
             <button type="button" onClick={onDeleteClick}>
               Delete card
