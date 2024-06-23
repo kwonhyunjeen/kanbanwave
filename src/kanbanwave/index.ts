@@ -3,7 +3,7 @@ export * from './types';
 
 export {
   default as KanbanStorageProvider,
-  useKanbanBoard,
+  useKanbanBoardCollection,
   useKanbanBoardView,
   type KanbanStorageContextValue
 } from './KanbanStorageProvider';

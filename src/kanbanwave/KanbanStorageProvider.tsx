@@ -6,15 +6,15 @@ import {
   useSyncExternalStore
 } from 'react';
 import {
-  BoardStore,
+  BoardCollectionStore,
   BoardViewStore,
-  makeBoardStore,
+  makeBoardCollectionStore,
   makeBoardViewStore
 } from './storage';
 import { KanbanwaveStorage } from './types';
 
 export type KanbanStorageContextValue = {
-  board: BoardStore;
+  boardCollection: BoardCollectionStore;
   boardView: BoardViewStore;
 };
 
@@ -30,13 +30,13 @@ const FALLBACK_STORE = new Proxy(
 );
 
 const KanbanStorageContext = createContext<KanbanStorageContextValue>({
-  board: FALLBACK_STORE as BoardStore,
+  boardCollection: FALLBACK_STORE as BoardCollectionStore,
   boardView: FALLBACK_STORE as BoardViewStore
 });
 
-export const useKanbanBoard = () => {
+export const useKanbanBoardCollection = () => {
   const context = useContext(KanbanStorageContext);
-  const store = context.board;
+  const store = context.boardCollection;
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
 
   return useMemo(() => {
@@ -68,17 +68,17 @@ type KanbanStorageProviderProps = {
 };
 
 const KanbanStorageProvider = ({ storage, children }: KanbanStorageProviderProps) => {
-  const boardExternalStore = useMemo(() => makeBoardStore(storage), [storage]);
+  const boardCollectionExternalStore = useMemo(() => makeBoardCollectionStore(storage), [storage]);
   const boardViewExternalStore = useMemo(
     () => makeBoardViewStore(storage),
     [storage]
   );
   const contextValue = useMemo(
     () => ({
-      board: boardExternalStore,
+      boardCollection: boardCollectionExternalStore,
       boardView: boardViewExternalStore
     }),
-    [boardExternalStore, boardViewExternalStore]
+    [boardCollectionExternalStore, boardViewExternalStore]
   );
 
   return (

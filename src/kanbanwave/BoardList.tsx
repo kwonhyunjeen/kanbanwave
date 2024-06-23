@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import Board from './Board';
 import NewBoard from './NewBoard';
-import { useKanbanBoard } from './KanbanStorageProvider';
+import { useKanbanBoardCollection } from './KanbanStorageProvider';
 import { KWBoard, KWBoardForm } from './types';
 
 type BoardListProps = {
@@ -18,22 +18,22 @@ type BoardListProps = {
 };
 
 const BoardList = ({ boardRender, newBoardRender }: BoardListProps) => {
-  const boardStore = useKanbanBoard();
-  const boards = boardStore.getBoards();
+  const boardCollectionStore = useKanbanBoardCollection();
+  const boards = boardCollectionStore.getBoards();
 
   const handleBoardAdd = useCallback(
     (title: string) => {
       const board: KWBoardForm = { title };
-      boardStore.createBoard(board);
+      boardCollectionStore.createBoard(board);
     },
-    [boardStore]
+    [boardCollectionStore]
   );
 
   const makeBoardDeleteClickHandler = useCallback(
     (boardId: string) => () => {
-      boardStore.deleteBoard(boardId);
+      boardCollectionStore.deleteBoard(boardId);
     },
-    [boardStore]
+    [boardCollectionStore]
   );
 
   return (
