@@ -10,7 +10,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
   const textRef = useRef<HTMLTextAreaElement>(null);
   const textCallbackRef = useForkRef(textRef, ref);
 
-  const handleResize = useCallback(() => {
+  const resize = useCallback(() => {
     if (textRef && textRef.current) {
       textRef.current.style.height = 'auto';
       textRef.current.style.height = `${textRef.current.scrollHeight}px`;
@@ -19,7 +19,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     onChange?.(e);
-    handleResize();
+    resize();
   };
 
   return (
@@ -28,6 +28,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
       ref={textCallbackRef}
       className={clsx('resize-none textarea textarea-bordered', className)}
       onChange={handleChange}
+      value={value}
       rows={1}></textarea>
   );
 });
