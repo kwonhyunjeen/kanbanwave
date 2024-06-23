@@ -4,7 +4,7 @@ import NewBoard from './NewBoard';
 import { useKanbanBoardCollection } from './KanbanStorageProvider';
 import { KWBoard, KWBoardForm } from './types';
 
-type BoardListProps = {
+type BoardCollectionProps = {
   boardRender?: (provided: {
     Component: typeof Board;
     props: React.ComponentPropsWithRef<typeof Board>;
@@ -17,7 +17,7 @@ type BoardListProps = {
   }) => React.ReactNode;
 };
 
-const BoardList = ({ boardRender, newBoardRender }: BoardListProps) => {
+const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) => {
   const boardCollectionStore = useKanbanBoardCollection();
   const boards = boardCollectionStore.getBoards();
 
@@ -75,4 +75,4 @@ const BoardList = ({ boardRender, newBoardRender }: BoardListProps) => {
   );
 };
 
-export default BoardList;
+export default BoardCollection;

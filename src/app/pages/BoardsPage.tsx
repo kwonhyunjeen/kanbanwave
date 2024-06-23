@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { BoardList, useKanbanBoardCollection } from 'kanbanwave';
+import { BoardCollection, useKanbanBoardCollection } from 'kanbanwave';
 import {
   Button,
   Dialog,
@@ -87,7 +87,7 @@ const BoardsPage = () => {
             </DialogActions>
           </form>
         </Dialog>
-        <BoardList
+        <BoardCollection
           boardRender={provided => (
             <Link to={`/boards/${provided.meta.board.id}`}>
               <provided.Component {...provided.props} />
