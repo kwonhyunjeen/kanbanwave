@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import Board from './Board';
+import NewBoard from './NewBoard';
 import { useKanbanBoard } from './KanbanStorageProvider';
-import { KWBoard } from './types';
+import { KWBoard, KWBoardForm } from './types';
 
 type BoardListProps = {
   boardRender?: (props: { board: KWBoard; children: React.ReactNode }) => React.ReactNode;
@@ -12,8 +12,16 @@ const BoardList = ({ boardRender }: BoardListProps) => {
   const boardStore = useKanbanBoard();
   const boards = boardStore.getBoards();
 
+  const handleBoardAdd = useCallback(
+    (title: string) => {
+      const board: KWBoardForm = { title };
+      boardStore.createBoard(board);
+    },
+    [boardStore]
+  );
+
   const handleBoardDeleteClick = useCallback(
-    (boardId: string) => (e: React.MouseEvent) => {
+    (boardId: string) => () => {
       boardStore.deleteBoard(boardId);
     },
     [boardStore]
@@ -23,7 +31,7 @@ const BoardList = ({ boardRender }: BoardListProps) => {
     <ul className="flex flex-wrap gap-4">
       {boards.map(board => {
         const boardNode: React.ReactNode = (
-          <Board board={board} onDeleteClick={e => handleBoardDeleteClick(board.id)(e)} />
+          <Board board={board} onDeleteClick={handleBoardDeleteClick(board.id)} />
         );
         return (
           <li className="w-[23%]">
@@ -31,6 +39,7 @@ const BoardList = ({ boardRender }: BoardListProps) => {
           </li>
         );
       })}
+      <NewBoard onAdd={handleBoardAdd} />
     </ul>
   );
 };
