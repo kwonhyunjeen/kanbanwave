@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Button, IconButton, TextArea } from 'app/components';
 
 type NewBoardProps = {
@@ -11,17 +11,17 @@ const NewBoard = ({ className, onAdd }: NewBoardProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(e.target.value);
-  }, []);
+  };
 
-  const handleAddClick = useCallback(() => {
+  const handleAddClick = () => {
     if (title.trim() !== '') {
       onAdd?.(title);
       setIsInputVisible(false);
       setTitle('');
     }
-  }, [title, onAdd]);
+  };
 
   const handleCancelClick = () => {
     setIsInputVisible(false);

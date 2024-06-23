@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { KWBoard, KWBoardForm } from '../core/types';
 import Board from '../components/Board';
 import NewBoard from '../components/NewBoard';
