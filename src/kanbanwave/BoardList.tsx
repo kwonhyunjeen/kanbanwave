@@ -10,9 +10,14 @@ type BoardListProps = {
     props: React.ComponentPropsWithRef<typeof Board>;
     meta: { board: KWBoard };
   }) => React.ReactNode;
+  newBoardRender?: (provided: {
+    Component: typeof NewBoard;
+    props: React.ComponentPropsWithRef<typeof NewBoard>;
+    meta: Record<PropertyKey, never>;
+  }) => React.ReactNode;
 };
 
-const BoardList = ({ boardRender }: BoardListProps) => {
+const BoardList = ({ boardRender, newBoardRender }: BoardListProps) => {
   const boardStore = useKanbanBoard();
   const boards = boardStore.getBoards();
 
@@ -52,7 +57,20 @@ const BoardList = ({ boardRender }: BoardListProps) => {
           </li>
         );
       })}
-      <NewBoard onAdd={handleBoardAdd} />
+      {(() => {
+        const newBoardProps = {
+          onAdd: handleBoardAdd
+        };
+        return newBoardRender ? (
+          newBoardRender({
+            Component: NewBoard,
+            props: newBoardProps,
+            meta: {}
+          })
+        ) : (
+          <NewBoard {...newBoardProps} />
+        );
+      })()}
     </ul>
   );
 };

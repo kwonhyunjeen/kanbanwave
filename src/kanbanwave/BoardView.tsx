@@ -26,9 +26,18 @@ type BoardViewProps = {
     props: React.ComponentPropsWithRef<typeof Card>;
     meta: { board: KWBoard; list: KWList; card: KWCard };
   }) => React.ReactNode;
+  newCardRender?: (provided: {
+    Component: typeof NewCard;
+    props: React.ComponentPropsWithRef<typeof NewCard>;
+    meta: { board: KWBoard; list: KWList };
+  }) => React.ReactNode;
 };
 
-const BoardView = ({ boardId: boardIdProp, cardRender }: BoardViewProps) => {
+const BoardView = ({
+  boardId: boardIdProp,
+  cardRender,
+  newCardRender
+}: BoardViewProps) => {
   const boardContentStore = useKanbanBoardContent();
 
   const { lists, ...board } = boardContentStore.getBoardContent(boardIdProp);
@@ -114,12 +123,21 @@ const BoardView = ({ boardId: boardIdProp, cardRender }: BoardViewProps) => {
               onDeleteClick={handleListDelete(list.id)}>
               <CardDroppable
                 listId={list.id}
-                buttonSlot={
-                  <NewCard
-                    cardsLength={list.cards?.length}
-                    onAdd={handleCardAdd(list.id)}
-                  />
-                }
+                buttonSlot={(() => {
+                  const newCardProps = {
+                    cardsLength: list.cards?.length,
+                    onAdd: handleCardAdd(list.id)
+                  };
+                  return newCardRender ? (
+                    newCardRender({
+                      Component: NewCard,
+                      props: newCardProps,
+                      meta: { board, list }
+                    })
+                  ) : (
+                    <NewCard {...newCardProps} />
+                  );
+                })()}
                 className="flex flex-col p-2">
                 {list.cards?.map((card, index) => {
                   const cardProps = {
