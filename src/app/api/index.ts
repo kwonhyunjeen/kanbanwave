@@ -11,15 +11,23 @@ import {
   KWListUUID
 } from 'kanbanwave';
 
-export const getBoards = () => DB.getBoards();
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const getBoardContent = (boardId: KWBoardUUID) => ({
-  ...DB.getBoards([boardId])[0],
-  lists: DB.getLists(DB.getListOrdersByBoardId(boardId)).map(list => ({
-    ...list,
-    cards: DB.getCards(DB.getCardOrdersByListId(list.id))
-  }))
-});
+export const getBoards = async () => {
+  await delay(300);
+  return DB.getBoards();
+};
+
+export const getBoardContent = async (boardId: KWBoardUUID) => {
+  await delay(300);
+  return {
+    ...DB.getBoards([boardId])[0],
+    lists: DB.getLists(DB.getListOrdersByBoardId(boardId)).map(list => ({
+      ...list,
+      cards: DB.getCards(DB.getCardOrdersByListId(list.id))
+    }))
+  };
+};
 
 export const createBoard = (board: KWBoardForm) => {
   DB.setBoards([...DB.getBoards(), { ...board, id: crypto.randomUUID() }]);
@@ -94,7 +102,7 @@ export const reorderList = (
   DB.setListOrdersByBoardId(boardId, listOrders);
 };
 
-export const getCard = (cardId: KWCardUUID) => DB.getCards([cardId])[0];
+export const getCard = async (cardId: KWCardUUID) => DB.getCards([cardId])[0];
 
 export const createCard = (listId: KWListUUID, card: KWCardForm) => {
   const list = DB.getLists([listId])[0];

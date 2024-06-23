@@ -57,9 +57,9 @@ export type KWListContent<T extends object = object> = KWList<T> & {
 };
 
 export type KanbanwaveStorage = {
-  getBoards: () => KWBoard[];
+  getBoards: () => KWBoard[] | Promise<KWBoard[]>;
+  getBoardContent: (boardId: KWBoardUUID) => KWBoardContent | Promise<KWBoardContent>;
 
-  getBoardContent: (boardId: KWBoardUUID) => KWBoardContent;
   createBoard: (board: KWBoardForm) => void;
   updateBoard: (board: KWBoard) => void;
   deleteBoard: (boardId: KWBoardUUID) => void;
@@ -73,7 +73,8 @@ export type KanbanwaveStorage = {
     droppedListIndex: number
   ) => void;
 
-  getCard: (boardId: KWBoardUUID, listId: KWListUUID, cardId: KWCardUUID) => KWCard;
+  /** @todo getCard API 필요 여부 검토 */
+  getCard: (boardId: KWBoardUUID, listId: KWListUUID, cardId: KWCardUUID) => Promise<KWCard>;
   createCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCardForm) => void;
   updateCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCard) => void;
   deleteCard: (boardId: KWBoardUUID, listId: KWListUUID, cardId: KWCardUUID) => void;

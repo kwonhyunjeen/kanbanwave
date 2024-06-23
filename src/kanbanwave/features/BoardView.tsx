@@ -17,6 +17,7 @@ import List from '../components/List';
 import ListDroppable from '../components/ListDroppable';
 import NewCard from '../components/NewCard';
 import NewList from '../components/NewList';
+import useQuery from '../hooks/useQuery';
 import { useKanbanBoardView } from './KanbanStorageProvider';
 
 type BoardViewProps = {
@@ -40,72 +41,63 @@ const BoardView = ({
 }: BoardViewProps) => {
   const boardViewStore = useKanbanBoardView();
 
-  const { lists, ...board } = boardViewStore.getBoardContent(boardIdProp);
+  const { status, data } = useQuery(boardViewStore.getBoardContent, [boardIdProp]);
 
-  const handleListAdd = useCallback(
-    (title: string) => {
-      const list: KWListForm = { title };
-      boardViewStore.createList(board.id, list);
-    },
-    [boardViewStore, board.id]
-  );
+  if (status === 'pending') {
+    return (
+      <div>
+        <mark>Loading...</mark>
+      </div>
+    );
+  }
 
-  const makeListDeleteClickHandler = useCallback(
-    (listId: string) => () => {
-      boardViewStore.deleteList(board.id, listId);
-    },
-    [boardViewStore, board.id]
-  );
+  const { lists, ...board } = data;
 
-  const makeCardAddHandler = useCallback(
-    (listId: string) => (title: string) => {
-      const currentDate = new Date();
-      const card: KWCardForm = {
-        title,
-        writer: {
-          id: dummy.randomUUID(),
-          name: dummy.randomName(),
-          email: dummy.randomEmail()
-        },
-        description: dummy.randomParagraphs(5),
-        startDate: date.makeDayMonthYear(currentDate),
-        dueDate: date.makeDayMonthYear(currentDate)
-      };
-      boardViewStore.createCard(board.id, listId, card);
-    },
-    [boardViewStore, board.id]
-  );
+  const handleListAdd = (title: string) => {
+    const list: KWListForm = { title };
+    boardViewStore.createList(board.id, list);
+  };
 
-  const makeCardDeleteClickHandler = useCallback(
-    (listId: string, cardId: string) => () => {
-      boardViewStore.deleteCard(board.id, listId, cardId);
-    },
-    [boardViewStore, board.id]
-  );
+  const makeListDeleteClickHandler = (listId: string) => () => {
+    boardViewStore.deleteList(board.id, listId);
+  };
 
-  const handleDragEnd = useCallback(
-    (result: DropResult) => {
-      const { type, draggableId, source, destination } = result;
-      if (!destination) return;
+  const makeCardAddHandler = (listId: string) => (title: string) => {
+    const currentDate = new Date();
+    const card: KWCardForm = {
+      title,
+      writer: {
+        id: dummy.randomUUID(),
+        name: dummy.randomName(),
+        email: dummy.randomEmail()
+      },
+      description: dummy.randomParagraphs(5),
+      startDate: date.makeDayMonthYear(currentDate),
+      dueDate: date.makeDayMonthYear(currentDate)
+    };
+    boardViewStore.createCard(board.id, listId, card);
+  };
 
-      if (type === KWItemType.LIST) {
-        boardViewStore.reorderList(
-          destination.droppableId,
-          draggableId,
-          destination.index
-        );
-      } else if (type === KWItemType.CARD) {
-        boardViewStore.reorderCard(
-          board.id,
-          source.droppableId,
-          destination.droppableId,
-          draggableId,
-          destination.index
-        );
-      }
-    },
-    [boardViewStore, board.id]
-  );
+  const makeCardDeleteClickHandler = (listId: string, cardId: string) => () => {
+    boardViewStore.deleteCard(board.id, listId, cardId);
+  };
+
+  const handleDragEnd = (result: DropResult) => {
+    const { type, draggableId, source, destination } = result;
+    if (!destination) return;
+
+    if (type === KWItemType.LIST) {
+      boardViewStore.reorderList(destination.droppableId, draggableId, destination.index);
+    } else if (type === KWItemType.CARD) {
+      boardViewStore.reorderCard(
+        board.id,
+        source.droppableId,
+        destination.droppableId,
+        draggableId,
+        destination.index
+      );
+    }
+  };
 
   return (
     <section className="app-base">

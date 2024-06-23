@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import { Icon, IconButton } from 'app/components';
 import { Link } from 'react-router-dom';
-import { useKanbanBoardCollection } from 'kanbanwave';
+import { KWBoard, useKanbanBoardCollection } from 'kanbanwave';
+import { useEffect, useState } from 'react';
 
 type NavProps = {
   open: boolean;
@@ -10,7 +11,14 @@ type NavProps = {
 
 const Nav = ({ open, onClickDrawer }: NavProps) => {
   const boardCollectionStore = useKanbanBoardCollection();
-  const boards = boardCollectionStore.getBoards();
+  const [boards, setBoards] = useState<KWBoard[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setBoards(await boardCollectionStore.getBoards());
+    })();
+  }, [boardCollectionStore]);
+
   return (
     <nav
       className={clsx('app-nav', {
