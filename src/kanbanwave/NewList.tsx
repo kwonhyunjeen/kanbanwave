@@ -1,21 +1,14 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button, IconButton, TextArea } from 'app/components';
 import clsx from 'clsx';
-import { KWItemType } from './types';
 
-type AddItemFormProps = {
+type NewListProps = {
   className?: string;
-  itemMode: KWItemType;
   listsLength?: number;
-  onItemAdd?: (title: string) => void;
+  onAdd?: (title: string) => void;
 };
 
-const AddItemForm = ({
-  className,
-  itemMode,
-  listsLength,
-  onItemAdd
-}: AddItemFormProps) => {
+const NewList = ({ className, listsLength, onAdd }: NewListProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -27,11 +20,11 @@ const AddItemForm = ({
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       if (title.trim() !== '') {
-        onItemAdd?.(title);
+        onAdd?.(title);
         setTitle('');
       }
     },
-    [title, onItemAdd]
+    [title, onAdd]
   );
 
   const handleCancel = () => {
@@ -52,16 +45,14 @@ const AddItemForm = ({
       {isInputVisible ? (
         <div className={clsx('p-2', className)}>
           <TextArea
-            placeholder={`Enter a ${
-              itemMode === KWItemType.CARD ? 'card' : 'list'
-            } title`}
+            placeholder={`Enter a list title`}
             value={title}
             onChange={handleChange}
             className="w-full py-1 leading-8 min-h-11 "
           />
           <div className="flex items-start mt-1">
             <Button type="button" className="mr-2" onClick={handleClick}>
-              Add {itemMode}
+              Add list
             </Button>
             <IconButton
               name="close"
@@ -75,18 +66,14 @@ const AddItemForm = ({
       ) : (
         <IconButton
           name="add"
-          aria-label={`add a ${itemMode}`}
+          aria-label={`add a list`}
           onClick={() => setIsInputVisible(true)}
-          className={clsx('h-11', {
-            'mt-1': itemMode === KWItemType.CARD
-          })}>
-          <span className="text-sm">
-            {itemMode === KWItemType.CARD ? 'Add a card' : 'Add another list'}
-          </span>
+          className={clsx('h-11')}>
+          <span className="text-sm">Add another list</span>
         </IconButton>
       )}
     </div>
   );
 };
 
-export default AddItemForm;
+export default NewList;

@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Droppable, DroppableProps } from 'react-beautiful-dnd';
+import { forwardRef, useEffect, useState } from 'react';
+import { Droppable } from 'react-beautiful-dnd';
 
-const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
+const StrictModeDroppable = forwardRef<
+  React.ComponentRef<typeof Droppable>,
+  React.ComponentPropsWithoutRef<typeof Droppable>
+>((props, ref) => {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
@@ -17,7 +20,9 @@ const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
     return null;
   }
 
-  return <Droppable {...props}>{children}</Droppable>;
-};
+  return <Droppable ref={ref} {...props} />;
+});
+
+StrictModeDroppable.displayName = 'StrictModeDroppable';
 
 export default StrictModeDroppable;

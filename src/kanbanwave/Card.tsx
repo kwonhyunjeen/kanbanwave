@@ -5,46 +5,53 @@ import CardDraggable from './CardDraggable';
 
 type CardProps = {
   card: KWCard;
-  draggableId: string;
-  index: number;
-  onCardClick?: () => void;
-  onCardEdit?: () => void;
-  onCardDelete?: () => void;
+  cardIndex: number;
+  /** @todo cardRender에서 onClick을 주입할 수 있도록 리팩토링 */
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onEditClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const Card = ({
-  card,
-  draggableId,
-  index,
-  onCardClick,
-  onCardEdit,
-  onCardDelete
-}: CardProps) => {
+const Card = ({ card, cardIndex, onClick, onEditClick, onDeleteClick }: CardProps) => {
   const [open, menuOpen] = useToggle(false);
   const handleMenuOpen = () => {
     menuOpen();
   };
 
   return (
-    <CardDraggable draggableId={draggableId} index={index}>
-      <div className="card group" onClick={onCardClick}>
-        {/* @todo 카드 상세 페이지 개발되면, 링크 연결 */}
-        <a className="relative flex items-center justify-between overflow-hidden break-words whitespace-normal">
+    <CardDraggable cardId={card.id} cardIndex={cardIndex}>
+      <div
+        className="card group"
+        onClick={e => {
+          onClick?.(e);
+          if (!(e.target instanceof Element)) {
+            return;
+          }
+          if (e.target.closest('[data-event-target="menu-button"]')) {
+            e.preventDefault();
+          }
+        }}>
+        <div className="relative flex items-center justify-between overflow-hidden break-words whitespace-normal">
           <div className="w-[calc(100%-32px)]">{card.title}</div>
           <IconButton
             name="edit"
             className="single-icon group-hover:flex"
             onClick={handleMenuOpen}
+            data-event-target="menu-button"
           />
-        </a>
+        </div>
       </div>
       {open && (
         <ul className="flex flex-row justify-around mb-1 menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
-          <li onClick={onCardEdit}>
-            <a>Edit card</a>
+          <li>
+            <button type="button" onClick={onEditClick}>
+              Edit card
+            </button>
           </li>
-          <li onClick={onCardDelete}>
-            <a>Delete card</a>
+          <li>
+            <button type="button" onClick={onDeleteClick}>
+              Delete card
+            </button>
           </li>
         </ul>
       )}
