@@ -1,6 +1,6 @@
 import type { KanbanwaveStorage } from './types';
 
-export const makeBoardStore = (storage: KanbanwaveStorage) => {
+export const makeBoardCollectionStore = (storage: KanbanwaveStorage) => {
   let snapshot = {
     getBoards: storage.getBoards,
     getBoardContent: storage.getBoardContent
@@ -39,9 +39,9 @@ export const makeBoardStore = (storage: KanbanwaveStorage) => {
   };
 };
 
-export type BoardStore = ReturnType<typeof makeBoardStore>;
+export type BoardCollectionStore = ReturnType<typeof makeBoardCollectionStore>;
 
-export const makeBoardContentStore = (storage: KanbanwaveStorage) => {
+export const makeBoardViewStore = (storage: KanbanwaveStorage) => {
   let snapshot = { getBoardContent: storage.getBoardContent };
   let listeners: Array<() => void> = [];
 
@@ -109,4 +109,4 @@ export const makeBoardContentStore = (storage: KanbanwaveStorage) => {
   };
 };
 
-export type BoardContentStore = ReturnType<typeof makeBoardContentStore>;
+export type BoardViewStore = ReturnType<typeof makeBoardViewStore>;

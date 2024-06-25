@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
-import Board from './Board';
-import NewBoard from './NewBoard';
-import { useKanbanBoard } from './KanbanStorageProvider';
-import { KWBoard, KWBoardForm } from './types';
+import { KWBoard, KWBoardForm } from '../core/types';
+import Board from '../components/Board';
+import NewBoard from '../components/NewBoard';
+import { useKanbanBoardCollection } from './KanbanStorageProvider';
 
-type BoardListProps = {
+type BoardCollectionProps = {
   boardRender?: (provided: {
     Component: typeof Board;
     props: React.ComponentPropsWithRef<typeof Board>;
@@ -17,23 +17,23 @@ type BoardListProps = {
   }) => React.ReactNode;
 };
 
-const BoardList = ({ boardRender, newBoardRender }: BoardListProps) => {
-  const boardStore = useKanbanBoard();
-  const boards = boardStore.getBoards();
+const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) => {
+  const boardCollectionStore = useKanbanBoardCollection();
+  const boards = boardCollectionStore.getBoards();
 
   const handleBoardAdd = useCallback(
     (title: string) => {
       const board: KWBoardForm = { title };
-      boardStore.createBoard(board);
+      boardCollectionStore.createBoard(board);
     },
-    [boardStore]
+    [boardCollectionStore]
   );
 
-  const handleBoardDeleteClick = useCallback(
+  const makeBoardDeleteClickHandler = useCallback(
     (boardId: string) => () => {
-      boardStore.deleteBoard(boardId);
+      boardCollectionStore.deleteBoard(boardId);
     },
-    [boardStore]
+    [boardCollectionStore]
   );
 
   return (
@@ -41,7 +41,7 @@ const BoardList = ({ boardRender, newBoardRender }: BoardListProps) => {
       {boards.map(board => {
         const boardProps = {
           board: board,
-          onDeleteClick: handleBoardDeleteClick(board.id)
+          onDeleteClick: makeBoardDeleteClickHandler(board.id)
         };
         return (
           <li key={board.id} className="w-[23%]">
@@ -75,4 +75,4 @@ const BoardList = ({ boardRender, newBoardRender }: BoardListProps) => {
   );
 };
 
-export default BoardList;
+export default BoardCollection;

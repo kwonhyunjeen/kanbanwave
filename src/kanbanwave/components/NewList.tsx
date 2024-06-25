@@ -1,6 +1,6 @@
+import clsx from 'clsx';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Button, IconButton, TextArea } from 'app/components';
-import clsx from 'clsx';
 
 type NewListProps = {
   className?: string;
@@ -16,7 +16,7 @@ const NewList = ({ className, listsLength, onAdd }: NewListProps) => {
     setTitle(e.target.value);
   }, []);
 
-  const handleClick = useCallback(
+  const handleAddClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       if (title.trim() !== '') {
@@ -27,7 +27,7 @@ const NewList = ({ className, listsLength, onAdd }: NewListProps) => {
     [title, onAdd]
   );
 
-  const handleCancel = () => {
+  const handleCancelClick = () => {
     setTitle('');
     setIsInputVisible(false);
   };
@@ -51,14 +51,14 @@ const NewList = ({ className, listsLength, onAdd }: NewListProps) => {
             className="w-full py-1 leading-8 min-h-11 "
           />
           <div className="flex items-start mt-1">
-            <Button type="button" className="mr-2" onClick={handleClick}>
+            <Button type="button" className="mr-2" onClick={handleAddClick}>
               Add list
             </Button>
             <IconButton
               name="close"
               type="button"
               aria-label="cancel"
-              onClick={handleCancel}
+              onClick={handleCancelClick}
               className="btn-square"
             />
           </div>

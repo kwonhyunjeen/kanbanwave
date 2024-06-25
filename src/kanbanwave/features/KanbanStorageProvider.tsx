@@ -6,16 +6,16 @@ import {
   useSyncExternalStore
 } from 'react';
 import {
-  BoardStore,
-  BoardContentStore,
-  makeBoardStore,
-  makeBoardContentStore
-} from './storage';
-import { KanbanwaveStorage } from './types';
+  BoardCollectionStore,
+  BoardViewStore,
+  makeBoardCollectionStore,
+  makeBoardViewStore
+} from '../core/storage';
+import { KanbanwaveStorage } from '../core/types';
 
 export type KanbanStorageContextValue = {
-  board: BoardStore;
-  boardContent: BoardContentStore;
+  boardCollection: BoardCollectionStore;
+  boardView: BoardViewStore;
 };
 
 const FALLBACK_STORE = new Proxy(
@@ -30,13 +30,13 @@ const FALLBACK_STORE = new Proxy(
 );
 
 const KanbanStorageContext = createContext<KanbanStorageContextValue>({
-  board: FALLBACK_STORE as BoardStore,
-  boardContent: FALLBACK_STORE as BoardContentStore
+  boardCollection: FALLBACK_STORE as BoardCollectionStore,
+  boardView: FALLBACK_STORE as BoardViewStore
 });
 
-export const useKanbanBoard = () => {
+export const useKanbanBoardCollection = () => {
   const context = useContext(KanbanStorageContext);
-  const store = context.board;
+  const store = context.boardCollection;
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
 
   return useMemo(() => {
@@ -48,9 +48,9 @@ export const useKanbanBoard = () => {
   }, [snapshot, store]);
 };
 
-export const useKanbanBoardContent = () => {
+export const useKanbanBoardView = () => {
   const context = useContext(KanbanStorageContext);
-  const store = context.boardContent;
+  const store = context.boardView;
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
 
   return useMemo(() => {
@@ -68,17 +68,17 @@ type KanbanStorageProviderProps = {
 };
 
 const KanbanStorageProvider = ({ storage, children }: KanbanStorageProviderProps) => {
-  const boardExternalStore = useMemo(() => makeBoardStore(storage), [storage]);
-  const boardContentExternalStore = useMemo(
-    () => makeBoardContentStore(storage),
+  const boardCollectionExternalStore = useMemo(() => makeBoardCollectionStore(storage), [storage]);
+  const boardViewExternalStore = useMemo(
+    () => makeBoardViewStore(storage),
     [storage]
   );
   const contextValue = useMemo(
     () => ({
-      board: boardExternalStore,
-      boardContent: boardContentExternalStore
+      boardCollection: boardCollectionExternalStore,
+      boardView: boardViewExternalStore
     }),
-    [boardExternalStore, boardContentExternalStore]
+    [boardCollectionExternalStore, boardViewExternalStore]
   );
 
   return (

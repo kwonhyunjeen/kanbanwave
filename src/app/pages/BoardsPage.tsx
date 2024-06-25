@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { BoardList, useKanbanBoard } from 'kanbanwave';
+import { BoardCollection, useKanbanBoardCollection } from 'kanbanwave';
 import {
   Button,
   Dialog,
@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 const BoardsPage = () => {
   const [open, dialogOpen] = useToggle(false);
 
-  const boardStore = useKanbanBoard();
+  const boardCollectionStore = useKanbanBoardCollection();
 
   const {
     register,
@@ -40,11 +40,11 @@ const BoardsPage = () => {
   const handleBoardSubmit = useCallback(
     (data: { title: string }) => {
       const { title } = data;
-      boardStore.createBoard({ title });
+      boardCollectionStore.createBoard({ title });
       dialogOpen();
       reset();
     },
-    [boardStore, dialogOpen, reset]
+    [boardCollectionStore, dialogOpen, reset]
   );
 
   return (
@@ -87,7 +87,7 @@ const BoardsPage = () => {
             </DialogActions>
           </form>
         </Dialog>
-        <BoardList
+        <BoardCollection
           boardRender={provided => (
             <Link to={`/boards/${provided.meta.board.id}`}>
               <provided.Component {...provided.props} />

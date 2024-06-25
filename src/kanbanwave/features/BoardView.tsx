@@ -2,13 +2,6 @@ import { Title } from 'app/components';
 import { Fragment, useCallback } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
-import NewList from './NewList';
-import { useKanbanBoardContent } from './KanbanStorageProvider';
-import List from './List';
-import ListDroppable from './ListDroppable';
-import NewCard from './NewCard';
-import CardDroppable from './CardDroppable';
-import Card from './Card';
 import {
   KWBoard,
   KWBoardUUID,
@@ -17,7 +10,14 @@ import {
   KWItemType,
   KWList,
   KWListForm
-} from './types';
+} from '../core/types';
+import Card from '../components/Card';
+import CardDroppable from '../components/CardDroppable';
+import List from '../components/List';
+import ListDroppable from '../components/ListDroppable';
+import NewCard from '../components/NewCard';
+import NewList from '../components/NewList';
+import { useKanbanBoardView } from './KanbanStorageProvider';
 
 type BoardViewProps = {
   boardId: KWBoardUUID;
@@ -38,26 +38,26 @@ const BoardView = ({
   cardRender,
   newCardRender
 }: BoardViewProps) => {
-  const boardContentStore = useKanbanBoardContent();
+  const boardViewStore = useKanbanBoardView();
 
-  const { lists, ...board } = boardContentStore.getBoardContent(boardIdProp);
+  const { lists, ...board } = boardViewStore.getBoardContent(boardIdProp);
 
   const handleListAdd = useCallback(
     (title: string) => {
       const list: KWListForm = { title };
-      boardContentStore.createList(board.id, list);
+      boardViewStore.createList(board.id, list);
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
-  const handleListDelete = useCallback(
+  const makeListDeleteClickHandler = useCallback(
     (listId: string) => () => {
-      boardContentStore.deleteList(board.id, listId);
+      boardViewStore.deleteList(board.id, listId);
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
-  const handleCardAdd = useCallback(
+  const makeCardAddHandler = useCallback(
     (listId: string) => (title: string) => {
       const currentDate = new Date();
       const card: KWCardForm = {
@@ -71,16 +71,16 @@ const BoardView = ({
         startDate: date.makeDayMonthYear(currentDate),
         dueDate: date.makeDayMonthYear(currentDate)
       };
-      boardContentStore.createCard(board.id, listId, card);
+      boardViewStore.createCard(board.id, listId, card);
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
-  const handleCardDelete = useCallback(
+  const makeCardDeleteClickHandler = useCallback(
     (listId: string, cardId: string) => () => {
-      boardContentStore.deleteCard(board.id, listId, cardId);
+      boardViewStore.deleteCard(board.id, listId, cardId);
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
   const handleDragEnd = useCallback(
@@ -89,13 +89,13 @@ const BoardView = ({
       if (!destination) return;
 
       if (type === KWItemType.LIST) {
-        boardContentStore.reorderList(
+        boardViewStore.reorderList(
           destination.droppableId,
           draggableId,
           destination.index
         );
       } else if (type === KWItemType.CARD) {
-        boardContentStore.reorderCard(
+        boardViewStore.reorderCard(
           board.id,
           source.droppableId,
           destination.droppableId,
@@ -104,11 +104,12 @@ const BoardView = ({
         );
       }
     },
-    [boardContentStore, board.id]
+    [boardViewStore, board.id]
   );
 
   return (
     <section className="app-base">
+      {/** @todo edit(save) 버튼 만들기 */}
       <Title className="mb-4 text-white">{board.title}</Title>
       <DragDropContext onDragEnd={handleDragEnd}>
         <ListDroppable
@@ -120,13 +121,13 @@ const BoardView = ({
               key={list.id}
               list={list}
               listIndex={index}
-              onDeleteClick={handleListDelete(list.id)}>
+              onDeleteClick={makeListDeleteClickHandler(list.id)}>
               <CardDroppable
                 listId={list.id}
                 buttonSlot={(() => {
                   const newCardProps = {
                     cardsLength: list.cards?.length,
-                    onAdd: handleCardAdd(list.id)
+                    onAdd: makeCardAddHandler(list.id)
                   };
                   return newCardRender ? (
                     newCardRender({
@@ -143,7 +144,7 @@ const BoardView = ({
                   const cardProps = {
                     card: card,
                     cardIndex: index,
-                    onDeleteClick: handleCardDelete(list.id, card.id)
+                    onDeleteClick: makeCardDeleteClickHandler(list.id, card.id)
                   };
                   return (
                     <Fragment key={`${list.id}:${card.id}`}>
