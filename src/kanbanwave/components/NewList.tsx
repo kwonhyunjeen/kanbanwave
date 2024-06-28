@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Button, IconButton, TextArea } from 'app/components';
 
 type NewListProps = {
@@ -12,20 +12,17 @@ const NewList = ({ className, listsLength, onAdd }: NewListProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setTitle(e.target.value);
-  }, []);
+  };
 
-  const handleAddClick = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      if (title.trim() !== '') {
-        onAdd?.(title);
-        setTitle('');
-      }
-    },
-    [title, onAdd]
-  );
+  const handleAddClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (title.trim() !== '') {
+      onAdd?.(title);
+      setTitle('');
+    }
+  };
 
   const handleCancelClick = () => {
     setTitle('');

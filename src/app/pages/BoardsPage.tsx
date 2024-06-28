@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { BoardCollection, useKanbanBoardCollection } from 'kanbanwave';
 import {
@@ -37,15 +36,12 @@ const BoardsPage = () => {
     reset();
   };
 
-  const handleBoardSubmit = useCallback(
-    (data: { title: string }) => {
-      const { title } = data;
-      boardCollectionStore.createBoard({ title });
-      dialogOpen();
-      reset();
-    },
-    [boardCollectionStore, dialogOpen, reset]
-  );
+  const handleBoardSubmit = (data: { title: string }) => {
+    const { title } = data;
+    boardCollectionStore.createBoard({ title });
+    dialogOpen();
+    reset();
+  };
 
   return (
     <section className="app-base">

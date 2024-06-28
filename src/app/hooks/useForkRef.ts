@@ -8,6 +8,7 @@ const useForkRef = <Instance>(
     refs.forEach(ref => {
       setRef(ref, instance);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, refs);
 };
 
