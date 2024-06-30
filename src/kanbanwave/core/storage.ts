@@ -2,13 +2,20 @@ import type { KanbanwaveStorage } from './types';
 
 export const makeBoardCollectionStore = (storage: KanbanwaveStorage) => {
   let snapshot = {
-    getBoards: storage.getBoards,
-    getBoardContent: storage.getBoardContent
+    getBoards: (...args: Parameters<typeof storage.getBoards>) =>
+      storage.getBoards(...args),
+    getBoardContent: (...args: Parameters<typeof storage.getBoardContent>) =>
+      storage.getBoardContent(...args)
   };
   let listeners: Array<() => void> = [];
 
   const emitChange = () => {
-    snapshot = { getBoards: storage.getBoards, getBoardContent: storage.getBoardContent };
+    snapshot = {
+      getBoards: (...args: Parameters<typeof storage.getBoards>) =>
+        storage.getBoards(...args),
+      getBoardContent: (...args: Parameters<typeof storage.getBoardContent>) =>
+        storage.getBoardContent(...args)
+    };
     for (let listener of listeners) {
       listener();
     }
@@ -42,11 +49,17 @@ export const makeBoardCollectionStore = (storage: KanbanwaveStorage) => {
 export type BoardCollectionStore = ReturnType<typeof makeBoardCollectionStore>;
 
 export const makeBoardViewStore = (storage: KanbanwaveStorage) => {
-  let snapshot = { getBoardContent: storage.getBoardContent };
+  let snapshot = {
+    getBoardContent: (...args: Parameters<typeof storage.getBoardContent>) =>
+      storage.getBoardContent(...args)
+  };
   let listeners: Array<() => void> = [];
 
   const emitChange = () => {
-    snapshot = { getBoardContent: storage.getBoardContent };
+    snapshot = {
+      getBoardContent: (...args: Parameters<typeof storage.getBoardContent>) =>
+        storage.getBoardContent(...args)
+    };
     for (let listener of listeners) {
       listener();
     }
