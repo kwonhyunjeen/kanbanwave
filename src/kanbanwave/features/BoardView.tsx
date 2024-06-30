@@ -39,9 +39,17 @@ const BoardView = ({
   cardRender,
   newCardRender
 }: BoardViewProps) => {
-  const kanbanwaveStore = useKanbanwaveStore();
+  const {
+    getBoardContent,
+    createList,
+    deleteList,
+    reorderList,
+    createCard,
+    deleteCard,
+    reorderCard
+  } = useKanbanwaveStore();
 
-  const { status, data } = useQuery(kanbanwaveStore.getBoardContent, [boardIdProp]);
+  const { status, data } = useQuery(getBoardContent, [boardIdProp]);
 
   if (status === 'pending') {
     return (
@@ -55,11 +63,11 @@ const BoardView = ({
 
   const handleListAdd = (title: string) => {
     const list: KWListForm = { title };
-    kanbanwaveStore.createList(board.id, list);
+    createList(board.id, list);
   };
 
   const makeListDeleteClickHandler = (listId: string) => () => {
-    kanbanwaveStore.deleteList(board.id, listId);
+    deleteList(board.id, listId);
   };
 
   const makeCardAddHandler = (listId: string) => (title: string) => {
@@ -75,11 +83,11 @@ const BoardView = ({
       startDate: date.makeDayMonthYear(currentDate),
       dueDate: date.makeDayMonthYear(currentDate)
     };
-    kanbanwaveStore.createCard(board.id, listId, card);
+    createCard(board.id, listId, card);
   };
 
   const makeCardDeleteClickHandler = (listId: string, cardId: string) => () => {
-    kanbanwaveStore.deleteCard(board.id, listId, cardId);
+    deleteCard(board.id, listId, cardId);
   };
 
   const handleDragEnd = (result: DropResult) => {
@@ -87,9 +95,9 @@ const BoardView = ({
     if (!destination) return;
 
     if (type === KWItemType.LIST) {
-      kanbanwaveStore.reorderList(destination.droppableId, draggableId, destination.index);
+      reorderList(destination.droppableId, draggableId, destination.index);
     } else if (type === KWItemType.CARD) {
-      kanbanwaveStore.reorderCard(
+      reorderCard(
         board.id,
         source.droppableId,
         destination.droppableId,

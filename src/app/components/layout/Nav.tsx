@@ -10,14 +10,14 @@ type NavProps = {
 };
 
 const Nav = ({ open, onClickDrawer }: NavProps) => {
-  const kanbanwaveStore = useKanbanwaveStore();
+  const { getBoards } = useKanbanwaveStore();
   const [boards, setBoards] = useState<KWBoard[]>([]);
 
   useEffect(() => {
     (async () => {
-      setBoards(await kanbanwaveStore.getBoards());
+      setBoards(await getBoards());
     })();
-  }, [kanbanwaveStore]);
+  }, [getBoards]);
 
   return (
     <nav

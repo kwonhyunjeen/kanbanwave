@@ -18,9 +18,9 @@ type BoardCollectionProps = {
 };
 
 const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) => {
-  const kanbanwaveStore = useKanbanwaveStore();
+  const { getBoards, createBoard, deleteBoard } = useKanbanwaveStore();
 
-  const { status, data: boards } = useQuery(kanbanwaveStore.getBoards, []);
+  const { status, data: boards } = useQuery(getBoards, []);
 
   if (status === 'pending') {
     return (
@@ -32,11 +32,11 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
 
   const handleBoardAdd = (title: string) => {
     const board: KWBoardForm = { title };
-    kanbanwaveStore.createBoard(board);
+    createBoard(board);
   };
 
   const makeBoardDeleteClickHandler = (boardId: string) => () => {
-    kanbanwaveStore.deleteBoard(boardId);
+    deleteBoard(boardId);
   };
 
   return (

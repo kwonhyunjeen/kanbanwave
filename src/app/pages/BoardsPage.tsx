@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 const BoardsPage = () => {
   const [open, dialogOpen] = useToggle(false);
 
-  const kanbanwaveStore = useKanbanwaveStore();
+  const { createBoard } = useKanbanwaveStore();
 
   const {
     register,
@@ -38,7 +38,7 @@ const BoardsPage = () => {
 
   const handleBoardSubmit = (data: { title: string }) => {
     const { title } = data;
-    kanbanwaveStore.createBoard({ title });
+    createBoard({ title });
     dialogOpen();
     reset();
   };
