@@ -1,14 +1,26 @@
 import type { KanbanwaveStorage } from './types';
 
-export const makeBoardCollectionStore = (storage: KanbanwaveStorage) => {
+function wrap<Fn extends (...args: any[]) => any>(
+  fn: Fn
+): (...args: Parameters<Fn>) => ReturnType<Fn> {
+  return (...args: Parameters<Fn>): ReturnType<Fn> => fn(...args);
+}
+
+export const makeKanbanwaveStore = (storage: KanbanwaveStorage) => {
   let snapshot = {
-    getBoards: storage.getBoards,
-    getBoardContent: storage.getBoardContent
+    getBoards: wrap(storage.getBoards),
+    getBoardContent: wrap(storage.getBoardContent)
   };
   let listeners: Array<() => void> = [];
 
-  const emitChange = () => {
-    snapshot = { getBoards: storage.getBoards, getBoardContent: storage.getBoardContent };
+  const emitChanges = (changes: Array<keyof typeof snapshot>) => {
+    snapshot = { ...snapshot };
+    changes.forEach(key => {
+      // snapshot[key]에 값(타입)을 올바르게 할당할 수 없어, 잘못된 로직이 들어갈 위험이 있음
+      // 그래서 fn 변수를 선언해, 타입을 미리 검증
+      const fn = wrap(storage[key]) as (typeof snapshot)[typeof key];
+      snapshot[key] = fn as any;
+    });
     for (let listener of listeners) {
       listener();
     }
@@ -26,87 +38,53 @@ export const makeBoardCollectionStore = (storage: KanbanwaveStorage) => {
     },
     createBoard(...args: Parameters<typeof storage.createBoard>) {
       storage.createBoard(...args);
-      emitChange();
+      emitChanges(['getBoards']);
     },
     updateBoard(...args: Parameters<typeof storage.updateBoard>) {
       storage.updateBoard(...args);
-      emitChange();
-    },
-    deleteBoard(...args: Parameters<typeof storage.deleteBoard>) {
-      storage.deleteBoard?.(...args);
-      emitChange();
-    }
-  };
-};
-
-export type BoardCollectionStore = ReturnType<typeof makeBoardCollectionStore>;
-
-export const makeBoardViewStore = (storage: KanbanwaveStorage) => {
-  let snapshot = { getBoardContent: storage.getBoardContent };
-  let listeners: Array<() => void> = [];
-
-  const emitChange = () => {
-    snapshot = { getBoardContent: storage.getBoardContent };
-    for (let listener of listeners) {
-      listener();
-    }
-  };
-
-  return {
-    subscribe(listener: () => void) {
-      listeners = [...listeners, listener];
-      return () => {
-        listeners = listeners.filter(it => it !== listener);
-      };
-    },
-    getSnapshot() {
-      return snapshot;
-    },
-    updateBoard(...args: Parameters<typeof storage.updateBoard>) {
-      storage.updateBoard(...args);
-      emitChange();
+      emitChanges(['getBoards', 'getBoardContent']);
     },
     deleteBoard(...args: Parameters<typeof storage.deleteBoard>) {
       storage.deleteBoard(...args);
-      emitChange();
+      emitChanges(['getBoards', 'getBoardContent']);
     },
     createList(...args: Parameters<typeof storage.createList>) {
       storage.createList(...args);
-      emitChange();
+      emitChanges(['getBoardContent']);
     },
     updateList(...args: Parameters<typeof storage.updateList>) {
       storage.updateList(...args);
-      emitChange();
+      emitChanges(['getBoardContent']);
     },
     deleteList(...args: Parameters<typeof storage.deleteList>) {
       storage.deleteList(...args);
-      emitChange();
+      emitChanges(['getBoardContent']);
     },
     reorderList(...args: Parameters<typeof storage.reorderList>) {
       storage.reorderList(...args);
-      emitChange();
+      emitChanges(['getBoardContent']);
     },
     getCard(...args: Parameters<typeof storage.getCard>) {
       storage.getCard(...args);
-      emitChange();
+      emitChanges(['getBoardContent']);
     },
     createCard(...args: Parameters<typeof storage.createCard>) {
       storage.createCard(...args);
-      emitChange();
+      emitChanges(['getBoardContent']);
     },
     updateCard(...args: Parameters<typeof storage.updateCard>) {
       storage.updateCard(...args);
-      emitChange();
+      emitChanges(['getBoardContent']);
     },
     deleteCard(...args: Parameters<typeof storage.deleteCard>) {
       storage.deleteCard(...args);
-      emitChange();
+      emitChanges(['getBoardContent']);
     },
     reorderCard(...args: Parameters<typeof storage.reorderCard>) {
       storage.reorderCard(...args);
-      emitChange();
+      emitChanges(['getBoardContent']);
     }
   };
 };
 
-export type BoardViewStore = ReturnType<typeof makeBoardViewStore>;
+export type KanbanwaveStore = ReturnType<typeof makeKanbanwaveStore>;

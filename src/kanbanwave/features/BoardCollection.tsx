@@ -2,7 +2,7 @@ import { KWBoard, KWBoardForm } from '../core/types';
 import Board from '../components/Board';
 import NewBoard from '../components/NewBoard';
 import useQuery from '../hooks/useQuery';
-import { useKanbanBoardCollection } from './KanbanStorageProvider';
+import { useKanbanwaveStore } from './KanbanStorageProvider';
 
 type BoardCollectionProps = {
   boardRender?: (provided: {
@@ -18,9 +18,9 @@ type BoardCollectionProps = {
 };
 
 const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) => {
-  const boardCollectionStore = useKanbanBoardCollection();
+  const { getBoards, createBoard, deleteBoard } = useKanbanwaveStore();
 
-  const { status, data: boards } = useQuery(boardCollectionStore.getBoards, []);
+  const { status, data: boards } = useQuery(getBoards, []);
 
   if (status === 'pending') {
     return (
@@ -32,11 +32,11 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
 
   const handleBoardAdd = (title: string) => {
     const board: KWBoardForm = { title };
-    boardCollectionStore.createBoard(board);
+    createBoard(board);
   };
 
   const makeBoardDeleteClickHandler = (boardId: string) => () => {
-    boardCollectionStore.deleteBoard(boardId);
+    deleteBoard(boardId);
   };
 
   return (

@@ -22,11 +22,13 @@ export default function useQuery<
   Args extends Parameters<Fetcher>,
   Data extends Awaited<ReturnType<Fetcher>>
 >(fetcher: Fetcher, args: Args): Result<Data> {
-  const responseRef = useRef<Data | Promise<Data>>(fetcher(...args));
+  const initializedRef = useRef<boolean>(false);
+  const responseRef = useRef<Data | Promise<Data>>();
 
   // 비동기 함수가 아닌 경우 초기 상태를 resolved로 설정
   const initialResult = useMemo<Result<Data>>(() => {
-    const response = responseRef.current;
+    const response = fetcher(...args);
+    responseRef.current = response;
     if (response instanceof Promise) {
       return { status: 'pending', data: undefined };
     }
@@ -38,12 +40,15 @@ export default function useQuery<
   const [data, setData] = useState<Data | undefined>(initialResult.data);
 
   useEffect(() => {
-    (async () => {
+    // 초기화(첫 렌더링) 시에는 initialResult에서 이미 fetcher를 호출했기 때문에, 초기화 이후에만 fetcher를 호출
+    if (initializedRef.current) {
       responseRef.current = fetcher(...args);
+    }
+    initializedRef.current = true;
+    (async () => {
       const response = await responseRef.current;
       setData(response);
       setStatus('resolved');
-      responseRef.current = undefined as Data;
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetcher, ...args]);

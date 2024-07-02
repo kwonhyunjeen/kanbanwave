@@ -18,7 +18,7 @@ import ListDroppable from '../components/ListDroppable';
 import NewCard from '../components/NewCard';
 import NewList from '../components/NewList';
 import useQuery from '../hooks/useQuery';
-import { useKanbanBoardView } from './KanbanStorageProvider';
+import { useKanbanwaveStore } from './KanbanStorageProvider';
 
 type BoardViewProps = {
   boardId: KWBoardUUID;
@@ -39,9 +39,17 @@ const BoardView = ({
   cardRender,
   newCardRender
 }: BoardViewProps) => {
-  const boardViewStore = useKanbanBoardView();
+  const {
+    getBoardContent,
+    createList,
+    deleteList,
+    reorderList,
+    createCard,
+    deleteCard,
+    reorderCard
+  } = useKanbanwaveStore();
 
-  const { status, data } = useQuery(boardViewStore.getBoardContent, [boardIdProp]);
+  const { status, data } = useQuery(getBoardContent, [boardIdProp]);
 
   if (status === 'pending') {
     return (
@@ -55,11 +63,11 @@ const BoardView = ({
 
   const handleListAdd = (title: string) => {
     const list: KWListForm = { title };
-    boardViewStore.createList(board.id, list);
+    createList(board.id, list);
   };
 
   const makeListDeleteClickHandler = (listId: string) => () => {
-    boardViewStore.deleteList(board.id, listId);
+    deleteList(board.id, listId);
   };
 
   const makeCardAddHandler = (listId: string) => (title: string) => {
@@ -75,11 +83,11 @@ const BoardView = ({
       startDate: date.makeDayMonthYear(currentDate),
       dueDate: date.makeDayMonthYear(currentDate)
     };
-    boardViewStore.createCard(board.id, listId, card);
+    createCard(board.id, listId, card);
   };
 
   const makeCardDeleteClickHandler = (listId: string, cardId: string) => () => {
-    boardViewStore.deleteCard(board.id, listId, cardId);
+    deleteCard(board.id, listId, cardId);
   };
 
   const handleDragEnd = (result: DropResult) => {
@@ -87,9 +95,9 @@ const BoardView = ({
     if (!destination) return;
 
     if (type === KWItemType.LIST) {
-      boardViewStore.reorderList(destination.droppableId, draggableId, destination.index);
+      reorderList(destination.droppableId, draggableId, destination.index);
     } else if (type === KWItemType.CARD) {
-      boardViewStore.reorderCard(
+      reorderCard(
         board.id,
         source.droppableId,
         destination.droppableId,

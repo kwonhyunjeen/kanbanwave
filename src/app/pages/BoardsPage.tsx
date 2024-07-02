@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { BoardCollection, useKanbanBoardCollection } from 'kanbanwave';
+import { BoardCollection, useKanbanwaveStore } from 'kanbanwave';
 import {
   Button,
   Dialog,
@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 const BoardsPage = () => {
   const [open, dialogOpen] = useToggle(false);
 
-  const boardCollectionStore = useKanbanBoardCollection();
+  const { createBoard } = useKanbanwaveStore();
 
   const {
     register,
@@ -38,7 +38,7 @@ const BoardsPage = () => {
 
   const handleBoardSubmit = (data: { title: string }) => {
     const { title } = data;
-    boardCollectionStore.createBoard({ title });
+    createBoard({ title });
     dialogOpen();
     reset();
   };
