@@ -121,13 +121,51 @@ const BoardView = ({
         setData({ ...data, lists: originLists });
       }
     } else if (type === KWItemType.CARD) {
-      reorderCard(
-        board.id,
-        source.droppableId,
-        destination.droppableId,
-        draggableId,
-        destination.index
-      );
+      // Optimistic Update
+      const originSourceCards =
+        data.lists.find(list => list.id === source.droppableId)?.cards || [];
+      const originDestinationCards =
+        data.lists.find(list => list.id === destination.droppableId)?.cards || [];
+      const newSourceCards = [...originSourceCards];
+      const [removed] = newSourceCards.splice(source.index, 1);
+      const newDestinationCards = [...originDestinationCards];
+      newDestinationCards.splice(destination.index, 0, removed);
+      setData(prev => ({
+        ...prev,
+        lists: prev.lists.map(list => {
+          if (list.id === source.droppableId) {
+            return { ...list, cards: newSourceCards };
+          }
+          if (list.id === destination.droppableId) {
+            return { ...list, cards: newDestinationCards };
+          }
+          return list;
+        })
+      }));
+
+      try {
+        reorderCard(
+          board.id,
+          source.droppableId,
+          destination.droppableId,
+          draggableId,
+          destination.index
+        );
+      } catch (error) {
+        console.error('Failed to change card order:', error);
+        setData(prev => ({
+          ...prev,
+          lists: prev.lists.map(list => {
+            if (list.id === source.droppableId) {
+              return { ...list, cards: originSourceCards };
+            }
+            if (list.id === destination.droppableId) {
+              return { ...list, cards: originDestinationCards };
+            }
+            return list;
+          })
+        }));
+      }
     }
   };
 
