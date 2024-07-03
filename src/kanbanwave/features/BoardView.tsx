@@ -1,5 +1,5 @@
 import { Title } from 'app/components';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
 import {
@@ -49,7 +49,19 @@ const BoardView = ({
     reorderCard
   } = useKanbanwaveStore();
 
-  const { status, data } = useQuery(getBoardContent, [boardIdProp]);
+  const { status, data: serverData } = useQuery(getBoardContent, [boardIdProp]);
+
+  const [data, setData] = useState<NonNullable<typeof serverData>>({
+    id: '',
+    title: '',
+    lists: []
+  });
+
+  useEffect(() => {
+    if (status === 'resolved') {
+      setData(serverData);
+    }
+  }, [status, serverData]);
 
   if (status === 'pending') {
     return (
@@ -95,7 +107,19 @@ const BoardView = ({
     if (!destination) return;
 
     if (type === KWItemType.LIST) {
-      reorderList(destination.droppableId, draggableId, destination.index);
+      const originLists = data.lists;
+      // Optimistic Update
+      const newListOrders = [...originLists];
+      const [removed] = newListOrders.splice(source.index, 1);
+      newListOrders.splice(destination.index, 0, removed);
+      setData(prev => ({ ...prev, lists: newListOrders }));
+
+      try {
+        reorderList(board.id, draggableId, destination.index);
+      } catch (error) {
+        console.error('Failed to change list order:', error);
+        setData({ ...data, lists: originLists });
+      }
     } else if (type === KWItemType.CARD) {
       reorderCard(
         board.id,
