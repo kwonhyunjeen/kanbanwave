@@ -49,7 +49,7 @@ const BoardView = ({
     reorderCard
   } = useKanbanwaveStore();
 
-  const { status, data: serverData } = useQuery(getBoardContent, [boardIdProp]);
+  const { status, data: serverData, error } = useQuery(getBoardContent, [boardIdProp]);
 
   const [data, setData] = useState<NonNullable<typeof serverData>>({
     id: '',
@@ -60,10 +60,12 @@ const BoardView = ({
   useEffect(() => {
     if (status === 'resolved') {
       setData(serverData);
+    } else if (status === 'rejected') {
+      console.error('Failed to fetch board content: ', error)
     }
-  }, [status, serverData]);
+  }, [status, serverData, error]);
 
-  if (status === 'pending') {
+  if (status === 'pending' && !serverData) {
     return (
       <div>
         <mark>Loading...</mark>
