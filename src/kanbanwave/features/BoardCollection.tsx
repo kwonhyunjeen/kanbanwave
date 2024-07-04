@@ -41,7 +41,7 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
 
   return (
     <ul className="flex flex-wrap gap-4">
-      {boards.map(board => {
+      {boards && boards.map(board => {
         const boardProps = {
           board: board,
           onDeleteClick: makeBoardDeleteClickHandler(board.id)
