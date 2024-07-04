@@ -1,21 +1,26 @@
 import { useMemo, useEffect, useRef, useState } from 'react';
 
-/** @todo Rejected 상태 추가 */
-type Status = 'pending' | 'resolved';
+type Status = 'pending' | 'resolved' | 'rejected';
 
-/** @todo error 프로퍼티 추가 */
 type Pending<Data> = {
   status: 'pending';
   data?: Data;
+  error?: Error;
 };
 
-/** @todo error 프로퍼티 추가 */
 type Resolved<Data> = {
   status: 'resolved';
   data: Data;
+  error?: undefined;
 };
 
-type Result<T> = Pending<T> | Resolved<T>;
+type Rejected = {
+  status: 'rejected';
+  data?: undefined;
+  error: Error;
+};
+
+type Result<T> = Pending<T> | Resolved<T> | Rejected;
 
 export default function useQuery<
   Fetcher extends (...args: any[]) => any,
@@ -38,20 +43,29 @@ export default function useQuery<
 
   const [status, setStatus] = useState<Status>(initialResult.status);
   const [data, setData] = useState<Data | undefined>(initialResult.data);
+  const [error, setError] = useState<Error | undefined>(undefined);
 
   useEffect(() => {
     // 초기화(첫 렌더링) 시에는 initialResult에서 이미 fetcher를 호출했기 때문에, 초기화 이후에만 fetcher를 호출
     if (initializedRef.current) {
       responseRef.current = fetcher(...args);
+      setStatus('pending');
     }
     initializedRef.current = true;
     (async () => {
-      const response = await responseRef.current;
-      setData(response);
-      setStatus('resolved');
+      try {
+        const response = await responseRef.current;
+        setData(response);
+        setError(undefined);
+        setStatus('resolved');
+      } catch (error) {
+        setData(undefined);
+        setError(error as Error);
+        setStatus('rejected');
+      }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fetcher, ...args]);
 
-  return { status, data } as Result<Data>;
+  return { status, data, error } as Result<Data>;
 }
