@@ -87,11 +87,12 @@ export const deleteList = (listId: KWListUUID) => {
   DB.removeCards(cardIds);
 };
 
-export const reorderList = (
+export const reorderList = async (
   boardId: KWBoardUUID,
   draggedListId: KWListUUID,
   droppedListIndex: number
 ) => {
+  await delay(300);
   const listOrders = DB.getListOrdersByBoardId(boardId);
   const draggedListIndex = listOrders.findIndex(id => id === draggedListId);
   if (draggedListIndex === -1) {
@@ -132,12 +133,13 @@ export const deleteCard = (cardId: KWCardUUID) => {
   DB.removeCards([cardId]);
 };
 
-export const reorderCard = (
+export const reorderCard = async (
   fromListId: KWListUUID,
   toListId: KWListUUID,
   draggedCardId: KWCardUUID,
   droppedCardIndex: number
 ) => {
+  await delay(300);
   const isSameList = fromListId === toListId;
   const cardOrdersFromList = DB.getCardOrdersByListId(fromListId);
   // from과 to가 같다면, cardOrders는 같은 객체를 참조함
