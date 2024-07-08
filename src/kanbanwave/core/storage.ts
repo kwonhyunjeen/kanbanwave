@@ -9,7 +9,8 @@ function wrap<Fn extends (...args: any[]) => any>(
 export const makeKanbanwaveStore = (storage: KanbanwaveStorage) => {
   let snapshot = {
     getBoards: wrap(storage.getBoards),
-    getBoardContent: wrap(storage.getBoardContent)
+    getBoardContent: wrap(storage.getBoardContent),
+    getCard: wrap(storage.getCard)
   };
   let listeners: Array<() => void> = [];
 
@@ -36,53 +37,49 @@ export const makeKanbanwaveStore = (storage: KanbanwaveStorage) => {
     getSnapshot() {
       return snapshot;
     },
-    createBoard(...args: Parameters<typeof storage.createBoard>) {
-      storage.createBoard(...args);
+    async createBoard(...args: Parameters<typeof storage.createBoard>) {
+      await storage.createBoard(...args);
       emitChanges(['getBoards']);
     },
-    updateBoard(...args: Parameters<typeof storage.updateBoard>) {
-      storage.updateBoard(...args);
+    async updateBoard(...args: Parameters<typeof storage.updateBoard>) {
+      await storage.updateBoard(...args);
       emitChanges(['getBoards', 'getBoardContent']);
     },
-    deleteBoard(...args: Parameters<typeof storage.deleteBoard>) {
-      storage.deleteBoard(...args);
+    async deleteBoard(...args: Parameters<typeof storage.deleteBoard>) {
+      await storage.deleteBoard(...args);
       emitChanges(['getBoards', 'getBoardContent']);
     },
-    createList(...args: Parameters<typeof storage.createList>) {
-      storage.createList(...args);
+    async createList(...args: Parameters<typeof storage.createList>) {
+      await storage.createList(...args);
       emitChanges(['getBoardContent']);
     },
-    updateList(...args: Parameters<typeof storage.updateList>) {
-      storage.updateList(...args);
+    async updateList(...args: Parameters<typeof storage.updateList>) {
+      await storage.updateList(...args);
       emitChanges(['getBoardContent']);
     },
-    deleteList(...args: Parameters<typeof storage.deleteList>) {
-      storage.deleteList(...args);
+    async deleteList(...args: Parameters<typeof storage.deleteList>) {
+      await storage.deleteList(...args);
       emitChanges(['getBoardContent']);
     },
-    reorderList(...args: Parameters<typeof storage.reorderList>) {
-      storage.reorderList(...args);
+    async reorderList(...args: Parameters<typeof storage.reorderList>) {
+      await storage.reorderList(...args);
       emitChanges(['getBoardContent']);
     },
-    getCard(...args: Parameters<typeof storage.getCard>) {
-      storage.getCard(...args);
+    async createCard(...args: Parameters<typeof storage.createCard>) {
+      await storage.createCard(...args);
       emitChanges(['getBoardContent']);
     },
-    createCard(...args: Parameters<typeof storage.createCard>) {
-      storage.createCard(...args);
-      emitChanges(['getBoardContent']);
+    async updateCard(...args: Parameters<typeof storage.updateCard>) {
+      await storage.updateCard(...args);
+      emitChanges(['getBoardContent', 'getCard']);
     },
-    updateCard(...args: Parameters<typeof storage.updateCard>) {
-      storage.updateCard(...args);
-      emitChanges(['getBoardContent']);
+    async deleteCard(...args: Parameters<typeof storage.deleteCard>) {
+      await storage.deleteCard(...args);
+      emitChanges(['getBoardContent', 'getCard']);
     },
-    deleteCard(...args: Parameters<typeof storage.deleteCard>) {
-      storage.deleteCard(...args);
-      emitChanges(['getBoardContent']);
-    },
-    reorderCard(...args: Parameters<typeof storage.reorderCard>) {
-      storage.reorderCard(...args);
-      emitChanges(['getBoardContent']);
+    async reorderCard(...args: Parameters<typeof storage.reorderCard>) {
+      await storage.reorderCard(...args);
+      emitChanges(['getBoardContent', 'getCard']);
     }
   };
 };

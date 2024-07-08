@@ -1,5 +1,5 @@
 import { Title } from 'app/components';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
 import {
@@ -49,9 +49,23 @@ const BoardView = ({
     reorderCard
   } = useKanbanwaveStore();
 
-  const { status, data } = useQuery(getBoardContent, [boardIdProp]);
+  const { status, data: serverData, error } = useQuery(getBoardContent, [boardIdProp]);
 
-  if (status === 'pending') {
+  const [data, setData] = useState<NonNullable<typeof serverData>>({
+    id: '',
+    title: '',
+    lists: []
+  });
+
+  useEffect(() => {
+    if (status === 'resolved') {
+      setData(serverData);
+    } else if (status === 'rejected') {
+      console.error('Failed to fetch board content: ', error)
+    }
+  }, [status, serverData, error]);
+
+  if (status === 'pending' && !serverData) {
     return (
       <div>
         <mark>Loading...</mark>
@@ -95,15 +109,106 @@ const BoardView = ({
     if (!destination) return;
 
     if (type === KWItemType.LIST) {
-      reorderList(destination.droppableId, draggableId, destination.index);
+      const originLists = data.lists;
+      const newListOrders = [...originLists];
+      const [removed] = newListOrders.splice(source.index, 1);
+      newListOrders.splice(destination.index, 0, removed);
+      setData(prev => ({ ...prev, lists: newListOrders }));
+
+      try {
+        reorderList(board.id, draggableId, destination.index);
+      } catch (error) {
+        console.error('Failed to change list order:', error);
+        setData({ ...data, lists: originLists });
+      }
     } else if (type === KWItemType.CARD) {
-      reorderCard(
-        board.id,
-        source.droppableId,
-        destination.droppableId,
-        draggableId,
-        destination.index
-      );
+      if (source.droppableId === destination.droppableId) {
+        const sourceList = data.lists.find(list => list.id === source.droppableId);
+        if (!sourceList) return;
+
+        const newCards = [...sourceList.cards];
+        const [remove] = newCards.splice(source.index, 1);
+        newCards.splice(destination.index, 0, remove);
+
+        setData(prev => ({
+          ...prev,
+          lists: prev.lists.map(list => {
+            if (list.id === source.droppableId) {
+              return { ...list, cards: newCards };
+            }
+            return list;
+          })
+        }));
+
+        try {
+          reorderCard(
+            board.id,
+            source.droppableId,
+            destination.droppableId,
+            draggableId,
+            destination.index
+          );
+        } catch (error) {
+          console.error('Failed to change card order: ', error);
+          setData(prev => ({
+            ...prev,
+            lists: prev.lists.map(list => {
+              if (list.id === source.droppableId) {
+                return { ...list, cards: sourceList.cards };
+              }
+              return list;
+            })
+          }));
+        }
+      } else {
+        const sourceList = data.lists.find(list => list.id === source.droppableId);
+        const destinationList = data.lists.find(
+          list => list.id === destination.droppableId
+        );
+        if (!sourceList || !destinationList) return;
+
+        const newSourceCards = [...sourceList.cards];
+        const newDestinationCards = [...destinationList.cards];
+        const [remove] = newSourceCards.splice(source.index, 1);
+        newDestinationCards.splice(destination.index, 0, remove);
+
+        setData(prev => ({
+          ...prev,
+          lists: prev.lists.map(list => {
+            if (list.id === source.droppableId) {
+              return { ...list, cards: newSourceCards };
+            }
+            if (list.id === destination.droppableId) {
+              return { ...list, cards: newDestinationCards };
+            }
+            return list;
+          })
+        }));
+
+        try {
+          reorderCard(
+            board.id,
+            source.droppableId,
+            destination.droppableId,
+            draggableId,
+            destination.index
+          );
+        } catch (error) {
+          console.error('Failed to change card order:', error);
+          setData(prev => ({
+            ...prev,
+            lists: prev.lists.map(list => {
+              if (list.id === source.droppableId) {
+                return { ...list, cards: sourceList.cards };
+              }
+              if (list.id === destination.droppableId) {
+                return { ...list, cards: destinationList.cards };
+              }
+              return list;
+            })
+          }));
+        }
+      }
     }
   };
 
