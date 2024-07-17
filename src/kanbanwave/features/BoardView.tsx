@@ -43,6 +43,7 @@ const BoardView = ({
     getBoardContent,
     updateBoard,
     createList,
+    updateList,
     deleteList,
     reorderList,
     createCard,
@@ -235,6 +236,14 @@ const BoardView = ({
     }
   };
 
+  const makeListTitleSaveHandler = (listId: string) => (newTitle: string) => {
+    const listToUpdate = data.lists.find(list => list.id === listId);
+    if (listToUpdate) {
+      const updatedList = { ...listToUpdate, title: newTitle };
+      updateList(board.id, updatedList);
+    }
+  };
+  
   return (
     <section className="app-base">
       <div className="board-header flex max-w-full w-[calc(100%-23px)] py-3">
@@ -272,7 +281,9 @@ const BoardView = ({
               key={list.id}
               list={list}
               listIndex={index}
-              onDeleteClick={makeListDeleteClickHandler(list.id)}>
+              onDeleteClick={makeListDeleteClickHandler(list.id)}
+              onTitleSave={makeListTitleSaveHandler(list.id)}
+              >
               <CardDroppable
                 listId={list.id}
                 buttonSlot={(() => {
