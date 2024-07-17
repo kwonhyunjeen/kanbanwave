@@ -1,5 +1,5 @@
-import { Title } from 'app/components';
-import { Fragment, useEffect, useState } from 'react';
+import { Input, Subtitle } from 'app/components';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
 import {
@@ -41,6 +41,7 @@ const BoardView = ({
 }: BoardViewProps) => {
   const {
     getBoardContent,
+    updateBoard,
     createList,
     deleteList,
     reorderList,
@@ -50,18 +51,31 @@ const BoardView = ({
   } = useKanbanwaveStore();
 
   const { status, data: serverData, error } = useQuery(getBoardContent, [boardIdProp]);
-
+  
   const [data, setData] = useState<NonNullable<typeof serverData>>({
     id: '',
     title: '',
     lists: []
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentTitle, setCurrentTitle] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
+  useEffect(() => {
+    setCurrentTitle(serverData?.title || '');
+  }, [serverData]);
 
   useEffect(() => {
     if (status === 'resolved') {
       setData(serverData);
     } else if (status === 'rejected') {
-      console.error('Failed to fetch board content: ', error)
+      console.error('Failed to fetch board content: ', error);
     }
   }, [status, serverData, error]);
 
@@ -212,10 +226,42 @@ const BoardView = ({
     }
   };
 
+  const handleBoardTitleSave = () => {
+    setIsEditing(false);
+    if (currentTitle.trim() !== '') {
+      updateBoard({ id: boardIdProp, title: currentTitle });
+    } else {
+      setCurrentTitle(data.title);
+    }
+  };
+
   return (
     <section className="app-base">
-      {/** @todo edit(save) 버튼 만들기 */}
-      <Title className="mb-4 text-white">{board.title}</Title>
+      <div className="board-header flex max-w-full w-[calc(100%-23px)] py-3">
+        <div className="flex items-center h-8 cursor-pointer hover:bg-gray-500 hover:rounded-md">
+          {isEditing ? (
+            <Input
+              ref={inputRef}
+              value={currentTitle}
+              onChange={e => setCurrentTitle(e.target.value)}
+              onBlur={handleBoardTitleSave}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  handleBoardTitleSave();
+                }
+              }}
+              className="px-2 text-xl font-bold rounded-sm input-sm"
+            />
+          ) : (
+            <Subtitle
+              size="xl"
+              className="px-2 font-bold text-white"
+              onClick={() => setIsEditing(true)}>
+              {board.title}
+            </Subtitle>
+          )}
+        </div>
+      </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <ListDroppable
           boardId={board.id}

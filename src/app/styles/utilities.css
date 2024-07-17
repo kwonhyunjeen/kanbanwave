@@ -30,7 +30,7 @@
   }
 
   .app-base {
-    @apply flex flex-col h-screen py-3.5 pl-10 ml-4;
+    @apply flex flex-col h-screen pb-3.5 pl-8 ml-4;
   }
 
   .list {
