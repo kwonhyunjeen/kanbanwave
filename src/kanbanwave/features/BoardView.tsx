@@ -47,6 +47,7 @@ const BoardView = ({
     deleteList,
     reorderList,
     createCard,
+    updateCard,
     deleteCard,
     reorderCard
   } = useKanbanwaveStore();
@@ -243,6 +244,16 @@ const BoardView = ({
       updateList(board.id, updatedList);
     }
   };
+     
+  const makeCardTitleSaveHandler = (listId: string, card: KWCard) => (newTitle: string) => {
+    const cardToUpdate = data.lists
+      .find(list => list.id === listId)
+      ?.cards.find(c => c.id === card.id);
+    if (cardToUpdate) {
+      const updatedCard = { ...cardToUpdate, title: newTitle };
+      updateCard(board.id, listId, updatedCard);
+    }
+  }
   
   return (
     <section className="app-base">
@@ -306,7 +317,8 @@ const BoardView = ({
                   const cardProps = {
                     card: card,
                     cardIndex: index,
-                    onDeleteClick: makeCardDeleteClickHandler(list.id, card.id)
+                    onDeleteClick: makeCardDeleteClickHandler(list.id, card.id),
+                    onTitleSave: makeCardTitleSaveHandler(list.id, card)
                   };
                   return (
                     <Fragment key={`${list.id}:${card.id}`}>
