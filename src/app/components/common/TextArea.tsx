@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useForkRef } from 'app/hooks';
-import { ChangeEvent, forwardRef, useRef } from 'react';
+import { ChangeEvent, forwardRef, useEffect, useRef } from 'react';
 
 type TextAreaProps = React.ComponentPropsWithoutRef<'textarea'> & {};
 
@@ -21,6 +21,12 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
     onChange?.(e);
     resize();
   };
+
+  useEffect(() => {
+    if (textRef.current) {
+      textRef.current.style.height = `${textRef.current.scrollHeight}px`;
+    }
+  }, []);
 
   return (
     <textarea

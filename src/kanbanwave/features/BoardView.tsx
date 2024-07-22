@@ -1,5 +1,5 @@
-import { Title } from 'app/components';
-import { Fragment, useEffect, useState } from 'react';
+import { Input, Subtitle } from 'app/components';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
 import {
@@ -19,6 +19,7 @@ import NewCard from '../components/NewCard';
 import NewList from '../components/NewList';
 import useQuery from '../hooks/useQuery';
 import { useKanbanwaveStore } from './KanbanStorageProvider';
+import useDerivedState from '../hooks/useDerivedState';
 
 type BoardViewProps = {
   boardId: KWBoardUUID;
@@ -41,27 +42,43 @@ const BoardView = ({
 }: BoardViewProps) => {
   const {
     getBoardContent,
+    updateBoard,
     createList,
+    updateList,
     deleteList,
     reorderList,
     createCard,
+    updateCard,
     deleteCard,
     reorderCard
   } = useKanbanwaveStore();
 
   const { status, data: serverData, error } = useQuery(getBoardContent, [boardIdProp]);
-
+  
   const [data, setData] = useState<NonNullable<typeof serverData>>({
     id: '',
     title: '',
     lists: []
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [internalTitle, setInternalTitle] = useDerivedState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
+  useEffect(() => {
+    setInternalTitle(serverData?.title || '');
+  }, [serverData?.title, setInternalTitle]);
 
   useEffect(() => {
     if (status === 'resolved') {
       setData(serverData);
     } else if (status === 'rejected') {
-      console.error('Failed to fetch board content: ', error)
+      console.error('Failed to fetch board content: ', error);
     }
   }, [status, serverData, error]);
 
@@ -212,10 +229,60 @@ const BoardView = ({
     }
   };
 
+  const handleBoardTitleSave = () => {
+    setIsEditing(false);
+    if (internalTitle.trim() === '') {
+      setInternalTitle(data.title);
+    } else {
+      updateBoard({ id: boardIdProp, title: internalTitle });
+    }
+  };
+
+  const makeListTitleSaveHandler = (listId: string) => (newTitle: string) => {
+    const listToUpdate = data.lists.find(list => list.id === listId);
+    if (listToUpdate) {
+      const updatedList = { ...listToUpdate, title: newTitle };
+      updateList(board.id, updatedList);
+    }
+  };
+     
+  const makeCardTitleSaveHandler = (listId: string, card: KWCard) => (newTitle: string) => {
+    const cardToUpdate = data.lists
+      .find(list => list.id === listId)
+      ?.cards.find(c => c.id === card.id);
+    if (cardToUpdate) {
+      const updatedCard = { ...cardToUpdate, title: newTitle };
+      updateCard(board.id, listId, updatedCard);
+    }
+  }
+  
   return (
     <section className="app-base">
-      {/** @todo edit(save) 버튼 만들기 */}
-      <Title className="mb-4 text-white">{board.title}</Title>
+      <div className="board-header flex max-w-full w-[calc(100%-23px)] py-3">
+        <div className="flex items-center h-8 cursor-pointer hover:bg-gray-500 hover:rounded-md">
+          {isEditing ? (
+            <Input
+              ref={inputRef}
+              value={internalTitle}
+              onChange={e => setInternalTitle(e.target.value)}
+              onBlur={handleBoardTitleSave}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  handleBoardTitleSave();
+                }
+              }}
+              className="px-2 text-xl font-bold rounded-sm input-sm"
+            />
+          ) : (
+            <Subtitle
+              size="xl"
+              className="px-2 font-bold text-white"
+              onClick={() => setIsEditing(true)}>
+              {internalTitle}
+            </Subtitle>
+          )}
+        </div>
+      </div>
       <DragDropContext onDragEnd={handleDragEnd}>
         <ListDroppable
           boardId={board.id}
@@ -226,7 +293,9 @@ const BoardView = ({
               key={list.id}
               list={list}
               listIndex={index}
-              onDeleteClick={makeListDeleteClickHandler(list.id)}>
+              onDeleteClick={makeListDeleteClickHandler(list.id)}
+              onTitleSave={makeListTitleSaveHandler(list.id)}
+              >
               <CardDroppable
                 listId={list.id}
                 buttonSlot={(() => {
@@ -249,7 +318,8 @@ const BoardView = ({
                   const cardProps = {
                     card: card,
                     cardIndex: index,
-                    onDeleteClick: makeCardDeleteClickHandler(list.id, card.id)
+                    onDeleteClick: makeCardDeleteClickHandler(list.id, card.id),
+                    onTitleSave: makeCardTitleSaveHandler(list.id, card)
                   };
                   return (
                     <Fragment key={`${list.id}:${card.id}`}>
