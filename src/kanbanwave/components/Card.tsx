@@ -3,6 +3,7 @@ import { IconButton, TextArea } from 'app/components';
 import { KWCard } from '../core/types';
 import CardDraggable from './CardDraggable';
 import { useEffect, useRef, useState } from 'react';
+import useDerivedState from '../hooks/useDerivedState';
 
 type CardProps = {
   card: KWCard;
@@ -16,7 +17,7 @@ type CardProps = {
 const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProps) => {
   const [open, menuOpen] = useToggle(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [currentTitle, setCurrentTitle] = useState(card.title);
+  const [internalTitle, setInternalTitle] = useDerivedState(card.title);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -25,20 +26,16 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
     }
   }, [isEditing]);
 
-  useEffect(() => {
-    setCurrentTitle(card.title);
-  }, [card.title]);
-
   const handleMenuOpen = () => {
     menuOpen();
   };
 
   const handleTitleSave = () => {
     setIsEditing(false);
-    if (currentTitle.trim() !== '') {
-      onTitleSave?.(currentTitle);
+    if (internalTitle.trim() === '') {
+      setInternalTitle(card.title);
     } else {
-      setCurrentTitle(card.title);
+      onTitleSave?.(internalTitle);
     }
     handleMenuOpen();
   };
@@ -48,8 +45,8 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
       {isEditing ? (
         <TextArea
           ref={inputRef}
-          value={currentTitle}
-          onChange={e => setCurrentTitle(e.target.value)}
+          value={internalTitle}
+          onChange={e => setInternalTitle(e.target.value)}
           onKeyDown={e => {
             if (e.key === 'Enter') {
               handleTitleSave();
@@ -72,7 +69,7 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
               }
             }}>
             <div className="relative flex items-center justify-between overflow-hidden break-words whitespace-normal">
-              <div className="w-[calc(100%-32px)]">{card.title}</div>
+              <div className="w-[calc(100%-32px)]">{internalTitle}</div>
               <IconButton
                 name="edit"
                 className="single-icon group-hover:flex"

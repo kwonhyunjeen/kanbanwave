@@ -2,6 +2,7 @@ import { IconButton, Subtitle, TextArea } from 'app/components';
 import { KWList } from '../core/types';
 import ListDraggable from './ListDraggable';
 import { useEffect, useRef, useState } from 'react';
+import useDerivedState from '../hooks/useDerivedState';
 
 type ListProps = {
   children?: React.ReactNode;
@@ -13,7 +14,7 @@ type ListProps = {
 
 const List = ({ children, list, listIndex, onDeleteClick, onTitleSave, ...props }: ListProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [currentTitle, setCurrentTitle] = useState(list.title);
+  const [internalTitle, setInternalTitle] = useDerivedState(list.title);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -22,16 +23,12 @@ const List = ({ children, list, listIndex, onDeleteClick, onTitleSave, ...props 
     }
   }, [isEditing]);
 
-  useEffect(() => {
-    setCurrentTitle(list.title);
-  }, [list.title]);
-
   const handleTitleSave = () => {
     setIsEditing(false);
-    if (currentTitle.trim() !== '') {
-      onTitleSave?.(currentTitle);
+    if (internalTitle.trim() === '') {
+      setInternalTitle(list.title);
     } else {
-      setCurrentTitle(list.title);
+      onTitleSave?.(internalTitle);
     }
   };
   
@@ -42,8 +39,8 @@ const List = ({ children, list, listIndex, onDeleteClick, onTitleSave, ...props 
           {isEditing ? (
             <TextArea
               ref={inputRef}
-              value={currentTitle}
-              onChange={e => setCurrentTitle(e.target.value)}
+              value={internalTitle}
+              onChange={e => setInternalTitle(e.target.value)}
               onBlur={handleTitleSave}
               onKeyDown={e => {
                 if (e.key === 'Enter') handleTitleSave();
@@ -56,7 +53,7 @@ const List = ({ children, list, listIndex, onDeleteClick, onTitleSave, ...props 
               className="flex-1 p-2 break-all cursor-pointer"
               size="lg"
               onClick={() => setIsEditing(true)}>
-              {list.title}
+              {internalTitle}
             </Subtitle>
           )}
           <div className="flex justify-between ml-2">

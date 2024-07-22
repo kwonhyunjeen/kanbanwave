@@ -19,6 +19,7 @@ import NewCard from '../components/NewCard';
 import NewList from '../components/NewList';
 import useQuery from '../hooks/useQuery';
 import { useKanbanwaveStore } from './KanbanStorageProvider';
+import useDerivedState from '../hooks/useDerivedState';
 
 type BoardViewProps = {
   boardId: KWBoardUUID;
@@ -60,7 +61,7 @@ const BoardView = ({
     lists: []
   });
   const [isEditing, setIsEditing] = useState(false);
-  const [currentTitle, setCurrentTitle] = useState('');
+  const [internalTitle, setInternalTitle] = useDerivedState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -70,8 +71,8 @@ const BoardView = ({
   }, [isEditing]);
 
   useEffect(() => {
-    setCurrentTitle(serverData?.title || '');
-  }, [serverData]);
+    setInternalTitle(serverData?.title || '');
+  }, [serverData?.title, setInternalTitle]);
 
   useEffect(() => {
     if (status === 'resolved') {
@@ -230,10 +231,10 @@ const BoardView = ({
 
   const handleBoardTitleSave = () => {
     setIsEditing(false);
-    if (currentTitle.trim() !== '') {
-      updateBoard({ id: boardIdProp, title: currentTitle });
+    if (internalTitle.trim() === '') {
+      setInternalTitle(data.title);
     } else {
-      setCurrentTitle(data.title);
+      updateBoard({ id: boardIdProp, title: internalTitle });
     }
   };
 
@@ -262,8 +263,8 @@ const BoardView = ({
           {isEditing ? (
             <Input
               ref={inputRef}
-              value={currentTitle}
-              onChange={e => setCurrentTitle(e.target.value)}
+              value={internalTitle}
+              onChange={e => setInternalTitle(e.target.value)}
               onBlur={handleBoardTitleSave}
               onKeyDown={e => {
                 if (e.key === 'Enter') {
@@ -277,7 +278,7 @@ const BoardView = ({
               size="xl"
               className="px-2 font-bold text-white"
               onClick={() => setIsEditing(true)}>
-              {board.title}
+              {internalTitle}
             </Subtitle>
           )}
         </div>
