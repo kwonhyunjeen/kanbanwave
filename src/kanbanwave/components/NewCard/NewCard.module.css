@@ -1,0 +1,15 @@
+.container {
+  margin-top: 0.5rem;
+}
+
+.action {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+}
+
+.addCardButton {
+  width: 100%;
+}
