@@ -1,0 +1,96 @@
+.wrapper {
+  display: block;
+  flex-shrink: 0;
+  align-self: flex-start;
+  height: 100%;
+  padding: 0 0.5rem;
+  white-space: nowrap;
+}
+
+.area {
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+  flex-direction: column;
+  width: 16rem;
+  max-height: 100%;
+  padding-bottom: 8px;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.headerContainer {
+  display: flex;
+  position: relative;
+  flex-grow: 0;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.5rem;
+  row-gap: 0;
+}
+
+.header {
+  position: relative;
+  flex-basis: min-content;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 20px;
+}
+
+.listTitle {
+  display: block;
+  z-index: 0;
+  margin: 0;
+  padding: 6px 8px 6px 12px;
+  overflow: hidden;
+  border: 1px solid transparent;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  white-space: normal;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.hidden {
+  display: none;
+}
+
+.textArea {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  min-height: 20px;
+  margin: 0;
+  padding: 6px 8px 6px 12px;
+  overflow: hidden;
+  opacity: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 600;
+  resize: none;
+  overflow-wrap: break-word;
+}
+
+.textAreaActive {
+  position: static;
+  z-index: 0;
+  opacity: 1;
+}
+
+.deleteIcon {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-top: 4px;
+  padding: 8px;
+  border-radius: 8px;
+}
+

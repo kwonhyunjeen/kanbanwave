@@ -1,0 +1,27 @@
+.wrapper {
+  width: 16rem;
+  height: fit-content;
+  padding-left: 0.5rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: inherit;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.action {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+}
+
+.addListButton {
+  width: 16rem;
+}
