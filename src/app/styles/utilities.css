@@ -26,11 +26,7 @@
   }
 
   .app-main {
-    @apply bg-sky-950 max-h-[calc(100vh-theme(height.header-height))] overflow-y-auto transition-all duration-300;
-  }
-
-  .app-base {
-    @apply flex flex-col h-screen pb-3.5 pl-8 ml-4;
+    @apply bg-sky-950 max-h-[calc(100vh-theme(height.header-height))] h-full overflow-y-auto transition-all duration-300;
   }
 
   .list {

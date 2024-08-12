@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding-bottom: 0.875rem;
+  padding-left: 2rem;
+  margin-left: 1rem;
+}
+
+.headerContainer {
+  height: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding-top: 0.75rem;
+  padding-bottom: 0.5rem;
+}
+
+.boardTitle {
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  &:hover {
+    background-color: #6b7280;
+    border-radius: 0.375rem;
+  }
+}
+
+.content {
+  flex-grow: 1;
+  margin-top: 12px;
+  position: relative;
+}
+
+.listDroppable {
+  display: flex;
+}
+
+.cardDroppable {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0.5rem;
+}

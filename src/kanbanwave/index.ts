@@ -7,7 +7,7 @@ export {
   type KanbanStorageContextValue
 } from './features/KanbanStorageProvider';
 
-export { default as BoardCollection } from './features/BoardCollection';
+export { default as BoardCollection } from './features/BoardCollection/BoardCollection';
 export { default as BoardView } from './features/BoardView/BoardView';
 
 export { default as Board } from './components/Board/Board';
