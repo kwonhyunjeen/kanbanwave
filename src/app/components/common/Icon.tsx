@@ -1,15 +1,34 @@
-import clsx from 'clsx';
 import { forwardRef } from 'react';
+import clsx from 'clsx';
 
-type IconProps = React.ComponentPropsWithoutRef<'span'> & { name: string };
+type IconProps = React.ComponentPropsWithoutRef<'span'> & {
+  name: string;
+  size?: 'sm' | 'md' | 'lg';
+};
 
 const Icon = forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
-  const { 'aria-hidden': hidden, 'aria-label': label, className, name, ...rest } = props;
+  const {
+    'aria-hidden': hidden,
+    'aria-label': label,
+    className,
+    name,
+    size = 'md',
+    ...rest
+  } = props;
+  const iconClass = clsx(
+    'material-icons',
+    {
+      'text-xl': size === 'sm', // 20px
+      'text-2xl': size === 'md', // 28px
+      'text-[2rem]': size === 'lg' // 32px
+    },
+    className
+  );
   return (
     <span
       {...rest}
       ref={ref}
-      className={clsx('material-icons cursor-pointer where(text-xl) rounded', className)}
+      className={iconClass}
       aria-hidden={hidden ?? label ? undefined : true}
       aria-label={label}>
       {name}
