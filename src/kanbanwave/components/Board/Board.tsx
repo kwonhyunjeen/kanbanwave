@@ -29,7 +29,7 @@ const Board = ({ board, onClick, onDeleteClick }: BoardProps) => {
             type="button"
             aria-label="delete a board"
             data-event-target="delete-button"
-            icon="delete_outlined"
+            icon="delete"
             onClick={onDeleteClick}
           />
         </div>

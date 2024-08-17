@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fontsource/material-icons": "^5.0.15",
+    "@fontsource-variable/material-symbols-outlined": "^5.0.39",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -55,6 +55,7 @@
     "clsx": "^2.1.0",
     "daisyui": "^4.7.3",
     "postcss": "^8.4.35",
-    "tailwind": "^4.0.0"
+    "tailwind": "^4.0.0",
+    "tailwind-merge": "^2.5.2"
   }
 }

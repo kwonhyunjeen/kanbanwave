@@ -1,17 +1,20 @@
 import clsx from 'clsx';
-import { Icon, IconButton } from 'app/components';
+import { Icon, IconButton, Subtitle } from 'app/components';
 import { Link } from 'react-router-dom';
 import { KWBoard, useKanbanwaveStore } from 'kanbanwave';
 import { useEffect, useState } from 'react';
 
 type NavProps = {
-  open: boolean;
-  onClickDrawer: () => void;
+  isOpen: boolean;
+  onToggleNav?: () => void;
 };
 
-const Nav = ({ open, onClickDrawer }: NavProps) => {
+const Nav = ({ isOpen, onToggleNav }: NavProps) => {
   const { getBoards } = useKanbanwaveStore();
   const [boards, setBoards] = useState<KWBoard[]>([]);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(true);
+
+  const handleToggleDetails = () => setIsDetailsOpen(!isDetailsOpen);
 
   useEffect(() => {
     (async () => {
@@ -21,58 +24,59 @@ const Nav = ({ open, onClickDrawer }: NavProps) => {
 
   return (
     <nav
-      className={clsx('app-nav', {
-        'translate-x-0 ': !open,
-        '-translate-x-[15rem]': open
-      })}>
-      {!open ? (
-        <>
-          <div className="flex items-center h-16 p-4 border-b">
-            <Icon name="cruelty_free" className="mr-2 text-3xl" />
-            <p className="flex-1">Trello workspace</p>
-            <IconButton
-              name="double_arrow"
-              onClick={onClickDrawer}
-              className="rotate-180 single-icon"
-            />
-          </div>
-          <ul className="menu">
-            <li>
-              <Link to="/boards">
-                <Icon name="dashboard" />
-                Boards
-              </Link>
-            </li>
-            <li>
-              <a>
-                <Icon name="person" />
-                Members
-              </a>
-            </li>
-            <li>
-              <details open>
-                <summary className="font-semibold">Your boards</summary>
-                <ul>
+      className={`bg-white transition-all duration-300 ${
+        isOpen ? 'w-64 px-3' : 'w-11 px-1'
+      }`}>
+      <div className="py-4 w-[calc(theme(spacing[64])-theme(spacing[6]))]">
+        <IconButton
+          icon="view_sidebar"
+          onClick={onToggleNav}
+          color="default"
+          className="mb-6 ml-1 rotate-180"
+        />
+        <div
+          className={`flex flex-col w-full gap-2 transition-all ${
+            isOpen ? 'visible opacity-100' : 'invisible opacity-0'
+          }`}>
+          <Link
+            to="/boards"
+            className="flex items-center w-full h-10 px-2 transition-all duration-300 hover:bg-zinc-400/50 hover:rounded-md">
+            <Icon name="view_kanban" className="mr-3" />
+            Boards
+          </Link>
+          <div className="mt-4">
+            <Subtitle
+              size="lg"
+              className="flex items-center justify-between px-1 mb-2 font-semibold cursor-pointer"
+              onClick={handleToggleDetails}>
+              Your boards
+              <Icon name={isDetailsOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'} />
+            </Subtitle>
+            <div
+              className={clsx(
+                'transition-all duration-200 overflow-hidden cursor-pointer',
+                isDetailsOpen ? 'max-h-screen' : 'max-h-0'
+              )}>
+              {isDetailsOpen && (
+                <>
                   {boards.map(board => (
-                    <li key={board.id}>
-                      <Link to={`/boards/${board.id}`} state={{ board }}>
+                    <div
+                      key={board.id}
+                      className="px-3 py-2 my-1 transition-all duration-200 hover:bg-zinc-400/50 hover:rounded-md">
+                      <Link
+                        to={`/boards/${board.id}`}
+                        state={{ board }}
+                        className="block w-full">
                         {board.title}
                       </Link>
-                    </li>
+                    </div>
                   ))}
-                </ul>
-              </details>
-            </li>
-          </ul>
-        </>
-      ) : (
-        <div className="absolute h-full bg-sky-100 -right-1" onClick={onClickDrawer}>
-          <IconButton
-            name="double_arrow"
-            className="w-6 h-full border-0 rounded-none shadow-none single-icon hover:bg-sky-100"
-          />
+                </>
+              )}
+            </div>
+          </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };

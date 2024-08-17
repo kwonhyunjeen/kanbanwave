@@ -3,20 +3,20 @@
   flex-shrink: 0;
   align-self: flex-start;
   height: 100%;
-  padding: 0 0.5rem;
+  padding-right: 1rem;
   white-space: nowrap;
 }
 
 .area {
   display: flex;
+  flex-direction: column;
   position: relative;
   box-sizing: border-box;
-  flex-direction: column;
   width: 16rem;
   max-height: 100%;
-  padding-bottom: 8px;
+  padding-bottom: 0.5rem;
   background-color: white;
-  border-radius: 0.5rem;
+  border-radius: 0.625rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -28,15 +28,14 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: 0.5rem;
-  row-gap: 0;
 }
 
 .header {
+  display: inline-flex;
   position: relative;
   flex-basis: min-content;
   flex-grow: 1;
   flex-shrink: 1;
-  min-height: 20px;
 }
 
 .listTitle {
@@ -44,53 +43,37 @@
   z-index: 0;
   margin: 0;
   padding: 6px 8px 6px 12px;
+  width: 100%;
   overflow: hidden;
+  box-sizing: border-box;
   border: 1px solid transparent;
+  border-radius: 8px;
   background-color: transparent;
   font-size: 14px;
   font-weight: 600;
-  line-height: 20px;
+  line-height: 1.25rem;
   white-space: normal;
   cursor: pointer;
   overflow-wrap: anywhere;
 }
 
-.hidden {
-  display: none;
-}
-
 .textArea {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
   box-sizing: border-box;
   min-height: 20px;
-  margin: 0;
   padding: 6px 8px 6px 12px;
-  overflow: hidden;
-  opacity: 0;
   background: transparent;
   box-shadow: none;
   font-size: 14px;
   font-weight: 600;
   resize: none;
-  overflow-wrap: break-word;
-}
-
-.textAreaActive {
-  position: static;
-  z-index: 0;
-  opacity: 1;
+  overflow-wrap: anywhere;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .deleteIcon {
   flex-grow: 0;
   flex-shrink: 0;
   margin-top: 4px;
-  padding: 8px;
+  margin-right: 4px;
   border-radius: 8px;
 }
-

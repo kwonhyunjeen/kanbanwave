@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import React from 'react';
 import clsx from 'clsx';
+import { cx } from 'app/utils/cx';
 
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
   color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
@@ -27,9 +28,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     'inline-flex items-center justify-center box-border border border-solid rounded font-medium leading-[1.75] tracking-[.02857em] align-middle cursor-pointer transition-colors duration-200 focus:outline-none';
 
   const sizeClasses = {
-    sm: 'py-[3px] px-[9px] text-[0.8125rem]',
-    md: 'py-[5px] px-[15px] text-sm',
-    lg: 'py-2 px-[22px] text-[0.9375rem]'
+    sm: 'py-[4px] px-[10px] text-[0.8125rem]',
+    md: 'py-[6px] px-[16px] text-sm',
+    lg: 'py-[8px] px-[22px] text-[0.9375rem]'
   };
 
   const colorClasses = {
@@ -49,12 +50,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
 
   const bgClasses = {
     text: {
-      default: 'hover:bg-default/[0.06]',
-      primary: 'hover:bg-primary/[0.04]',
-      secondary: 'hover:bg-secondary/[0.04]',
-      success: 'hover:bg-success/[0.04]',
-      warning: 'hover:bg-warning/[0.04]',
-      error: 'hover:bg-error/[0.04]'
+      default: 'hover:bg-default/[0.07]',
+      primary: 'hover:bg-primary/[0.07]',
+      secondary: 'hover:bg-secondary/[0.07]',
+      success: 'hover:bg-success/[0.07]',
+      warning: 'hover:bg-warning/[0.07]',
+      error: 'hover:bg-error/[0.07]'
     },
     contained: {
       default: 'bg-default border-default hover:bg-[#747474]',
@@ -65,17 +66,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       error: 'bg-error border-error hover:bg-[#c62828]'
     },
     outlined: {
-      default: 'border-default/[0.5] hover:border-default hover:bg-default/[0.06]',
-      primary: 'border-primary/[0.5] hover:border-primary hover:bg-primary/[0.04]',
+      default: 'border-default/[0.5] hover:border-default hover:bg-default/[0.07]',
+      primary: 'border-primary/[0.5] hover:border-primary hover:bg-primary/[0.07]',
       secondary:
-        'border-secondary/[0.5] hover:border-secondary hover:bg-secondary/[0.04]',
-      success: 'border-success/[0.5] hover:border-success hover:bg-success/[0.04]',
-      warning: 'border-warning/[0.5] hover:border-warning hover:bg-warning/[0.04]',
-      error: 'border-error/[0.5] hover:border-error hover:bg-error/[0.04]'
+        'border-secondary/[0.5] hover:border-secondary hover:bg-secondary/[0.07]',
+      success: 'border-success/[0.5] hover:border-success hover:bg-success/[0.07]',
+      warning: 'border-warning/[0.5] hover:border-warning hover:bg-warning/[0.07]',
+      error: 'border-error/[0.5] hover:border-error hover:bg-error/[0.07]'
     }
   };
 
-  const buttonClass = clsx(
+  const buttonClass = cx(
     baseStyles,
     sizeClasses[size],
     colorClasses[color],
@@ -84,16 +85,35 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     className
   );
 
+  const iconSizes = {
+    sm: '18px',
+    md: '20px',
+    lg: '22px'
+  };
+
+  const iconSize = iconSizes[size];
+
   const iconStyles = clsx('inline-flex', {
+    'text-[1.125rem]': size === 'sm',
+    'text-[1.25rem]': size === 'md',
+    'text-[1.375rem]': size === 'lg',
     'mr-1 ml-0': startIcon,
     'ml-1 mr-0': endIcon
   });
 
   return (
     <button {...rest} ref={ref} className={buttonClass} type={type}>
-      {startIcon && <span className={iconStyles}>{startIcon}</span>}
+      {startIcon && (
+        <span className={iconStyles}>
+          {React.cloneElement(startIcon as React.ReactElement, { size: iconSize })}
+        </span>
+      )}
       {children}
-      {endIcon && <span className={iconStyles}>{endIcon}</span>}
+      {endIcon && (
+        <span className={iconStyles}>
+          {React.cloneElement(endIcon as React.ReactElement, { size: iconSize })}
+        </span>
+      )}
     </button>
   );
 });

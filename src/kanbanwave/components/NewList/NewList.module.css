@@ -1,7 +1,6 @@
 .wrapper {
   width: 16rem;
   height: fit-content;
-  padding-left: 0.5rem;
 }
 
 .container {
@@ -10,7 +9,7 @@
   width: inherit;
   background-color: #fff;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 1rem;
   box-sizing: border-box;
 }
 

@@ -25,16 +25,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     ...rest
   } = props;
 
-  const wrapperClass = clsx(
-    styles.wrapper,
-    {
-      [styles.hasLeftIcon]: !!leftIcon,
-      [styles.hasRightIcon]: !!rightIcon
-    }
-  );
+  const wrapperClass = clsx(styles.wrapper, {
+    [styles.hasLeftIcon]: !!leftIcon,
+    [styles.hasRightIcon]: !!rightIcon
+  });
 
   return (
-    <div className={styles.container}>
+    <div className={clsx(styles.container, className)}>
       {label && <label className={styles.label}>{label}</label>}
       <div className={wrapperClass}>
         {leftIcon && <span className={styles.iconWithLeft}>{leftIcon}</span>}

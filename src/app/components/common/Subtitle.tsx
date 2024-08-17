@@ -18,7 +18,7 @@ const Subtitle = forwardRef<HTMLElement, SubtitleProps>((props, ref) => {
     <Element
       {...rest}
       ref={ref}
-      className={clsx(`font-semibold ${subtitleSizeClass[size]} `, className)}>
+      className={clsx(`font-semibold ${subtitleSizeClass[size]}`, className)}>
       {children}
     </Element>
   );

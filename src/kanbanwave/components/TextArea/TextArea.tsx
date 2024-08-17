@@ -12,14 +12,10 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
 
   const resize = () => {
     if (textAreaRef && textAreaRef.current) {
-      textAreaRef.current.style.height = 'auto';
-      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+      textAreaRef.current.style.height = '0';
+      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight + 2}px`;
     }
   };
-
-  useEffect(() => {
-    resize();
-  }, []);
 
   useEffect(() => {
     resize();
@@ -29,7 +25,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
     if (onChange) {
       onChange(e);
     }
-    resize();
   };
 
   return (
@@ -37,6 +32,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
       {...rest}
       ref={textCallbackRef}
       value={value}
+      rows={1}
       onChange={handleChange}
       className={clsx(styles.root, className)}></textarea>
   );

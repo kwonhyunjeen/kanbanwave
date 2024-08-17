@@ -1,9 +1,10 @@
 import { forwardRef } from 'react';
-import clsx from 'clsx';
+import { cx } from 'app/utils/cx';
 
 type IconProps = React.ComponentPropsWithoutRef<'span'> & {
   name: string;
   size?: 'sm' | 'md' | 'lg';
+  variant?: 'outlined' | 'filled';
 };
 
 const Icon = forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
@@ -15,15 +16,19 @@ const Icon = forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
     size = 'md',
     ...rest
   } = props;
-  const iconClass = clsx(
-    'material-icons',
-    {
-      'text-xl': size === 'sm', // 20px
-      'text-2xl': size === 'md', // 28px
-      'text-[2rem]': size === 'lg' // 32px
-    },
+
+  const sizeClasses = {
+    'sm': 'text-[1.25rem]', // 20px,
+    'md': 'text-[1.5rem]', // 24px,
+    'lg': 'text-[2rem]' // 32px
+  }
+
+  const iconClass = cx(
+    `material-symbols`,
+    sizeClasses[size],
     className
   );
+
   return (
     <span
       {...rest}

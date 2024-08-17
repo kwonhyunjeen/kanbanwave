@@ -1,7 +1,8 @@
 import { forwardRef } from 'react';
-import clsx from 'clsx';
+import { cx } from 'app/utils/cx';  // cx 함수를 가져옴
 import Button from './Button';
 import Icon from './Icon';
+import clsx from 'clsx';
 
 type IconButtonProps = Omit<
   React.ComponentPropsWithoutRef<typeof Button>,
@@ -22,12 +23,12 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
   } = props;
 
   const sizeStyles = {
-    sm: '!p-[3px]',
-    md: '!p-[5px]',
-    lg: '!p-[5px]'
+    sm: 'p-[4px]',
+    md: 'p-[6px]',
+    lg: 'p-[6px]'
   };
 
-  const buttonClass = clsx('p-0 !min-w-0 tracking-normal', sizeStyles[size], className);
+  const buttonClass = clsx('min-w-0 tracking-normal', sizeStyles[size], className);
 
   return (
     <Button

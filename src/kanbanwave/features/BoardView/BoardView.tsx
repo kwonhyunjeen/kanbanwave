@@ -21,6 +21,7 @@ import useQuery from '../../hooks/useQuery';
 import { useKanbanwaveStore } from '../KanbanStorageProvider';
 import useDerivedState from '../../hooks/useDerivedState';
 import styles from './BoardView.module.css';
+import Spinner from 'kanbanwave/components/Spinner/Spinner';
 
 type BoardViewProps = {
   boardId: KWBoardUUID;
@@ -86,7 +87,7 @@ const BoardView = ({
   if (status === 'pending' && !serverData) {
     return (
       <div>
-        <mark>Loading...</mark>
+        <Spinner />
       </div>
     );
   }
@@ -259,7 +260,7 @@ const BoardView = ({
     };
 
   return (
-    <section className={styles.container}>
+    <div className={styles.container}>
       <div className={styles.headerContainer}>
         <div className={styles.header}>
           {isEditing ? (
@@ -274,7 +275,7 @@ const BoardView = ({
                 }
               }}
               size="md"
-              style={{ fontSize: '1.25rem', fontWeight: 'bold', padding: '0.5rem' }}
+              style={{ fontSize: '1.25rem', fontWeight: '600' }}
             />
           ) : (
             <h1 className={styles.boardTitle} onClick={() => setIsEditing(true)}>
@@ -288,8 +289,7 @@ const BoardView = ({
           <ListDroppable
             boardId={board.id}
             buttonSlot={<NewList onAdd={handleListAdd} listsLength={lists.length} />}
-            className={styles.listDroppable}
-            >
+            className={styles.listDroppable}>
             {lists.map((list, index) => (
               <List
                 key={list.id}
@@ -342,7 +342,7 @@ const BoardView = ({
           </ListDroppable>
         </DragDropContext>
       </div>
-    </section>
+    </div>
   );
 };
 

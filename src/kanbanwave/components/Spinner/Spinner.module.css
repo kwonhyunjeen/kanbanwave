@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+}
+
+@keyframes react-spinners-BeatLoader-beat {
+  50% {
+    transform: scale(0.75);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.item {
+  display: inline-block;
+  background-color: rgba(100, 116, 139, 0.75);
+  width: 15px;
+  height: 15px;
+  margin: 2px;
+  border-radius: 100%;
+  animation: 0.7s linear infinite normal both running react-spinners-BeatLoader-beat;
+}
+
+.item:nth-child(odd) {
+  animation-delay: 0s;
+}
+
+.item:nth-child(even) {
+  animation-delay: 0.35s;
+}

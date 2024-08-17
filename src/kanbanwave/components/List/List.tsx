@@ -31,8 +31,7 @@ const List = ({
     if (isEditing && textAreaRef.current) {
       textAreaRef.current.focus();
     }
-  }
-  , [isEditing]);
+  }, [isEditing]);
 
   const handleTitleSave = () => {
     setIsEditing(false);
@@ -48,24 +47,27 @@ const List = ({
       <div {...props} className={styles.area}>
         <div className={styles.headerContainer}>
           <div className={styles.header}>
-            <h2
-              ref={h2Ref}
-              className={`${styles.listTitle} ${isEditing ? styles.hidden : ''}`}
-              onClick={() => setIsEditing(true)}>
-              {internalTitle}
-            </h2>
-            <TextArea
-              ref={textAreaRef}
-              value={internalTitle}
-              onChange={e => setInternalTitle(e.target.value)}
-              onBlur={handleTitleSave}
-              onKeyDown={e => {
-                if (e.key === 'Enter') handleTitleSave();
-              }}
-              className={`${styles.textArea} ${isEditing ? styles.textAreaActive : ''}`}
-              style={{ height: `${h2Ref.current?.scrollHeight}px` }}
-              maxLength={512}
-            />
+            {!isEditing && (
+              <h2
+                ref={h2Ref}
+                className={styles.listTitle}
+                onClick={() => setIsEditing(true)}>
+                {internalTitle}
+              </h2>
+            )}
+            {isEditing && (
+              <TextArea
+                ref={textAreaRef}
+                value={internalTitle}
+                onChange={e => setInternalTitle(e.target.value)}
+                onBlur={handleTitleSave}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') handleTitleSave();
+                }}
+                className={styles.textArea}
+                maxLength={512}
+              />
+            )}
           </div>
           <IconButton
             icon="remove"

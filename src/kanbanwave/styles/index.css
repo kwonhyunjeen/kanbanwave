@@ -1,4 +1,3 @@
-@import './base.css';
-@import '@fontsource/material-icons';
-@import './utilities.css';
 @import './variables.css';
+@import './base.css';
+@import '@fontsource-variable/material-symbols-outlined';

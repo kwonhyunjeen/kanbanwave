@@ -1,15 +1,14 @@
 .root {
-  font-family: 'Material Icons';
+  font-family: 'Material Symbols Outlined Variable';
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: -0.125em;
   text-transform: none;
   line-height: 1;
-  cursor: pointer;
 }
 
 /* Sizes */
 .iconSm {
-  font-size: 1.25rem;  /* 20px */
+  font-size: 1.25rem; /* 20px */
 }
 
 .iconMd {

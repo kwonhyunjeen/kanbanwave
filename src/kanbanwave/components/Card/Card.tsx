@@ -81,7 +81,14 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
         <div
           className={styles.container}
           ref={containerRef}
-          onClick={() => setIsEditing(true)}>
+          onClick={e => {
+            if (!(e.target instanceof Element)) {
+              return;
+            }
+            if (e.target.closest('[data-event-target="edit-button"]')) {
+              e.preventDefault();
+            }
+          }}>
           {isEditing && cardRect ? (
             <div
               className={styles.editContainer}
@@ -123,15 +130,12 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
               className={styles.wrapper}
               onClick={e => {
                 onClick?.(e);
-                if (!(e.target instanceof Element)) {
-                  return;
-                }
-                if (e.target.closest('[data-event-target="menu-button"]')) {
-                  e.preventDefault();
-                }
               }}>
               <div className={styles.title}>{internalTitle}</div>
               <IconButton
+                type="button"
+                aria-label="edit a card"
+                data-event-target="edit-button"
                 icon="edit"
                 className={styles.editIcon}
                 variant="text"

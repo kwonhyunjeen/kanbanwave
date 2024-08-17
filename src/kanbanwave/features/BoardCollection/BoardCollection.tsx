@@ -5,6 +5,7 @@ import NewBoard from '../../components/NewBoard/NewBoard';
 import useQuery from '../../hooks/useQuery';
 import { useKanbanwaveStore } from '../KanbanStorageProvider';
 import styles from './BoardCollection.module.css';
+import Spinner from 'kanbanwave/components/Spinner/Spinner';
 
 type BoardCollectionProps = {
   boardRender?: (provided: {
@@ -25,11 +26,11 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
   const { status, data: boards } = useQuery(getBoards, []);
 
   if (status === 'pending') {
-    return (
-      <div>
-        <mark>Loading...</mark>
-      </div>
-    );
+  return (
+    <div>
+      <Spinner />
+    </div>
+  );
   }
 
   const handleBoardAdd = (title: string) => {
