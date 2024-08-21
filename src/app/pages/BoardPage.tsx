@@ -11,7 +11,13 @@ const BoardPage = () => {
   }
 
   /** @todo 카드 상세 페이지 개발되면 cardRender로 링크 연결 */
-  return <BoardView boardId={boardId} />;
+  return (
+    <section className="p-8">
+      <div className="flex flex-col mx-auto max-w-[1600px]">
+        <BoardView boardId={boardId} />
+      </div>
+    </section>
+  );
 };
 
 export default BoardPage;

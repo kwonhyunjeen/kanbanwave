@@ -1,19 +1,15 @@
 import { Header, Nav } from 'app/components';
 import { useToggle } from 'app/hooks';
-import clsx from 'clsx';
 import { Outlet } from 'react-router-dom';
 
 const BaseLayout = () => {
-  const [open, drawerOpen] = useToggle(false);
+  const [isNavOpen, toggleNav] = useToggle(true);
   return (
-    <div className="app-layout">
-      <Header />
-      <div className="app-container">
-        <Nav open={open} onClickDrawer={drawerOpen} />
-        <main
-          className={clsx('app-main', {
-            'ml-[260px]': !open
-          })}>
+    <div className="flex flex-col h-screen">
+      <div className="flex flex-1">
+        <Nav isOpen={isNavOpen} onToggleNav={toggleNav} />
+        <main className="flex-grow overflow-y-auto bg-slate-100">
+          <Header />
           <Outlet />
         </main>
       </div>

@@ -1,14 +1,15 @@
-import clsx from 'clsx';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { Button, IconButton, TextArea } from 'app/components';
+import styles from './NewList.module.css';
+import TextArea from '../TextArea/TextArea';
+import Button from '../Button/Button';
+import IconButton from '../IconButton/IconButton';
 
 type NewListProps = {
-  className?: string;
   listsLength?: number;
   onAdd?: (title: string) => void;
 };
 
-const NewList = ({ className, listsLength, onAdd }: NewListProps) => {
+const NewList = ({ listsLength, onAdd }: NewListProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -38,36 +39,37 @@ const NewList = ({ className, listsLength, onAdd }: NewListProps) => {
   }, [listsLength]);
 
   return (
-    <div className="flex flex-col w-full rounded-lg max-w-64 bg-zinc-50 shrink-0 h-fit">
+    <div className={styles.wrapper}>
       {isInputVisible ? (
-        <div className={clsx('p-2', className)}>
+        <div className={styles.container}>
           <TextArea
             placeholder={`Enter a list title`}
             value={title}
             onChange={handleChange}
-            className="w-full py-1 leading-8 min-h-11 "
           />
-          <div className="flex items-start mt-1">
-            <Button type="button" className="mr-2" onClick={handleAddClick}>
+          <div className={styles.action}>
+            <Button type="button" size="sm" variant="contained" onClick={handleAddClick}>
               Add list
             </Button>
             <IconButton
-              name="close"
               type="button"
+              size="sm"
+              icon="close"
               aria-label="cancel"
               onClick={handleCancelClick}
-              className="btn-square"
             />
           </div>
         </div>
       ) : (
-        <IconButton
-          name="add"
+        <Button
           aria-label={`add a list`}
+          size="lg"
+          variant="contained"
+          color="default"
           onClick={() => setIsInputVisible(true)}
-          className={clsx('h-11')}>
-          <span className="text-sm">Add another list</span>
-        </IconButton>
+          className={styles.addListButton}>
+          Add another list
+        </Button>
       )}
     </div>
   );

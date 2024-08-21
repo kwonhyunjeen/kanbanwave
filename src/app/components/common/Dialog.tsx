@@ -26,7 +26,7 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>((props, ref) => {
       {children}
       {closeIcon && (
         <IconButton
-          name="close"
+          icon="close"
           aria-label="close"
           className="absolute top-4 right-4 btn-square btn-ghost"
           onClick={handleModalClose}

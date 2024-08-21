@@ -1,0 +1,17 @@
+.root {
+  padding: 0;
+  min-width: 0;
+  letter-spacing: 0;
+}
+
+.sizeSm { /* 28px */
+  padding: 4px;
+}
+
+.sizeMd { /* 36px */
+  padding: 6px;
+}
+
+.sizeLg { /* 44px */
+  padding: 6px;
+}

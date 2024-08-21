@@ -1,19 +1,25 @@
 @tailwind components;
 
-.divider {
-  height: 0.0625rem;
-  margin: 0;
-}
+@layer components {
+  .material-symbols {
+    font-family: 'Material Symbols Outlined Variable';
+    display: inline-block;
+    vertical-align: -0.125em;
+    text-transform: none;
+    line-height: 1;
+  }
 
-.divider::after,
-.divider::before {
-  height: 0.05rem;
-}
+  .divider {
+    height: 0.0625rem;
+    margin: 0;
+  }
 
-.dialog-actions > :last-child {
-  @apply ml-2;
-}
+  .divider::after,
+  .divider::before {
+    height: 0.05rem;
+  }
 
-.single-icon {
-  @apply btn-xs btn-square btn-ghost;
+  .dialog-actions > :last-child {
+    @apply ml-2;
+  }
 }

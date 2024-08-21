@@ -1,0 +1,79 @@
+.wrapper {
+  display: block;
+  flex-shrink: 0;
+  align-self: flex-start;
+  height: 100%;
+  padding-right: 1rem;
+  white-space: nowrap;
+}
+
+.area {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+  width: 16rem;
+  max-height: 100%;
+  padding-bottom: 0.5rem;
+  background-color: white;
+  border-radius: 0.625rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.headerContainer {
+  display: flex;
+  position: relative;
+  flex-grow: 0;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+.header {
+  display: inline-flex;
+  position: relative;
+  flex-basis: min-content;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.listTitle {
+  display: block;
+  z-index: 0;
+  margin: 0;
+  padding: 6px 8px 6px 12px;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25rem;
+  white-space: normal;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.textArea {
+  box-sizing: border-box;
+  min-height: 20px;
+  padding: 6px 8px 6px 12px;
+  background: transparent;
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 600;
+  resize: none;
+  overflow-wrap: anywhere;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.deleteIcon {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-top: 4px;
+  margin-right: 4px;
+  border-radius: 8px;
+}

@@ -1,8 +1,11 @@
-import { KWBoard, KWBoardForm } from '../core/types';
-import Board from '../components/Board';
-import NewBoard from '../components/NewBoard';
-import useQuery from '../hooks/useQuery';
-import { useKanbanwaveStore } from './KanbanStorageProvider';
+import { Fragment } from 'react';
+import { KWBoard, KWBoardForm } from '../../core/types';
+import Board from '../../components/Board/Board';
+import NewBoard from '../../components/NewBoard/NewBoard';
+import useQuery from '../../hooks/useQuery';
+import { useKanbanwaveStore } from '../KanbanStorageProvider';
+import styles from './BoardCollection.module.css';
+import Spinner from 'kanbanwave/components/Spinner/Spinner';
 
 type BoardCollectionProps = {
   boardRender?: (provided: {
@@ -23,11 +26,11 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
   const { status, data: boards } = useQuery(getBoards, []);
 
   if (status === 'pending') {
-    return (
-      <div>
-        <mark>Loading...</mark>
-      </div>
-    );
+  return (
+    <div>
+      <Spinner />
+    </div>
+  );
   }
 
   const handleBoardAdd = (title: string) => {
@@ -40,26 +43,7 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
   };
 
   return (
-    <ul className="flex flex-wrap gap-4">
-      {boards && boards.map(board => {
-        const boardProps = {
-          board: board,
-          onDeleteClick: makeBoardDeleteClickHandler(board.id)
-        };
-        return (
-          <li key={board.id} className="w-[23%]">
-            {boardRender ? (
-              boardRender({
-                Component: Board,
-                props: boardProps,
-                meta: { board }
-              })
-            ) : (
-              <Board {...boardProps} />
-            )}
-          </li>
-        );
-      })}
+    <div className={styles.container}>
       {(() => {
         const newBoardProps = {
           onAdd: handleBoardAdd
@@ -74,7 +58,27 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
           <NewBoard {...newBoardProps} />
         );
       })()}
-    </ul>
+      {boards &&
+        boards.map(board => {
+          const boardProps = {
+            board: board,
+            onDeleteClick: makeBoardDeleteClickHandler(board.id)
+          };
+          return (
+            <Fragment key={board.id}>
+              {boardRender ? (
+                boardRender({
+                  Component: Board,
+                  props: boardProps,
+                  meta: { board }
+                })
+              ) : (
+                <Board {...boardProps} />
+              )}
+            </Fragment>
+          );
+        })}
+    </div>
   );
 };
 

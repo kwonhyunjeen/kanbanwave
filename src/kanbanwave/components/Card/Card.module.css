@@ -1,0 +1,72 @@
+.container {
+  display: flex;
+  position: relative;
+  min-height: 2.25rem;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  margin: 0.375rem 0;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  &:hover {
+    background-color: #eaeaea;
+    transition: background-color 0.2s;
+  }
+  &:active {
+    background-color: #d5d5d5;
+    transition: background-color 0.2s;
+  }
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  min-height: 1.5rem;
+}
+
+.title {
+  display: flex;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  position: relative;
+  flex-basis: min-content;
+  flex-grow: 1;
+  flex-shrink: 1;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.editContainer {
+  position: fixed;
+  z-index: 15;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.saveButton {
+  margin-right: 0.5rem;
+}
+
+.editIcon {
+  margin-left: 0.25rem;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}

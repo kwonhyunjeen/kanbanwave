@@ -1,4 +1,3 @@
-import { Input, Subtitle } from 'app/components';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { date, dummy } from 'app/utils';
@@ -10,16 +9,19 @@ import {
   KWItemType,
   KWList,
   KWListForm
-} from '../core/types';
-import Card from '../components/Card';
-import CardDroppable from '../components/CardDroppable';
-import List from '../components/List';
-import ListDroppable from '../components/ListDroppable';
-import NewCard from '../components/NewCard';
-import NewList from '../components/NewList';
-import useQuery from '../hooks/useQuery';
-import { useKanbanwaveStore } from './KanbanStorageProvider';
-import useDerivedState from '../hooks/useDerivedState';
+} from '../../core/types';
+import Card from '../../components/Card/Card';
+import CardDroppable from '../../components/CardDroppable';
+import Input from '../../components/Input/Input';
+import List from '../../components/List/List';
+import ListDroppable from '../../components/ListDroppable';
+import NewCard from '../../components/NewCard/NewCard';
+import NewList from '../../components/NewList/NewList';
+import useQuery from '../../hooks/useQuery';
+import { useKanbanwaveStore } from '../KanbanStorageProvider';
+import useDerivedState from '../../hooks/useDerivedState';
+import styles from './BoardView.module.css';
+import Spinner from 'kanbanwave/components/Spinner/Spinner';
 
 type BoardViewProps = {
   boardId: KWBoardUUID;
@@ -54,7 +56,7 @@ const BoardView = ({
   } = useKanbanwaveStore();
 
   const { status, data: serverData, error } = useQuery(getBoardContent, [boardIdProp]);
-  
+
   const [data, setData] = useState<NonNullable<typeof serverData>>({
     id: '',
     title: '',
@@ -85,7 +87,7 @@ const BoardView = ({
   if (status === 'pending' && !serverData) {
     return (
       <div>
-        <mark>Loading...</mark>
+        <Spinner />
       </div>
     );
   }
@@ -245,21 +247,22 @@ const BoardView = ({
       updateList(board.id, updatedList);
     }
   };
-     
-  const makeCardTitleSaveHandler = (listId: string, card: KWCard) => (newTitle: string) => {
-    const cardToUpdate = data.lists
-      .find(list => list.id === listId)
-      ?.cards.find(c => c.id === card.id);
-    if (cardToUpdate) {
-      const updatedCard = { ...cardToUpdate, title: newTitle };
-      updateCard(board.id, listId, updatedCard);
-    }
-  }
-  
+
+  const makeCardTitleSaveHandler =
+    (listId: string, card: KWCard) => (newTitle: string) => {
+      const cardToUpdate = data.lists
+        .find(list => list.id === listId)
+        ?.cards.find(c => c.id === card.id);
+      if (cardToUpdate) {
+        const updatedCard = { ...cardToUpdate, title: newTitle };
+        updateCard(board.id, listId, updatedCard);
+      }
+    };
+
   return (
-    <section className="app-base">
-      <div className="board-header flex max-w-full w-[calc(100%-23px)] py-3">
-        <div className="flex items-center h-8 cursor-pointer hover:bg-gray-500 hover:rounded-md">
+    <div className={styles.container}>
+      <div className={styles.headerContainer}>
+        <div className={styles.header}>
           {isEditing ? (
             <Input
               ref={inputRef}
@@ -271,76 +274,75 @@ const BoardView = ({
                   handleBoardTitleSave();
                 }
               }}
-              className="px-2 text-xl font-bold rounded-sm input-sm"
+              size="md"
+              style={{ fontSize: '1.25rem', fontWeight: '600' }}
             />
           ) : (
-            <Subtitle
-              size="xl"
-              className="px-2 font-bold text-white"
-              onClick={() => setIsEditing(true)}>
+            <h1 className={styles.boardTitle} onClick={() => setIsEditing(true)}>
               {internalTitle}
-            </Subtitle>
+            </h1>
           )}
         </div>
       </div>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <ListDroppable
-          boardId={board.id}
-          buttonSlot={<NewList onAdd={handleListAdd} listsLength={lists.length} />}
-          className="flex justify-start">
-          {lists.map((list, index) => (
-            <List
-              key={list.id}
-              list={list}
-              listIndex={index}
-              onDeleteClick={makeListDeleteClickHandler(list.id)}
-              onTitleSave={makeListTitleSaveHandler(list.id)}
-              >
-              <CardDroppable
-                listId={list.id}
-                buttonSlot={(() => {
-                  const newCardProps = {
-                    cardsLength: list.cards?.length,
-                    onAdd: makeCardAddHandler(list.id)
-                  };
-                  return newCardRender ? (
-                    newCardRender({
-                      Component: NewCard,
-                      props: newCardProps,
-                      meta: { board, list }
-                    })
-                  ) : (
-                    <NewCard {...newCardProps} />
-                  );
-                })()}
-                className="flex flex-col p-2">
-                {list.cards?.map((card, index) => {
-                  const cardProps = {
-                    card: card,
-                    cardIndex: index,
-                    onDeleteClick: makeCardDeleteClickHandler(list.id, card.id),
-                    onTitleSave: makeCardTitleSaveHandler(list.id, card)
-                  };
-                  return (
-                    <Fragment key={`${list.id}:${card.id}`}>
-                      {cardRender ? (
-                        cardRender({
-                          Component: Card,
-                          props: cardProps,
-                          meta: { board, list, card }
-                        })
-                      ) : (
-                        <Card {...cardProps} />
-                      )}
-                    </Fragment>
-                  );
-                })}
-              </CardDroppable>
-            </List>
-          ))}
-        </ListDroppable>
-      </DragDropContext>
-    </section>
+      <div className={styles.content}>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <ListDroppable
+            boardId={board.id}
+            buttonSlot={<NewList onAdd={handleListAdd} listsLength={lists.length} />}
+            className={styles.listDroppable}>
+            {lists.map((list, index) => (
+              <List
+                key={list.id}
+                list={list}
+                listIndex={index}
+                onDeleteClick={makeListDeleteClickHandler(list.id)}
+                onTitleSave={makeListTitleSaveHandler(list.id)}>
+                <CardDroppable
+                  className={styles.cardDroppable}
+                  listId={list.id}
+                  buttonSlot={(() => {
+                    const newCardProps = {
+                      cardsLength: list.cards?.length,
+                      onAdd: makeCardAddHandler(list.id)
+                    };
+                    return newCardRender ? (
+                      newCardRender({
+                        Component: NewCard,
+                        props: newCardProps,
+                        meta: { board, list }
+                      })
+                    ) : (
+                      <NewCard {...newCardProps} />
+                    );
+                  })()}>
+                  {list.cards?.map((card, index) => {
+                    const cardProps = {
+                      card: card,
+                      cardIndex: index,
+                      onDeleteClick: makeCardDeleteClickHandler(list.id, card.id),
+                      onTitleSave: makeCardTitleSaveHandler(list.id, card)
+                    };
+                    return (
+                      <Fragment key={`${list.id}:${card.id}`}>
+                        {cardRender ? (
+                          cardRender({
+                            Component: Card,
+                            props: cardProps,
+                            meta: { board, list, card }
+                          })
+                        ) : (
+                          <Card {...cardProps} />
+                        )}
+                      </Fragment>
+                    );
+                  })}
+                </CardDroppable>
+              </List>
+            ))}
+          </ListDroppable>
+        </DragDropContext>
+      </div>
+    </div>
   );
 };
 

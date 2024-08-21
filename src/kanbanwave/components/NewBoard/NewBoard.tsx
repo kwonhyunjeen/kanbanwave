@@ -1,13 +1,15 @@
-import clsx from 'clsx';
 import { ChangeEvent, useState } from 'react';
-import { Button, IconButton, TextArea } from 'app/components';
+import styles from './NewBoard.module.css';
+import TextArea from '../TextArea/TextArea';
+import Button from '../Button/Button';
+import IconButton from '../IconButton/IconButton';
 
 type NewBoardProps = {
   className?: string;
   onAdd?: (title: string) => void;
 };
 
-const NewBoard = ({ className, onAdd }: NewBoardProps) => {
+const NewBoard = ({ onAdd }: NewBoardProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -15,50 +17,51 @@ const NewBoard = ({ className, onAdd }: NewBoardProps) => {
     setTitle(e.target.value);
   };
 
-  const handleAddClick = () => {
+  const handleAddClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (title.trim() !== '') {
       onAdd?.(title);
-      setIsInputVisible(false);
       setTitle('');
     }
   };
 
   const handleCancelClick = () => {
-    setIsInputVisible(false);
     setTitle('');
+    setIsInputVisible(false);
   };
 
   return (
-    <div className="h-[272px] rounded-lg w-[23%] bg-zinc-50 shrink-0">
+    <div className={styles.wrapper}>
       {isInputVisible ? (
-        <div className={clsx('p-2', className)}>
+        <div className={styles.container}>
           <TextArea
             placeholder={`Enter a board title`}
             value={title}
             onChange={handleChange}
-            className="w-full py-1 leading-8 min-h-11 "
           />
-          <div className="flex items-start mt-1">
-            <Button type="button" className="mr-2" onClick={handleAddClick}>
+          <div className={styles.action}>
+            <Button type="button" size="sm" variant="contained" onClick={handleAddClick}>
               Add board
             </Button>
             <IconButton
-              name="close"
               type="button"
+              size="sm"
+              icon="close"
               aria-label="cancel"
               onClick={handleCancelClick}
-              className="btn-square"
             />
           </div>
         </div>
       ) : (
-        <IconButton
-          name="add"
+        <Button
           aria-label={`add a board`}
+          size="lg"
+          variant="contained"
+          color="default"
           onClick={() => setIsInputVisible(true)}
-          className={clsx('w-full h-full')}>
-          <span className="text-sm">Add another board</span>
-        </IconButton>
+          className={styles.addBoardButton}>
+          Create new board
+        </Button>
       )}
     </div>
   );

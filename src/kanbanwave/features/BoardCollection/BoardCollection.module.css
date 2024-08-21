@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.container > div,
+.container > a {
+  width: 25%;
+}
+
+@media (max-width: 1200px) {
+  .container > div,
+  .container > a {
+    width: 33.3%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container > div,
+  .container > a {
+    width: 100%;
+  }
+}
