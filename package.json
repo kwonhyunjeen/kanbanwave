@@ -8,7 +8,8 @@
     "./index.css": "./src/index.css"
   },
   "scripts": {
-    "start": "cd ./example && pnpm start"
+    "dev": "cd ./example && pnpm dev",
+    "preview": "cd ./example && pnpm build && pnpm preview"
   },
   "dependencies": {
     "@fontsource-variable/material-symbols-outlined": "^5.0.39",
