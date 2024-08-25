@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { date, dummy } from 'app/utils';
 import {
   KWBoard,
   KWBoardUUID,
@@ -104,17 +103,8 @@ const BoardView = ({
   };
 
   const makeCardAddHandler = (listId: string) => (title: string) => {
-    const currentDate = new Date();
     const card: KWCardForm = {
-      title,
-      writer: {
-        id: dummy.randomUUID(),
-        name: dummy.randomName(),
-        email: dummy.randomEmail()
-      },
-      description: dummy.randomParagraphs(5),
-      startDate: date.makeDayMonthYear(currentDate),
-      dueDate: date.makeDayMonthYear(currentDate)
+      title
     };
     createCard(board.id, listId, card);
   };
@@ -260,7 +250,7 @@ const BoardView = ({
     };
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <div className={styles.headerContainer}>
         <div className={styles.header}>
           {isEditing ? (
@@ -342,7 +332,7 @@ const BoardView = ({
           </ListDroppable>
         </DragDropContext>
       </div>
-    </div>
+    </section>
   );
 };
 

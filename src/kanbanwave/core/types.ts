@@ -9,13 +9,6 @@ export const KWItemType = {
 } as const;
 export type KWItemType = (typeof KWItemType)[keyof typeof KWItemType];
 
-/** @todo app에서 선언하도록 리팩토링 */
-export type KWUser = {
-  id: string;
-  name: string;
-  email: string;
-};
-
 export type KWBoard<T extends object = object> = T & {
   id: KWBoardUUID;
   title: string;
@@ -31,17 +24,14 @@ export type KWList<T extends object = object> = T & {
 export type KWListForm<T extends object = object> = Omit<KWList<T>, 'id' | 'boardId'> &
   Partial<Pick<KWList<T>, 'id' | 'boardId'>>;
 
-/** @todo id, title을 제외한 프로퍼티는 app에서 generic으로 받도록 리팩토링 */
+/** @todo 다른 타입이 KWCard에 generic을 전달하도록 리팩토링 */
 export type KWCard<T extends object = object> = T & {
   id: KWCardUUID;
   listId: KWListUUID;
   boardId: KWBoardUUID;
   title: string;
-  writer?: KWUser;
-  description?: string;
-  startDate?: string;
-  dueDate?: string;
 };
+
 export type KWCardForm<T extends object = object> = Omit<
   KWCard<T>,
   'id' | 'boardId' | 'listId'
@@ -74,7 +64,11 @@ export type KanbanwaveStorage = {
   ) => void;
 
   /** @todo getCard API 필요 여부 검토 */
-  getCard: (boardId: KWBoardUUID, listId: KWListUUID, cardId: KWCardUUID) => Promise<KWCard>;
+  getCard: (
+    boardId: KWBoardUUID,
+    listId: KWListUUID,
+    cardId: KWCardUUID
+  ) => Promise<KWCard>;
   createCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCardForm) => void;
   updateCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCard) => void;
   deleteCard: (boardId: KWBoardUUID, listId: KWListUUID, cardId: KWCardUUID) => void;
