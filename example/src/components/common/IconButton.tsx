@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { cx } from 'app/utils/cx';  // cx 함수를 가져옴
+import { cx } from 'utils/cx'; // cx 함수를 가져옴
 import Button from './Button';
 import Icon from './Icon';
 import clsx from 'clsx';

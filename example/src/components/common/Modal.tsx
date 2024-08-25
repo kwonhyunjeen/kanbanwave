@@ -2,7 +2,7 @@ import { forwardRef, ReactNode, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import Backdrop from './Backdrop';
 import { createPortal } from 'react-dom';
-import { useForkRef, useOnOutsideClick } from 'app/hooks';
+import { useForkRef, useOnOutsideClick } from 'hooks';
 
 export const ModalCloseReason = {
   backdropClick: 'backdropClick'

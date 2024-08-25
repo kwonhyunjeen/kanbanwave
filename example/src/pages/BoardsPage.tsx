@@ -1,4 +1,4 @@
-import { Title } from 'app/components';
+import { Title } from 'components';
 import { Link } from 'react-router-dom';
 import BoardCollection from 'kanbanwave/features/BoardCollection/BoardCollection';
 

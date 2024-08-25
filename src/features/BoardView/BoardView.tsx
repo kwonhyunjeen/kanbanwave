@@ -20,7 +20,7 @@ import useQuery from '../../hooks/useQuery';
 import { useKanbanwaveStore } from '../KanbanStorageProvider';
 import useDerivedState from '../../hooks/useDerivedState';
 import styles from './BoardView.module.css';
-import Spinner from 'kanbanwave/components/Spinner/Spinner';
+import Spinner from 'components/Spinner/Spinner';
 
 type BoardViewProps = {
   boardId: KWBoardUUID;

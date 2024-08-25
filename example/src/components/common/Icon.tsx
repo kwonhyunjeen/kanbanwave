@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { cx } from 'app/utils/cx';
+import { cx } from 'utils/cx';
 
 type IconProps = React.ComponentPropsWithoutRef<'span'> & {
   name: string;
@@ -18,16 +18,12 @@ const Icon = forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
   } = props;
 
   const sizeClasses = {
-    'sm': 'text-[1.25rem]', // 20px,
-    'md': 'text-[1.5rem]', // 24px,
-    'lg': 'text-[2rem]' // 32px
-  }
+    sm: 'text-[1.25rem]', // 20px,
+    md: 'text-[1.5rem]', // 24px,
+    lg: 'text-[2rem]' // 32px
+  };
 
-  const iconClass = cx(
-    `material-symbols`,
-    sizeClasses[size],
-    className
-  );
+  const iconClass = cx(`material-symbols`, sizeClasses[size], className);
 
   return (
     <span

@@ -1,5 +1,5 @@
 import { RouterProvider } from 'react-router-dom';
-import router from 'app/routes/router';
+import router from 'routes/router';
 import { PropsWithChildren } from 'react';
 import {
   KWBoard,
@@ -14,7 +14,7 @@ import {
   KanbanStorageProvider,
   KanbanwaveStorage
 } from 'kanbanwave';
-import * as API from 'app/api';
+import * as API from 'api';
 
 export const sampleKanbanStorage: KanbanwaveStorage = {
   getBoards: () => API.getBoards(),

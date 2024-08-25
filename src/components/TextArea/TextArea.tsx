@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import useForkRef from 'kanbanwave/hooks/useForkRef';
+import useForkRef from 'hooks/useForkRef';
 import { forwardRef, useEffect, useRef } from 'react';
 import styles from './TextArea.module.css';
 

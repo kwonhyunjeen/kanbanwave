@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Icon, IconButton, Subtitle } from 'app/components';
+import { Icon, IconButton, Subtitle } from 'components';
 import { Link } from 'react-router-dom';
 import { KWBoard, useKanbanwaveStore } from 'kanbanwave';
 import { useEffect, useState } from 'react';
