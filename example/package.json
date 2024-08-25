@@ -1,37 +1,40 @@
 {
-  "name": "client",
+  "name": "kanbanwave-example",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@fontsource-variable/material-symbols-outlined": "^5.0.39",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.88",
-    "@types/react": "^18.2.65",
-    "@types/react-dom": "^18.2.21",
-    "chance": "^1.1.11",
-    "luxon": "^3.4.4",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "clsx": "^2.1.0",
+    "daisyui": "^4.7.3",
+    "kanbanwave": "file:../",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",
     "react-router-dom": "^6.22.3",
+    "tailwind": "^4.0.0",
+    "tailwind-merge": "^2.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^16.18.88",
+    "@types/react": "^18.2.65",
+    "@types/react-beautiful-dnd": "^13.1.8",
+    "@types/react-dom": "^18.2.21",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
@@ -45,17 +48,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@tailwindcss/line-clamp": "^0.4.4",
-    "@types/chance": "^1.1.6",
-    "@types/luxon": "^3.4.2",
-    "@types/react-beautiful-dnd": "^13.1.8",
-    "autoprefixer": "^10.4.18",
-    "clsx": "^2.1.0",
-    "daisyui": "^4.7.3",
-    "postcss": "^8.4.35",
-    "tailwind": "^4.0.0",
-    "tailwind-merge": "^2.5.2"
   }
 }

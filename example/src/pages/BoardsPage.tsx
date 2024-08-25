@@ -1,6 +1,6 @@
 import { Title } from 'components';
 import { Link } from 'react-router-dom';
-import BoardCollection from 'kanbanwave/features/BoardCollection/BoardCollection';
+import { BoardCollection } from 'kanbanwave';
 
 const BoardsPage = () => {
   return (

@@ -17,9 +17,9 @@ MyTrello는 다음과 같은 기능들을 제공합니다:
 # Install
 
 ```
-yarn clone https://github.com/kwonhyunjeen/mytrello.git
-yarn install
-yarn start
+git clone https://github.com/kwonhyunjeen/mytrello.git
+pnpm install
+pnpm start
 ```
 
 위 명령어를 통해 MyTrello를 실행시키고, 브라우저에서 localhost:3000으로 접속하여 MyTrello를 사용합니다.
