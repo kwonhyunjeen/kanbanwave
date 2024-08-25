@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { cx } from 'utils/cx';
+import { cx } from '@/utils/cx';
 
 type IconProps = React.ComponentPropsWithoutRef<'span'> & {
   name: string;

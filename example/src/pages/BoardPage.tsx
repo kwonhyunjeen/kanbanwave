@@ -1,5 +1,5 @@
-import { NoMatch } from 'components/routes';
-import { RouterParamKeys } from 'routes/router';
+import { NoMatch } from '@/components/routes';
+import { RouterParamKeys } from '@/routes/router';
 import { BoardView } from 'kanbanwave';
 import { useParams } from 'react-router-dom';
 

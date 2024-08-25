@@ -1,6 +1,6 @@
-import { BaseLayout } from 'components';
-import { NoMatch } from 'components/routes';
-import { BoardPage, BoardsPage } from 'pages';
+import { BaseLayout } from '@/components';
+import { NoMatch } from '@/components/routes';
+import { BoardPage, BoardsPage } from '@/pages';
 import { createBrowserRouter } from 'react-router-dom';
 
 export type RouterParamKeys = 'boardId';

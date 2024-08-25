@@ -5,7 +5,7 @@ import NewBoard from '../../components/NewBoard/NewBoard';
 import useQuery from '../../hooks/useQuery';
 import { useKanbanwaveStore } from '../KanbanStorageProvider';
 import styles from './BoardCollection.module.css';
-import Spinner from 'components/Spinner/Spinner';
+import Spinner from '../../components/Spinner/Spinner';
 
 type BoardCollectionProps = {
   boardRender?: (provided: {

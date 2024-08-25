@@ -1,5 +1,5 @@
-import { Header, Nav } from 'components';
-import { useToggle } from 'hooks';
+import { Header, Nav } from '@/components';
+import { useToggle } from '@/hooks';
 import { Outlet } from 'react-router-dom';
 
 const BaseLayout = () => {
