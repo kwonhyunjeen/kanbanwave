@@ -16,7 +16,7 @@ import {
 } from 'kanbanwave';
 import * as API from '@/api';
 
-export const sampleKanbanStorage: KanbanwaveStorage = {
+const sampleKanbanStorage: KanbanwaveStorage = {
   getBoards: () => API.getBoards(),
 
   getBoardContent: (boardId: KWBoardUUID) => API.getBoardContent(boardId),

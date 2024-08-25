@@ -15,7 +15,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>((props, ref) => {
         'inline-block rounded-full bg-cover bg-gray-200 h-12 aspect-square',
         className
       )}
-      style={{ backgroundImage: src && `url(${src})` }}
+      style={{ ...style, backgroundImage: src && `url(${src})` }}
     />
   );
 });

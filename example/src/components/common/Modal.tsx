@@ -50,7 +50,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
   return open
     ? createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <Backdrop />
+          <Backdrop className={backdropClassName} />
           <div
             {...rest}
             ref={modalCallbackRef}
