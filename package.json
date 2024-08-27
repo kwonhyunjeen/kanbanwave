@@ -2,39 +2,13 @@
   "name": "kanbanwave",
   "version": "0.1.0",
   "private": true,
-  "main": "src/index.ts",
-  "exports": {
-    ".": "./src/index.ts",
-    "./index.css": "./src/index.css"
-  },
+  "license": "MIT",
+  "packageManager": "pnpm@8.6.3",
   "scripts": {
-    "dev": "cd ./example && pnpm dev",
-    "preview": "cd ./example && pnpm build && pnpm preview"
-  },
-  "dependencies": {
-    "@fontsource-variable/material-symbols-outlined": "^5.0.39",
-    "clsx": "^2.1.0",
-    "react": "^18.2.0",
-    "react-beautiful-dnd": "^13.1.1",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
-  },
-  "devDependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.88",
-    "@types/react": "^18.2.65",
-    "@types/react-beautiful-dnd": "^13.1.8",
-    "@types/react-dom": "^18.2.21",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "kanbanwave": "pnpm --filter kanbanwave",
+    "dashboard": "pnpm --filter kanbanwave-dashboard",
+    "dev": "pnpm --recursive --parallel dev",
+    "build": "pnpm kanbanwave build && pnpm dashboard build",
+    "preview": "pnpm dashboard preview"
   }
 }
