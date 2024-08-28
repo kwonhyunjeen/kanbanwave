@@ -1,6 +1,7 @@
-import { forwardRef, ReactNode } from 'react';
+import { forwardRef, ReactNode, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import styles from './Input.module.css';
+import useForkRef from 'hooks/useForkRef';
 
 type InputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
   size?: 'sm' | 'md' | 'lg';
@@ -10,6 +11,7 @@ type InputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
   helperText?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  resize?: boolean;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
@@ -22,8 +24,25 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     helperText,
     leftIcon,
     rightIcon,
+    resize = false,
     ...rest
   } = props;
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputCallbackRef = useForkRef(inputRef, ref);
+
+  const resizeInput = () => {
+    if (inputRef && inputRef.current) {
+      inputRef.current.style.width = '0';
+      inputRef.current.style.width = `${inputRef.current.scrollWidth + 2}px`;
+    }
+  };
+
+  useEffect(() => {
+    if (resize && inputRef.current) {
+      resizeInput();
+    }
+  }, [resize, rest.value]);
 
   const wrapperClass = clsx(styles.wrapper, {
     [styles.hasLeftIcon]: !!leftIcon,
@@ -37,7 +56,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         {leftIcon && <span className={styles.iconWithLeft}>{leftIcon}</span>}
         <input
           {...rest}
-          ref={ref}
+          ref={inputCallbackRef}
           className={clsx(
             styles.input,
             styles[size],

@@ -66,7 +66,7 @@ const Nav = ({ isOpen, onToggleNav }: NavProps) => {
                       <Link
                         to={`/boards/${board.id}`}
                         state={{ board }}
-                        className="block w-full">
+                        className="block w-full overflow-hidden text-ellipsis whitespace-nowrap">
                         {board.title}
                       </Link>
                     </div>

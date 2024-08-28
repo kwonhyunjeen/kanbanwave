@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import router from '@/routes/router';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 import {
   KWBoard,
   KWBoardForm,
@@ -68,6 +68,13 @@ function KanbanProvider({ children }: PropsWithChildren) {
 }
 
 function App() {
+  useEffect(() => {
+    console.log(
+      "%cKanbanWave",
+      "color: #87CEEB; padding: 10px; font-size: 20px; font-weight: bold;"
+    );
+  }, []);
+  
   return (
     <KanbanProvider>
       <RouterProvider router={router} />

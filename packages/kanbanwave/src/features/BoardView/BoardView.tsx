@@ -251,28 +251,27 @@ const BoardView = ({
 
   return (
     <section className={styles.container}>
-      <div className={styles.headerContainer}>
-        <div className={styles.header}>
-          {isEditing ? (
-            <Input
-              ref={inputRef}
-              value={internalTitle}
-              onChange={e => setInternalTitle(e.target.value)}
-              onBlur={handleBoardTitleSave}
-              onKeyDown={e => {
-                if (e.key === 'Enter') {
-                  handleBoardTitleSave();
-                }
-              }}
-              size="md"
-              style={{ fontSize: '1.25rem', fontWeight: '600' }}
-            />
-          ) : (
-            <h1 className={styles.boardTitle} onClick={() => setIsEditing(true)}>
-              {internalTitle}
-            </h1>
-          )}
-        </div>
+      <div className={styles.header}>
+        {isEditing ? (
+          <Input
+            ref={inputRef}
+            value={internalTitle}
+            onChange={e => setInternalTitle(e.target.value)}
+            onBlur={handleBoardTitleSave}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                handleBoardTitleSave();
+              }
+            }}
+            resize={true}
+            size="md"
+            style={{ fontSize: '1.25rem', fontWeight: '600' }}
+          />
+        ) : (
+          <h1 className={styles.boardTitle} onClick={() => setIsEditing(true)}>
+            {internalTitle}
+          </h1>
+        )}
       </div>
       <div className={styles.content}>
         <DragDropContext onDragEnd={handleDragEnd}>
