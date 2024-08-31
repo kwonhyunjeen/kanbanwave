@@ -32,7 +32,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
     <textarea
       {...rest}
       ref={textCallbackRef}
-      className={clsx('resize-none textarea textarea-bordered', className)}
+      className={clsx('textarea textarea-bordered resize-none', className)}
       onChange={handleChange}
       value={value}
       rows={1}></textarea>

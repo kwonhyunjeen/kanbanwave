@@ -12,7 +12,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>((props, ref) => {
       {...rest}
       ref={ref}
       className={clsx(
-        'inline-block rounded-full bg-cover bg-gray-200 h-12 aspect-square',
+        'inline-block aspect-square h-12 rounded-full bg-gray-200 bg-cover',
         className
       )}
       style={{ ...style, backgroundImage: src && `url(${src})` }}

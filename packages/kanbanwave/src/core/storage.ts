@@ -22,7 +22,7 @@ export const makeKanbanwaveStore = (storage: KanbanwaveStorage) => {
       const fn = wrap(storage[key]) as (typeof snapshot)[typeof key];
       snapshot[key] = fn as any;
     });
-    for (let listener of listeners) {
+    for (const listener of listeners) {
       listener();
     }
   };

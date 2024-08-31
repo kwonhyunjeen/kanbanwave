@@ -5,10 +5,10 @@ import { Outlet } from 'react-router-dom';
 const BaseLayout = () => {
   const [isNavOpen, toggleNav] = useToggle(true);
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex h-screen flex-col">
       <div className="flex flex-1">
         <Nav isOpen={isNavOpen} onToggleNav={toggleNav} />
-        <main className="flex-grow overflow-y-auto bg-slate-100">
+        <main className="grow overflow-y-auto bg-slate-100">
           <Header />
           <Outlet />
         </main>

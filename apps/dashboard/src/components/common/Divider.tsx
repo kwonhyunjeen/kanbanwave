@@ -11,7 +11,7 @@ const Divider = forwardRef<HTMLDivElement, DividerProps>((props, ref) => {
     <div
       {...rest}
       ref={ref}
-      className={clsx(`divider divider-${orientation}`, className)}
+      className={clsx(`divider- divider${orientation}`, className)}
     />
   );
 });

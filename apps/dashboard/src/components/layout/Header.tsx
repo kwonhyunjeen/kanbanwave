@@ -14,7 +14,7 @@ const Header = () => {
               d="M0 512c0 113.7 92.3 206 206 206 82.3 0 153.6-48.6 186.6-118.9 18.8 48.6 64.6 83.9 118.5 83.9 70.7 0 128-57.3 128-128s-57.3-128-128-128c-55.9 0-101.7 35.3-120.5 83.9C359.6 354.6 288.3 306 206 306 92.3 306 0 398.3 0 512z"
             />
           </svg>
-          <span className="[font-size:20px] [font-weight:500] [line-height:1] [color:#0f172a]">
+          <span className="[color:#0f172a] [font-size:20px] [font-weight:500] [line-height:1]">
             KanbanWave
           </span>
         </span>
