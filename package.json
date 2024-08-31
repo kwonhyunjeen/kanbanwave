@@ -9,6 +9,7 @@
     "dashboard": "pnpm --filter kanbanwave-dashboard",
     "dev": "pnpm --recursive --parallel dev",
     "build": "pnpm kanbanwave build && pnpm dashboard build",
-    "preview": "pnpm dashboard preview"
+    "preview": "pnpm dashboard preview",
+    "lint": "pnpm --recursive --parallel lint"
   }
 }
