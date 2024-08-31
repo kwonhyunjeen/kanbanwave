@@ -22,7 +22,7 @@
     "dev": "tsup src/index.ts --format esm --dts --loader '.css=local-css' --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup src/index.ts --format cjs,esm --dts --loader '.css=local-css' --minify",
-    "lint": "eslint ."
+    "lint": "eslint . --cache"
   },
   "dependencies": {
     "@fontsource-variable/material-symbols-outlined": "^5.0.39",
