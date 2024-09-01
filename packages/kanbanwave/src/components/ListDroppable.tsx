@@ -1,4 +1,3 @@
-import React from 'react';
 import { KWItemType } from '../core/types';
 import StrictModeDroppable from './StrictModeDroppable';
 

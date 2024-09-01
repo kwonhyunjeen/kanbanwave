@@ -1,5 +1,4 @@
-import { forwardRef } from 'react';
-import React from 'react';
+import { cloneElement, forwardRef, ReactElement } from 'react';
 import { cx } from '@/utils/cx';
 
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
@@ -104,13 +103,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     <button {...rest} ref={ref} className={buttonClass} type={type}>
       {startIcon && (
         <span className={iconStyles}>
-          {React.cloneElement(startIcon as React.ReactElement, { size: iconSize })}
+          {cloneElement(startIcon as ReactElement, { size: iconSize })}
         </span>
       )}
       {children}
       {endIcon && (
         <span className={iconStyles}>
-          {React.cloneElement(endIcon as React.ReactElement, { size: iconSize })}
+          {cloneElement(endIcon as ReactElement, { size: iconSize })}
         </span>
       )}
     </button>
