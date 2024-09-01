@@ -4,10 +4,13 @@ import Button from '../Button/Button';
 import styles from './IconButton.module.css';
 import Icon from '../Icon/Icon';
 
-type IconButtonProps = Omit<React.ComponentPropsWithoutRef<typeof Button>, 'size' | 'startIcon' | 'endIcon' | 'children'> & {
+type IconButtonProps = Omit<
+  React.ComponentPropsWithoutRef<typeof Button>,
+  'size' | 'startIcon' | 'endIcon' | 'children'
+> & {
   icon: string;
   size?: 'sm' | 'md' | 'lg';
-}
+};
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) => {
   const {
@@ -32,7 +35,8 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
       className={buttonClass}
       color={color}
       variant={variant}
-      size={size}>
+      size={size}
+    >
       <Icon name={icon} size={size} />
     </Button>
   );

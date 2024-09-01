@@ -18,7 +18,8 @@ const ListDraggable: React.FC<ListDraggableProps> = ({
           {...provided.draggableProps}
           ref={provided.innerRef}
           {...provided.dragHandleProps}
-          {...restProps}>
+          {...restProps}
+        >
           {children}
         </div>
       )}

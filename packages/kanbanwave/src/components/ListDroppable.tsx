@@ -1,4 +1,3 @@
-import React from 'react';
 import { KWItemType } from '../core/types';
 import StrictModeDroppable from './StrictModeDroppable';
 
@@ -17,7 +16,8 @@ const ListDroppable: React.FC<ListDroppableProps> = ({
     <StrictModeDroppable
       droppableId={boardId}
       type={KWItemType.LIST}
-      direction="horizontal">
+      direction="horizontal"
+    >
       {provided => (
         <div {...provided.droppableProps} ref={provided.innerRef} {...restProps}>
           {children}

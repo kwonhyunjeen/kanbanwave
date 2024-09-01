@@ -4,14 +4,17 @@
   letter-spacing: 0;
 }
 
-.sizeSm { /* 28px */
+.sizeSm {
+  /* 28px */
   padding: 4px;
 }
 
-.sizeMd { /* 36px */
+.sizeMd {
+  /* 36px */
   padding: 6px;
 }
 
-.sizeLg { /* 44px */
+.sizeLg {
+  /* 44px */
   padding: 6px;
 }

@@ -5,7 +5,7 @@ import { BoardCollection } from 'kanbanwave';
 const BoardsPage = () => {
   return (
     <section className="p-8">
-      <div className="flex flex-col mx-auto max-w-[1600px]">
+      <div className="mx-auto flex max-w-[1600px] flex-col">
         <Title className="mb-8 text-black">Boards</Title>
         <BoardCollection
           boardRender={provided => (

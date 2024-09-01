@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cx } from '@/utils/cx';
 import { forwardRef } from 'react';
 
 type TitleProps = React.ComponentPropsWithoutRef<'h1'> & {
@@ -17,7 +17,8 @@ export const Title = forwardRef<HTMLHeadingElement, TitleProps>((props, ref) => 
     <h1
       {...rest}
       ref={ref}
-      className={clsx(`font-bold ${titleSizeClass[size]}`, className)}>
+      className={cx(`font-bold ${titleSizeClass[size]}`, className)}
+    >
       {children}
     </h1>
   );

@@ -34,17 +34,19 @@
 }
 
 .iconWithLeft {
-  left: 0.5rem
+  left: 0.5rem;
 }
 
 .iconWithRight {
-  right: 0.5rem
+  right: 0.5rem;
 }
 
 .input {
   min-width: 0px;
   width: 100%;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .input.sm {
@@ -59,7 +61,7 @@
 
 .input.lg {
   height: 3rem;
-  padding: 0.40625rem 0.75rem; 
+  padding: 0.40625rem 0.75rem;
 }
 
 .input.standard,
@@ -154,4 +156,3 @@
 .input.filled.error {
   background-color: #fde7e7;
 }
-

@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
 import clsx from 'clsx';
 import styles from './Button.module.css';
-import React from 'react';
 
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
   color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';

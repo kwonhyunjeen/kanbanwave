@@ -9,7 +9,9 @@
   border-radius: 0.5rem;
   resize: none;
   box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .root:focus {

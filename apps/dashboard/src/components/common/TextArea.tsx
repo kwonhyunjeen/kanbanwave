@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { useForkRef } from '@/hooks';
+import { cx } from '@/utils/cx';
 import { ChangeEvent, forwardRef, useEffect, useRef } from 'react';
 
 type TextAreaProps = React.ComponentPropsWithoutRef<'textarea'> & {};
@@ -32,10 +32,11 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
     <textarea
       {...rest}
       ref={textCallbackRef}
-      className={clsx('resize-none textarea textarea-bordered', className)}
+      className={cx('textarea textarea-bordered resize-none', className)}
       onChange={handleChange}
       value={value}
-      rows={1}></textarea>
+      rows={1}
+    ></textarea>
   );
 });
 

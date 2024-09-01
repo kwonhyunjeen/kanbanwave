@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cx } from '@/utils/cx';
 import { forwardRef } from 'react';
 
 type DividerProps = React.ComponentPropsWithoutRef<'div'> & {
@@ -11,7 +11,7 @@ const Divider = forwardRef<HTMLDivElement, DividerProps>((props, ref) => {
     <div
       {...rest}
       ref={ref}
-      className={clsx(`divider divider-${orientation}`, className)}
+      className={cx(`divider- divider${orientation}`, className)}
     />
   );
 });

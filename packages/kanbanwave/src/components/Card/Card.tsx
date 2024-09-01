@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { KWCard } from '../../core/types';
 import CardDraggable from '../CardDraggable';
 import TextArea from '../TextArea/TextArea';
@@ -30,25 +30,48 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
     }
   }, [isEditing]);
 
+  const openOverlay = useCallback(() => {
+    setIsEditing(true);
+    setOverlayVisible(true);
+  }, []);
+
+  const closeOverlay = useCallback(() => {
+    setIsEditing(false);
+    setOverlayVisible(false);
+    setInternalTitle(card.title);
+  }, [card.title, setInternalTitle]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setIsEditing(false);
-        setOverlayVisible(false);
-        setInternalTitle(card.title);
+        closeOverlay();
       }
     };
 
     if (isEditing) {
       document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isEditing, card.title, setInternalTitle]);
+  }, [isEditing, card.title, setInternalTitle, closeOverlay]);
+
+  useEffect(() => {
+    const handleEscKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeOverlay();
+      }
+    };
+
+    if (isEditing) {
+      document.addEventListener('keydown', handleEscKeydown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKeydown);
+    };
+  }, [isEditing, card.title, setInternalTitle, closeOverlay]);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -66,29 +89,21 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
     setOverlayVisible(false);
   };
 
-  const handleOverlayClick = () => {
-    setIsEditing(false);
-    setOverlayVisible(false);
-    setInternalTitle(card.title);
-  };
-
   return (
     <>
       {isOverlayVisible && (
-        <div className={styles.overlay} onClick={handleOverlayClick} />
+        // 키보드 탐색 시 이 요소에 포커싱하는 것은 불편함을 초래하고,
+        // 이미 ESC를 눌러 오버레이를 닫을 수 있기 때문에 lint 규칙을 비활성화함
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus
+        <div
+          role="button"
+          aria-label="Cancel"
+          className={styles.overlay}
+          onClick={closeOverlay}
+        />
       )}
       <CardDraggable cardId={card.id} cardIndex={cardIndex}>
-        <div
-          className={styles.container}
-          ref={containerRef}
-          onClick={e => {
-            if (!(e.target instanceof Element)) {
-              return;
-            }
-            if (e.target.closest('[data-event-target="edit-button"]')) {
-              e.preventDefault();
-            }
-          }}>
+        <div className={styles.container} ref={containerRef}>
           {isEditing && cardRect ? (
             <div
               className={styles.editContainer}
@@ -96,7 +111,8 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
                 top: `${cardRect.top}px`,
                 left: `${cardRect.left}px`,
                 width: `${cardRect.width}px`
-              }}>
+              }}
+            >
               <TextArea
                 ref={inputRef}
                 value={internalTitle}
@@ -113,24 +129,34 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
                   type="button"
                   size="md"
                   variant="contained"
-                  onClick={handleTitleSave}>
+                  onClick={handleTitleSave}
+                >
                   Save
                 </Button>
                 <Button
                   type="button"
                   size="md"
                   variant="contained"
-                  onClick={onDeleteClick}>
+                  onClick={onDeleteClick}
+                >
                   Delete
                 </Button>
               </div>
             </div>
           ) : (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div
               className={styles.wrapper}
               onClick={e => {
                 onClick?.(e);
-              }}>
+                if (!(e.target instanceof Element)) {
+                  return;
+                }
+                if (e.target.closest('[data-event-target="edit-button"]')) {
+                  e.preventDefault();
+                }
+              }}
+            >
               <div className={styles.title}>{internalTitle}</div>
               <IconButton
                 type="button"
@@ -142,8 +168,7 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
                 size="sm"
                 color="default"
                 onClick={() => {
-                  setIsEditing(true);
-                  setOverlayVisible(true);
+                  openOverlay();
                 }}
               />
             </div>

@@ -11,6 +11,7 @@ type BoardProps = {
 
 const Board = ({ board, onClick, onDeleteClick }: BoardProps) => {
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className={styles.container}
       onClick={e => {
@@ -21,7 +22,8 @@ const Board = ({ board, onClick, onDeleteClick }: BoardProps) => {
         if (e.target.closest('[data-event-target="delete-button"]')) {
           e.preventDefault();
         }
-      }}>
+      }}
+    >
       <div className={styles.headerContainer}>
         <h2 className={styles.title}>{board.title}</h2>
         <div className={styles.action}>

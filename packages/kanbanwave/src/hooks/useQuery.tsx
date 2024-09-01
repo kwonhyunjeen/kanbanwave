@@ -23,6 +23,7 @@ type Rejected = {
 type Result<T> = Pending<T> | Resolved<T> | Rejected;
 
 export default function useQuery<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Fetcher extends (...args: any[]) => any,
   Args extends Parameters<Fetcher>,
   Data extends Awaited<ReturnType<Fetcher>>

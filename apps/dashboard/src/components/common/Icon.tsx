@@ -30,8 +30,9 @@ const Icon = forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
       {...rest}
       ref={ref}
       className={iconClass}
-      aria-hidden={hidden ?? label ? undefined : true}
-      aria-label={label}>
+      aria-hidden={(hidden ?? label) ? undefined : true}
+      aria-label={label}
+    >
       {name}
     </span>
   );

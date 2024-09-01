@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cx } from '@/utils/cx';
 import { forwardRef } from 'react';
 
 type BackdropProps = React.ComponentPropsWithoutRef<'div'>;
@@ -9,10 +9,11 @@ const Backdrop = forwardRef<HTMLDivElement, BackdropProps>((props, ref) => {
     <div
       {...rest}
       ref={ref}
-      className={clsx(
-        'fixed w-screen h-screen top-0 left-0 bg-black/50 flex items-center justify-center',
+      className={cx(
+        'fixed left-0 top-0 flex h-screen w-screen items-center justify-center bg-black/50',
         className
-      )}>
+      )}
+    >
       {children}
     </div>
   );

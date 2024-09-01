@@ -3,10 +3,10 @@ import { Subtitle } from '@/components/common';
 
 const NoMatch = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex h-screen flex-col items-center justify-center">
       <div className="text-center">
         <img src={noMatch} alt="No Match" className="w-96" />
-        <Subtitle className="mt-3 ml-12">Oops..! No page found!</Subtitle>
+        <Subtitle className="ml-12 mt-3">Oops..! No page found!</Subtitle>
       </div>
     </div>
   );

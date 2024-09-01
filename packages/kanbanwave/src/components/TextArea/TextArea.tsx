@@ -34,7 +34,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
       value={value}
       rows={1}
       onChange={handleChange}
-      className={clsx(styles.root, className)}></textarea>
+      className={clsx(styles.root, className)}
+    ></textarea>
   );
 });
 

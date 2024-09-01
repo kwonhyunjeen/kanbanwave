@@ -1,8 +1,8 @@
 import { forwardRef, ReactNode, useEffect, useRef } from 'react';
-import clsx from 'clsx';
 import Backdrop from './Backdrop';
 import { createPortal } from 'react-dom';
 import { useForkRef, useOnOutsideClick } from '@/hooks';
+import { cx } from '@/utils/cx';
 
 export const ModalCloseReason = {
   backdropClick: 'backdropClick'
@@ -54,10 +54,11 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
           <div
             {...rest}
             ref={modalCallbackRef}
-            className={clsx(
-              'relative flex flex-col max-w-[min(37.5rem,90%)] max-h-[calc(100%-64px)] bg-white rounded-lg shadow-xl overflow-y-auto',
+            className={cx(
+              'relative flex max-h-[calc(100%-64px)] max-w-[min(37.5rem,90%)] flex-col overflow-y-auto rounded-lg bg-white shadow-xl',
               className
-            )}>
+            )}
+          >
             {children}
           </div>
         </div>,
