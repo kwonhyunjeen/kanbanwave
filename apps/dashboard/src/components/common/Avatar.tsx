@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cx } from '@/utils/cx';
 import { forwardRef } from 'react';
 
 type AvatarProps = React.ComponentPropsWithoutRef<'span'> & {
@@ -11,7 +11,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>((props, ref) => {
     <span
       {...rest}
       ref={ref}
-      className={clsx(
+      className={cx(
         'inline-block aspect-square h-12 rounded-full bg-gray-200 bg-cover',
         className
       )}

@@ -1,5 +1,5 @@
+import { cx } from '@/utils/cx';
 import { forwardRef } from 'react';
-import clsx from 'clsx';
 
 type InputVariant = {
   variant?: 'outlined' | 'standard';
@@ -23,7 +23,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     ...rest
   } = props;
 
-  const wrapperClasses = clsx(
+  const wrapperClasses = cx(
     'relative flex items-center transition duration-300 ease-in-out',
     variant === 'outlined'
       ? 'rounded border hover:border-emerald-700'
@@ -32,7 +32,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     wrapperClassName
   );
 
-  const inputClasses = clsx(
+  const inputClasses = cx(
     'block w-full flex-1 px-3 py-2 focus:outline-none',
     variant === 'outlined' && 'rounded border-0',
     inputClassName

@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import Button from './Button';
 import Icon from './Icon';
-import clsx from 'clsx';
+import { cx } from '@/utils/cx';
 
 type IconButtonProps = Omit<
   React.ComponentPropsWithoutRef<typeof Button>,
@@ -27,7 +27,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
     lg: 'p-[6px]'
   };
 
-  const buttonClass = clsx('min-w-0 tracking-normal', sizeStyles[size], className);
+  const buttonClass = cx('min-w-0 tracking-normal', sizeStyles[size], className);
 
   return (
     <Button

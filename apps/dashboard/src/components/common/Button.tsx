@@ -1,6 +1,5 @@
 import { forwardRef } from 'react';
 import React from 'react';
-import clsx from 'clsx';
 import { cx } from '@/utils/cx';
 
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
@@ -93,7 +92,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
 
   const iconSize = iconSizes[size];
 
-  const iconStyles = clsx('inline-flex', {
+  const iconStyles = cx('inline-flex', {
     'text-[1.125rem]': size === 'sm',
     'text-[1.25rem]': size === 'md',
     'text-[1.375rem]': size === 'lg',
