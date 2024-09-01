@@ -10,6 +10,10 @@
     "dev": "pnpm --recursive --parallel dev",
     "build": "pnpm --recursive --sort build",
     "preview": "pnpm dashboard preview",
+    "format": "prettier . --write",
     "lint": "pnpm --recursive --parallel --no-bail lint"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
   }
 }
