@@ -67,7 +67,8 @@ const NewList = ({ listsLength, onAdd }: NewListProps) => {
           variant="contained"
           color="default"
           onClick={() => setIsInputVisible(true)}
-          className={styles.addListButton}>
+          className={styles.addListButton}
+        >
           Add another list
         </Button>
       )}

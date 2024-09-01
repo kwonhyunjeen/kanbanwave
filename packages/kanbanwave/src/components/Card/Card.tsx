@@ -111,7 +111,8 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
                 top: `${cardRect.top}px`,
                 left: `${cardRect.left}px`,
                 width: `${cardRect.width}px`
-              }}>
+              }}
+            >
               <TextArea
                 ref={inputRef}
                 value={internalTitle}
@@ -128,14 +129,16 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
                   type="button"
                   size="md"
                   variant="contained"
-                  onClick={handleTitleSave}>
+                  onClick={handleTitleSave}
+                >
                   Save
                 </Button>
                 <Button
                   type="button"
                   size="md"
                   variant="contained"
-                  onClick={onDeleteClick}>
+                  onClick={onDeleteClick}
+                >
                   Delete
                 </Button>
               </div>
@@ -152,7 +155,8 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
                 if (e.target.closest('[data-event-target="edit-button"]')) {
                   e.preventDefault();
                 }
-              }}>
+              }}
+            >
               <div className={styles.title}>{internalTitle}</div>
               <IconButton
                 type="button"

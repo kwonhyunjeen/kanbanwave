@@ -22,7 +22,8 @@ const Board = ({ board, onClick, onDeleteClick }: BoardProps) => {
         if (e.target.closest('[data-event-target="delete-button"]')) {
           e.preventDefault();
         }
-      }}>
+      }}
+    >
       <div className={styles.headerContainer}>
         <h2 className={styles.title}>{board.title}</h2>
         <div className={styles.action}>

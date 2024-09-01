@@ -274,7 +274,8 @@ const BoardView = ({
             tabIndex={0}
             onFocus={() => {
               setIsEditing(true);
-            }}>
+            }}
+          >
             {internalTitle}
           </h1>
         )}
@@ -284,14 +285,16 @@ const BoardView = ({
           <ListDroppable
             boardId={board.id}
             buttonSlot={<NewList onAdd={handleListAdd} listsLength={lists.length} />}
-            className={styles.listDroppable}>
+            className={styles.listDroppable}
+          >
             {lists.map((list, index) => (
               <List
                 key={list.id}
                 list={list}
                 listIndex={index}
                 onDeleteClick={makeListDeleteClickHandler(list.id)}
-                onTitleSave={makeListTitleSaveHandler(list.id)}>
+                onTitleSave={makeListTitleSaveHandler(list.id)}
+              >
                 <CardDroppable
                   className={styles.cardDroppable}
                   listId={list.id}
@@ -309,7 +312,8 @@ const BoardView = ({
                     ) : (
                       <NewCard {...newCardProps} />
                     );
-                  })()}>
+                  })()}
+                >
                   {list.cards?.map((card, index) => {
                     const cardProps = {
                       card: card,

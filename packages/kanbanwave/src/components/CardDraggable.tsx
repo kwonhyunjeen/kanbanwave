@@ -18,7 +18,8 @@ const CardDraggable: React.FC<CardDraggableProps> = ({
           {...provided.draggableProps}
           ref={provided.innerRef}
           {...provided.dragHandleProps}
-          {...restProps}>
+          {...restProps}
+        >
           {children}
         </div>
       )}

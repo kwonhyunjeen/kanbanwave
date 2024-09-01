@@ -16,7 +16,8 @@ const ListDroppable: React.FC<ListDroppableProps> = ({
     <StrictModeDroppable
       droppableId={boardId}
       type={KWItemType.LIST}
-      direction="horizontal">
+      direction="horizontal"
+    >
       {provided => (
         <div {...provided.droppableProps} ref={provided.innerRef} {...restProps}>
           {children}

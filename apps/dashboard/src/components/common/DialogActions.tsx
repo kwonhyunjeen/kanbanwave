@@ -9,7 +9,8 @@ const DialogActions = forwardRef<HTMLDivElement, DialogActionsProps>((props, ref
     <div
       {...rest}
       ref={ref}
-      className={cx('dialog-actions flex justify-end p-4 last:ml-2', className)}>
+      className={cx('dialog-actions flex justify-end p-4 last:ml-2', className)}
+    >
       {children}
     </div>
   );

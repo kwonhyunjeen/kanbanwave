@@ -66,7 +66,8 @@ const NewCard = ({ cardsLength, onAdd }: NewCardProps) => {
           aria-label={`add a card`}
           onClick={() => setIsInputVisible(true)}
           startIcon={<Icon name="add" />}
-          className={styles.addCardButton}>
+          className={styles.addCardButton}
+        >
           Add a card
         </Button>
       )}

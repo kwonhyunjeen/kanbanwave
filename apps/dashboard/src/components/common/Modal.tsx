@@ -57,7 +57,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
             className={cx(
               'relative flex max-h-[calc(100%-64px)] max-w-[min(37.5rem,90%)] flex-col overflow-y-auto rounded-lg bg-white shadow-xl',
               className
-            )}>
+            )}
+          >
             {children}
           </div>
         </div>,

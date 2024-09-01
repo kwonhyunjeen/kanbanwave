@@ -61,7 +61,8 @@ const List = ({
                 // 강제로 focus 이벤트를 유발해 onFocus 호출
                 onClick={e => {
                   e.currentTarget.focus();
-                }}>
+                }}
+              >
                 {internalTitle}
               </h2>
             )}

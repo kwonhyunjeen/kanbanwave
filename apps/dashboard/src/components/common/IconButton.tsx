@@ -36,7 +36,8 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) =
       className={buttonClass}
       color={color}
       variant={variant}
-      size={size}>
+      size={size}
+    >
       <Icon name={icon} size={size} />
     </Button>
   );

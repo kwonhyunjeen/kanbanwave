@@ -59,7 +59,8 @@ const NewBoard = ({ onAdd }: NewBoardProps) => {
           variant="contained"
           color="default"
           onClick={() => setIsInputVisible(true)}
-          className={styles.addBoardButton}>
+          className={styles.addBoardButton}
+        >
           Create new board
         </Button>
       )}

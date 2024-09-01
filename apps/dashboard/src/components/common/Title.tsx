@@ -17,7 +17,8 @@ export const Title = forwardRef<HTMLHeadingElement, TitleProps>((props, ref) => 
     <h1
       {...rest}
       ref={ref}
-      className={cx(`font-bold ${titleSizeClass[size]}`, className)}>
+      className={cx(`font-bold ${titleSizeClass[size]}`, className)}
+    >
       {children}
     </h1>
   );

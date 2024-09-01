@@ -35,7 +35,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
       className={cx('textarea textarea-bordered resize-none', className)}
       onChange={handleChange}
       value={value}
-      rows={1}></textarea>
+      rows={1}
+    ></textarea>
   );
 });
 

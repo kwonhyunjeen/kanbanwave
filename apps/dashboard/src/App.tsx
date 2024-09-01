@@ -70,11 +70,11 @@ function KanbanProvider({ children }: PropsWithChildren) {
 function App() {
   useEffect(() => {
     console.log(
-      "%cKanbanWave",
-      "color: #87CEEB; padding: 10px; font-size: 20px; font-weight: bold;"
+      '%cKanbanWave',
+      'color: #87CEEB; padding: 10px; font-size: 20px; font-weight: bold;'
     );
   }, []);
-  
+
   return (
     <KanbanProvider>
       <RouterProvider router={router} />

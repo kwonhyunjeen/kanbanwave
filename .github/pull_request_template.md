@@ -1,6 +1,7 @@
 ## Description
 
 ## What type of PR is this?
+
 - [ ] 🐛 Bug fix
 - [ ] 🍕 Feature
 - [ ] 🎨 Code style update (formatting, local variables)
@@ -11,6 +12,5 @@
 - [ ] 🔥 Performance optimization
 - [ ] 📄 Site/documentation update
 - [ ] 🤷🏻‍♀️ Other... Please describe:
-
 
 ## Changes made
