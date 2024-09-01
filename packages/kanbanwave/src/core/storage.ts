@@ -1,5 +1,6 @@
 import type { KanbanwaveStorage } from './types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function wrap<Fn extends (...args: any[]) => any>(
   fn: Fn
 ): (...args: Parameters<Fn>) => ReturnType<Fn> {
@@ -17,10 +18,10 @@ export const makeKanbanwaveStore = (storage: KanbanwaveStorage) => {
   const emitChanges = (changes: Array<keyof typeof snapshot>) => {
     snapshot = { ...snapshot };
     changes.forEach(key => {
-      // snapshot[key]에 값(타입)을 올바르게 할당할 수 없어, 잘못된 로직이 들어갈 위험이 있음
-      // 그래서 fn 변수를 선언해, 타입을 미리 검증
-      const fn = wrap(storage[key]) as (typeof snapshot)[typeof key];
-      snapshot[key] = fn as any;
+      snapshot = {
+        ...snapshot,
+        [key]: wrap(storage[key])
+      };
     });
     for (const listener of listeners) {
       listener();

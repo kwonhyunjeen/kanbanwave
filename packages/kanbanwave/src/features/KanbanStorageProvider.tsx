@@ -33,6 +33,7 @@ export const useKanbanwaveStore = () => {
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
 
   return useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { subscribe, getSnapshot, ...methods } = store;
     return {
       ...snapshot,
