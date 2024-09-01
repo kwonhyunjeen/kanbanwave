@@ -40,14 +40,14 @@ const Nav = ({ isOpen, onToggleNav }: NavProps) => {
           }`}>
           <Link
             to="/boards"
-            className="flex items-center w-full h-10 px-2 transition-all duration-300 hover:rounded-md hover:bg-zinc-400/50">
+            className="flex h-10 w-full items-center px-2 transition-all duration-300 hover:rounded-md hover:bg-zinc-400/50">
             <Icon name="view_kanban" className="mr-3" />
             Boards
           </Link>
           <div className="mt-4">
             <Subtitle
               size="lg"
-              className="flex items-center justify-between px-1 mb-2 font-semibold cursor-pointer"
+              className="mb-2 flex cursor-pointer items-center justify-between px-1 font-semibold"
               onClick={handleToggleDetails}>
               Your boards
               <Icon name={isDetailsOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'} />
@@ -62,7 +62,7 @@ const Nav = ({ isOpen, onToggleNav }: NavProps) => {
                   {boards.map(board => (
                     <div
                       key={board.id}
-                      className="px-3 py-2 my-1 transition-all duration-200 hover:rounded-md hover:bg-zinc-400/50">
+                      className="my-1 px-3 py-2 transition-all duration-200 hover:rounded-md hover:bg-zinc-400/50">
                       <Link
                         to={`/boards/${board.id}`}
                         state={{ board }}
