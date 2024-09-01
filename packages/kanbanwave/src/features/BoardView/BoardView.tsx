@@ -268,7 +268,13 @@ const BoardView = ({
             style={{ fontSize: '1.25rem', fontWeight: '600' }}
           />
         ) : (
-          <h1 className={styles.boardTitle} onClick={() => setIsEditing(true)}>
+          <h1
+            className={styles.boardTitle}
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+            tabIndex={0}
+            onFocus={() => {
+              setIsEditing(true);
+            }}>
             {internalTitle}
           </h1>
         )}
