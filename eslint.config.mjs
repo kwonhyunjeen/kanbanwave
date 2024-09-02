@@ -9,7 +9,7 @@ import tailwind from 'eslint-plugin-tailwindcss';
 import unusedImports from 'eslint-plugin-unused-imports';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['**/*/dist'] },
   {
     files: ['apps/dashboard/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     languageOptions: {
@@ -55,6 +55,8 @@ export default tseslint.config(
 
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
+
+      'tailwindcss/no-custom-classname': 'off',
 
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
     }
