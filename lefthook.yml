@@ -1,0 +1,18 @@
+# Install them to the this project: `pnpm lefthook install`
+# https://github.com/evilmartians/lefthook#usage
+
+# Refer for explanation to following link:
+# https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+
+pre-push:
+  commands:
+    lint:
+      glob: '*.{js,mjs,cjs,ts,jsx,tsx}'
+      run: pnpm eslint {push_files}
+
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: '*.{js,mjs,cjs,ts,jsx,tsx}'
+      run: pnpm prettier --write {staged_files} && pnpm eslint {staged_files}

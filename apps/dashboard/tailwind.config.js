@@ -1,3 +1,6 @@
+import tailwindLineClamp from '@tailwindcss/line-clamp';
+import daisyui from 'daisyui';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -32,5 +35,5 @@ export default {
       }
     }
   },
-  plugins: [require('@tailwindcss/line-clamp'), require('daisyui')]
+  plugins: [tailwindLineClamp, daisyui]
 };

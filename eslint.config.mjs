@@ -9,8 +9,9 @@ import tailwind from 'eslint-plugin-tailwindcss';
 import unusedImports from 'eslint-plugin-unused-imports';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['**/*/dist'] },
   {
+    files: ['apps/dashboard/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
     languageOptions: {
       globals: globals.browser,
       ecmaVersion: 2020,
@@ -19,10 +20,7 @@ export default tseslint.config(
           jsx: true
         }
       }
-    }
-  },
-  {
-    files: ['**/*.{ts,tsx}'],
+    },
     extends: [
       jseslint.configs.recommended,
       ...tseslint.configs.recommended,
@@ -58,7 +56,51 @@ export default tseslint.config(
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
 
+      'tailwindcss/no-custom-classname': 'off',
+
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
+    }
+  },
+  {
+    files: ['packages/kanbanwave/**/*.{js,mjs,cjs,ts,jsx,tsx}'],
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true
+        }
+      }
+    },
+    extends: [
+      jseslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      jsxA11y.flatConfigs.recommended,
+      react.configs.flat.recommended
+    ],
+    plugins: {
+      'react-hooks': reactHooks,
+      'unused-imports': unusedImports
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+
+      'unused-imports/no-unused-imports': 'error',
+
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react',
+              importNames: ['default'],
+              message: '`React` is already a global variable.'
+            }
+          ]
+        }
+      ],
+
+      'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off'
     }
   }
 );
