@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { KWBoard, KWBoardForm } from '../../core/types';
 import Board from '../../components/Board/Board';
-import NewBoard from '../../components/NewBoard/NewBoard';
+import AddBoard from '../../components/AddBoard/AddBoard';
 import useQuery from '../../hooks/useQuery';
 import { useKWStore } from '../KWStorageProvider';
 import styles from './BoardCollection.module.css';
@@ -13,14 +13,14 @@ type BoardCollectionProps = {
     props: React.ComponentPropsWithRef<typeof Board>;
     meta: { board: KWBoard };
   }) => React.ReactNode;
-  newBoardRender?: (provided: {
-    Component: typeof NewBoard;
-    props: React.ComponentPropsWithRef<typeof NewBoard>;
+  addBoardRender?: (provided: {
+    Component: typeof AddBoard;
+    props: React.ComponentPropsWithRef<typeof AddBoard>;
     meta: Record<PropertyKey, never>;
   }) => React.ReactNode;
 };
 
-const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) => {
+const BoardCollection = ({ boardRender, addBoardRender }: BoardCollectionProps) => {
   const { getBoards, createBoard, deleteBoard } = useKWStore();
 
   const { status, data: boards } = useQuery(getBoards, []);
@@ -48,14 +48,14 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
         const newBoardProps = {
           onAdd: handleBoardAdd
         };
-        return newBoardRender ? (
-          newBoardRender({
-            Component: NewBoard,
+        return addBoardRender ? (
+          addBoardRender({
+            Component: AddBoard,
             props: newBoardProps,
             meta: {}
           })
         ) : (
-          <NewBoard {...newBoardProps} />
+          <AddBoard {...newBoardProps} />
         );
       })()}
       {boards &&

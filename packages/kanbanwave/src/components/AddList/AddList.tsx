@@ -1,15 +1,15 @@
-import { ChangeEvent, useState } from 'react';
-import styles from './NewBoard.module.css';
+import { ChangeEvent, useEffect, useState } from 'react';
+import styles from './AddList.module.css';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 
-type NewBoardProps = {
-  className?: string;
+type AddListProps = {
+  listsLength?: number;
   onAdd?: (title: string) => void;
 };
 
-const NewBoard = ({ onAdd }: NewBoardProps) => {
+const AddList = ({ listsLength, onAdd }: AddListProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -30,18 +30,26 @@ const NewBoard = ({ onAdd }: NewBoardProps) => {
     setIsInputVisible(false);
   };
 
+  useEffect(() => {
+    if (listsLength === 0) {
+      setIsInputVisible(true);
+    } else {
+      setIsInputVisible(false);
+    }
+  }, [listsLength]);
+
   return (
     <div className={styles.wrapper}>
       {isInputVisible ? (
         <div className={styles.container}>
           <TextArea
-            placeholder={`Enter a board title`}
+            placeholder={`Enter a list title`}
             value={title}
             onChange={handleChange}
           />
           <div className={styles.action}>
             <Button type="button" size="sm" variant="contained" onClick={handleAddClick}>
-              Add board
+              Add list
             </Button>
             <IconButton
               type="button"
@@ -54,18 +62,18 @@ const NewBoard = ({ onAdd }: NewBoardProps) => {
         </div>
       ) : (
         <Button
-          aria-label={`add a board`}
+          aria-label={`add a list`}
           size="lg"
           variant="contained"
           color="default"
           onClick={() => setIsInputVisible(true)}
-          className={styles.addBoardButton}
+          className={styles.addListButton}
         >
-          Create new board
+          Add another list
         </Button>
       )}
     </div>
   );
 };
 
-export default NewBoard;
+export default AddList;

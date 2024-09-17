@@ -14,8 +14,8 @@ import CardDroppable from '../../components/CardDroppable';
 import Input from '../../components/Input/Input';
 import List from '../../components/List/List';
 import ListDroppable from '../../components/ListDroppable';
-import NewCard from '../../components/NewCard/NewCard';
-import NewList from '../../components/NewList/NewList';
+import AddCard from '../../components/AddCard/AddCard';
+import AddList from '../../components/AddList/AddList';
 import useQuery from '../../hooks/useQuery';
 import { useKWStore } from '../KWStorageProvider';
 import useDerivedState from '../../hooks/useDerivedState';
@@ -29,9 +29,9 @@ type BoardViewProps = {
     props: React.ComponentPropsWithRef<typeof Card>;
     meta: { board: KWBoard; list: KWList; card: KWCard };
   }) => React.ReactNode;
-  newCardRender?: (provided: {
-    Component: typeof NewCard;
-    props: React.ComponentPropsWithRef<typeof NewCard>;
+  addCardRender?: (provided: {
+    Component: typeof AddCard;
+    props: React.ComponentPropsWithRef<typeof AddCard>;
     meta: { board: KWBoard; list: KWList };
   }) => React.ReactNode;
 };
@@ -39,7 +39,7 @@ type BoardViewProps = {
 const BoardView = ({
   boardId: boardIdProp,
   cardRender,
-  newCardRender
+  addCardRender
 }: BoardViewProps) => {
   const {
     getBoardContent,
@@ -283,7 +283,7 @@ const BoardView = ({
         <DragDropContext onDragEnd={handleDragEnd}>
           <ListDroppable
             boardId={board.id}
-            buttonSlot={<NewList onAdd={handleListAdd} listsLength={lists.length} />}
+            buttonSlot={<AddList onAdd={handleListAdd} listsLength={lists.length} />}
             className={styles.listDroppable}>
             {lists.map((list, index) => (
               <List
@@ -300,14 +300,14 @@ const BoardView = ({
                       cardsLength: list.cards?.length,
                       onAdd: makeCardAddHandler(list.id)
                     };
-                    return newCardRender ? (
-                      newCardRender({
-                        Component: NewCard,
+                    return addCardRender ? (
+                      addCardRender({
+                        Component: AddCard,
                         props: newCardProps,
                         meta: { board, list }
                       })
                     ) : (
-                      <NewCard {...newCardProps} />
+                      <AddCard {...newCardProps} />
                     );
                   })()}>
                   {list.cards?.map((card, index) => {
