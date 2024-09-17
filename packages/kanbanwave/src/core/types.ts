@@ -50,11 +50,11 @@ export type KanbanwaveStorage = {
   getBoards: () => KWBoard[] | Promise<KWBoard[]>;
   getBoardContent: (boardId: KWBoardUUID) => KWBoardContent | Promise<KWBoardContent>;
 
-  createBoard: (board: KWBoardForm) => void;
+  createBoard: (boardForm: KWBoardForm) => void;
   updateBoard: (board: KWBoard) => void;
   deleteBoard: (boardId: KWBoardUUID) => void;
 
-  createList: (boardId: KWBoardUUID, list: KWListForm) => void;
+  createList: (boardId: KWBoardUUID, listForm: KWListForm) => void;
   updateList: (boardId: KWBoardUUID, list: KWList) => void;
   deleteList: (boardId: KWBoardUUID, listId: KWListUUID) => void;
   reorderList: (
@@ -69,7 +69,7 @@ export type KanbanwaveStorage = {
     listId: KWListUUID,
     cardId: KWCardUUID
   ) => Promise<KWCard>;
-  createCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCardForm) => void;
+  createCard: (boardId: KWBoardUUID, listId: KWListUUID, cardForm: KWCardForm) => void;
   updateCard: (boardId: KWBoardUUID, listId: KWListUUID, card: KWCard) => void;
   deleteCard: (boardId: KWBoardUUID, listId: KWListUUID, cardId: KWCardUUID) => void;
   reorderCard: (
