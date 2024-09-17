@@ -80,3 +80,25 @@ A component that displays the lists and cards within a selected board when a spe
 - [Display Board Collection and Board](./docs/usage.md#display-board)
 - [Customization](./docs/usage.md#customization)
 - [Theming](./docs//usage.md#theming)
+
+## API
+
+Describes the API for `kanbanwave`'s core components and hooks. Each component supports the management and display of boards, lists, and cards, providing necessary props and customization options.
+
+**Data**
+
+- [KWStorageProvider](./docs/api.md#kwstorageprovider)
+- [useKWStore](./docs/api.md#usekwstore)
+
+**View**
+
+- [BoardCollection](./docs/api.md#boardcollection)
+- [BoardView](./docs/api.md#boardview)
+- [Board](./docs/api.md#Board)
+- [AddBoard](./docs/api.md#addboard)
+- [List](./docs/api.md#list)
+- [AddList](./docs/api.md#addlist)
+- [Card](./docs/api.md#card)
+- [AddCard](./docs/api.md#addcard)
+
+**Theming**
