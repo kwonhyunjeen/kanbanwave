@@ -17,7 +17,7 @@ import ListDroppable from '../../components/ListDroppable';
 import NewCard from '../../components/NewCard/NewCard';
 import NewList from '../../components/NewList/NewList';
 import useQuery from '../../hooks/useQuery';
-import { useKanbanwaveStore } from '../KanbanStorageProvider';
+import { useKWStore } from '../KWStorageProvider';
 import useDerivedState from '../../hooks/useDerivedState';
 import styles from './BoardView.module.css';
 import Spinner from '../../components/Spinner/Spinner';
@@ -52,7 +52,7 @@ const BoardView = ({
     updateCard,
     deleteCard,
     reorderCard
-  } = useKanbanwaveStore();
+  } = useKWStore();
 
   const { status, data: serverData, error } = useQuery(getBoardContent, [boardIdProp]);
 
@@ -274,8 +274,7 @@ const BoardView = ({
             tabIndex={0}
             onFocus={() => {
               setIsEditing(true);
-            }}
-          >
+            }}>
             {internalTitle}
           </h1>
         )}
@@ -285,16 +284,14 @@ const BoardView = ({
           <ListDroppable
             boardId={board.id}
             buttonSlot={<NewList onAdd={handleListAdd} listsLength={lists.length} />}
-            className={styles.listDroppable}
-          >
+            className={styles.listDroppable}>
             {lists.map((list, index) => (
               <List
                 key={list.id}
                 list={list}
                 listIndex={index}
                 onDeleteClick={makeListDeleteClickHandler(list.id)}
-                onTitleSave={makeListTitleSaveHandler(list.id)}
-              >
+                onTitleSave={makeListTitleSaveHandler(list.id)}>
                 <CardDroppable
                   className={styles.cardDroppable}
                   listId={list.id}
@@ -312,8 +309,7 @@ const BoardView = ({
                     ) : (
                       <NewCard {...newCardProps} />
                     );
-                  })()}
-                >
+                  })()}>
                   {list.cards?.map((card, index) => {
                     const cardProps = {
                       card: card,

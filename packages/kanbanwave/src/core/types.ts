@@ -46,7 +46,7 @@ export type KWListContent<T extends object = object> = KWList<T> & {
   cards: KWCard[];
 };
 
-export type KanbanwaveStorage = {
+export type KWStorage = {
   getBoards: () => KWBoard[] | Promise<KWBoard[]>;
   getBoardContent: (boardId: KWBoardUUID) => KWBoardContent | Promise<KWBoardContent>;
 

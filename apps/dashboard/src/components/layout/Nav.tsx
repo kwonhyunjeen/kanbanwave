@@ -1,6 +1,6 @@
 import { Icon, IconButton, Subtitle } from '@/components';
 import { Link } from 'react-router-dom';
-import { KWBoard, useKanbanwaveStore } from 'kanbanwave';
+import { KWBoard, useKWStore } from 'kanbanwave';
 import { useEffect, useState } from 'react';
 import { cx } from '@/utils/cx';
 
@@ -10,7 +10,7 @@ type NavProps = {
 };
 
 const Nav = ({ isOpen, onToggleNav }: NavProps) => {
-  const { getBoards } = useKanbanwaveStore();
+  const { getBoards } = useKWStore();
   const [boards, setBoards] = useState<KWBoard[]>([]);
   const [isDetailsOpen, setIsDetailsOpen] = useState(true);
 

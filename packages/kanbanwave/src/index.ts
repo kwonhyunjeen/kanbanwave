@@ -2,10 +2,10 @@ export * from './core/storage';
 export * from './core/types';
 
 export {
-  default as KanbanStorageProvider,
-  useKanbanwaveStore,
-  type KanbanStorageContextValue
-} from './features/KanbanStorageProvider';
+  default as KWStorageProvider,
+  useKWStore,
+  type KWStorageContextValue
+} from './features/KWStorageProvider';
 
 export { default as BoardCollection } from './features/BoardCollection/BoardCollection';
 export { default as BoardView } from './features/BoardView/BoardView';

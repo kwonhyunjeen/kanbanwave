@@ -3,7 +3,7 @@ import { KWBoard, KWBoardForm } from '../../core/types';
 import Board from '../../components/Board/Board';
 import NewBoard from '../../components/NewBoard/NewBoard';
 import useQuery from '../../hooks/useQuery';
-import { useKanbanwaveStore } from '../KanbanStorageProvider';
+import { useKWStore } from '../KWStorageProvider';
 import styles from './BoardCollection.module.css';
 import Spinner from '../../components/Spinner/Spinner';
 
@@ -21,7 +21,7 @@ type BoardCollectionProps = {
 };
 
 const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) => {
-  const { getBoards, createBoard, deleteBoard } = useKanbanwaveStore();
+  const { getBoards, createBoard, deleteBoard } = useKWStore();
 
   const { status, data: boards } = useQuery(getBoards, []);
 
