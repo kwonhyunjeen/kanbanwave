@@ -9,14 +9,11 @@ import Spinner from '../../components/Spinner/Spinner';
 
 type BoardCollectionProps = {
   boardRender?: (provided: {
-    Component: typeof Board;
-    props: React.ComponentPropsWithRef<typeof Board>;
-    meta: { board: KWBoard };
+    boardProps: React.ComponentPropsWithRef<typeof Board>;
+    board: KWBoard;
   }) => React.ReactNode;
   addBoardRender?: (provided: {
-    Component: typeof AddBoard;
-    props: React.ComponentPropsWithRef<typeof AddBoard>;
-    meta: Record<PropertyKey, never>;
+    addBoardProps: React.ComponentPropsWithRef<typeof AddBoard>;
   }) => React.ReactNode;
 };
 
@@ -45,17 +42,15 @@ const BoardCollection = ({ boardRender, addBoardRender }: BoardCollectionProps) 
   return (
     <div className={styles.container}>
       {(() => {
-        const newBoardProps = {
+        const addBoardProps = {
           onAdd: handleBoardAdd
         };
         return addBoardRender ? (
           addBoardRender({
-            Component: AddBoard,
-            props: newBoardProps,
-            meta: {}
+            addBoardProps: addBoardProps
           })
         ) : (
-          <AddBoard {...newBoardProps} />
+          <AddBoard {...addBoardProps} />
         );
       })()}
       {boards &&
@@ -68,9 +63,8 @@ const BoardCollection = ({ boardRender, addBoardRender }: BoardCollectionProps) 
             <Fragment key={board.id}>
               {boardRender ? (
                 boardRender({
-                  Component: Board,
-                  props: boardProps,
-                  meta: { board }
+                  boardProps: boardProps,
+                  board: board
                 })
               ) : (
                 <Board {...boardProps} />
