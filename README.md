@@ -71,3 +71,12 @@ function BoardContent() {
 ```
 
 A component that displays the lists and cards within a selected board when a specific board is chosen.
+
+## Usage
+
+`KanbanWave` offers a range of features from storage integration to board display, theming, and component customization. You can manage your data by applying custom storage, easily display boards and lists, adjust the theme to fit your project, and customize how components are rendered based on your needs.
+
+- [Integrate Storage](./docs/usage.md#integrate-storage)
+- [Display Board Collection and Board](./docs/usage.md#display-board)
+- [Customization](./docs/usage.md#customization)
+- [Theming](./docs//usage.md#theming)
