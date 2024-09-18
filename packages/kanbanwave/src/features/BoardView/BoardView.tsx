@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import {
-  KWBoard,
   KWBoardUUID,
   KWCard,
   KWCardForm,
@@ -25,21 +24,27 @@ import Spinner from '../../components/Spinner/Spinner';
 type BoardViewProps = {
   boardId: KWBoardUUID;
   cardRender?: (provided: {
-    Component: typeof Card;
-    props: React.ComponentPropsWithRef<typeof Card>;
-    meta: { board: KWBoard; list: KWList; card: KWCard };
+    cardProps: React.ComponentPropsWithRef<typeof Card>;
+    card: KWCard;
   }) => React.ReactNode;
   addCardRender?: (provided: {
-    Component: typeof AddCard;
-    props: React.ComponentPropsWithRef<typeof AddCard>;
-    meta: { board: KWBoard; list: KWList };
+    addCardProps: React.ComponentPropsWithRef<typeof AddCard>;
+  }) => React.ReactNode;
+  listRender?: (provided: {
+    listProps: React.ComponentPropsWithRef<typeof List>;
+    list: KWList;
+  }) => React.ReactNode;
+  addListRender?: (provided: {
+    addListProps: React.ComponentPropsWithRef<typeof AddList>;
   }) => React.ReactNode;
 };
 
 const BoardView = ({
   boardId: boardIdProp,
   cardRender,
-  addCardRender
+  addCardRender,
+  listRender,
+  addListRender
 }: BoardViewProps) => {
   const {
     getBoardContent,
@@ -283,57 +288,75 @@ const BoardView = ({
         <DragDropContext onDragEnd={handleDragEnd}>
           <ListDroppable
             boardId={board.id}
-            buttonSlot={<AddList onAdd={handleListAdd} listsLength={lists.length} />}
-            className={styles.listDroppable}>
-            {lists.map((list, index) => (
-              <List
-                key={list.id}
-                list={list}
-                listIndex={index}
-                onDeleteClick={makeListDeleteClickHandler(list.id)}
-                onTitleSave={makeListTitleSaveHandler(list.id)}>
-                <CardDroppable
-                  className={styles.cardDroppable}
-                  listId={list.id}
-                  buttonSlot={(() => {
-                    const newCardProps = {
-                      cardsLength: list.cards?.length,
-                      onAdd: makeCardAddHandler(list.id)
-                    };
-                    return addCardRender ? (
-                      addCardRender({
-                        Component: AddCard,
-                        props: newCardProps,
-                        meta: { board, list }
-                      })
-                    ) : (
-                      <AddCard {...newCardProps} />
-                    );
-                  })()}>
-                  {list.cards?.map((card, index) => {
-                    const cardProps = {
-                      card: card,
-                      cardIndex: index,
-                      onDeleteClick: makeCardDeleteClickHandler(list.id, card.id),
-                      onTitleSave: makeCardTitleSaveHandler(list.id, card)
-                    };
-                    return (
-                      <Fragment key={`${list.id}:${card.id}`}>
-                        {cardRender ? (
-                          cardRender({
-                            Component: Card,
-                            props: cardProps,
-                            meta: { board, list, card }
-                          })
-                        ) : (
-                          <Card {...cardProps} />
-                        )}
-                      </Fragment>
-                    );
-                  })}
-                </CardDroppable>
-              </List>
-            ))}
+            // buttonSlot={<AddList onAdd={handleListAdd} listsLength={lists.length} />}
+            className={styles.listDroppable}
+            buttonSlot={(() => {
+              const addListProps = {
+                listsLength: lists.length,
+                onAdd: handleListAdd
+              };
+              return addListRender ? (
+                addListRender({
+                  addListProps: addListProps
+                })
+              ) : (
+                <AddList {...addListProps} />
+              );
+            })()}>
+            {lists.map((list, index) => {
+              const listProps = {
+                list: list,
+                listIndex: index,
+                onDeleteClick: makeListDeleteClickHandler(list.id),
+                onTitleSave: makeListTitleSaveHandler(list.id)
+              };
+              return listRender ? (
+                listRender({
+                  listProps: listProps,
+                  list: list
+                })
+              ) : (
+                <List key={list.id} {...listProps}>
+                  <CardDroppable
+                    className={styles.cardDroppable}
+                    listId={list.id}
+                    buttonSlot={(() => {
+                      const addCardProps = {
+                        cardsLength: list.cards?.length,
+                        onAdd: makeCardAddHandler(list.id)
+                      };
+                      return addCardRender ? (
+                        addCardRender({
+                          addCardProps: addCardProps
+                        })
+                      ) : (
+                        <AddCard {...addCardProps} />
+                      );
+                    })()}>
+                    {list.cards?.map((card, index) => {
+                      const cardProps = {
+                        card: card,
+                        cardIndex: index,
+                        onDeleteClick: makeCardDeleteClickHandler(list.id, card.id),
+                        onTitleSave: makeCardTitleSaveHandler(list.id, card)
+                      };
+                      return (
+                        <Fragment key={`${list.id}:${card.id}`}>
+                          {cardRender ? (
+                            cardRender({
+                              cardProps: cardProps,
+                              card: card
+                            })
+                          ) : (
+                            <Card {...cardProps} />
+                          )}
+                        </Fragment>
+                      );
+                    })}
+                  </CardDroppable>
+                </List>
+              );
+            })}
           </ListDroppable>
         </DragDropContext>
       </div>
