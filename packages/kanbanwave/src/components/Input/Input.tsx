@@ -4,9 +4,6 @@ import styles from './Input.module.css';
 import useForkRef from 'hooks/useForkRef';
 
 type InputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'standard' | 'outlined' | 'filled';
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
   label?: string;
   helperText?: string;
   leftIcon?: ReactNode;
@@ -17,9 +14,6 @@ type InputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
     className,
-    size = 'md',
-    variant = 'outlined',
-    color = 'secondary',
     label,
     helperText,
     leftIcon,
@@ -57,13 +51,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         <input
           {...rest}
           ref={inputCallbackRef}
-          className={clsx(
-            styles.input,
-            styles[size],
-            styles[variant],
-            styles[color],
-            className
-          )}
+          className={clsx(styles.input, className)}
         />
         {rightIcon && <span className={styles.iconWithRight}>{rightIcon}</span>}
       </div>
