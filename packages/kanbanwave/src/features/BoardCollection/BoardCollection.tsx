@@ -1,27 +1,24 @@
 import { Fragment } from 'react';
 import { KWBoard, KWBoardForm } from '../../core/types';
 import Board from '../../components/Board/Board';
-import NewBoard from '../../components/NewBoard/NewBoard';
+import AddBoard from '../../components/AddBoard/AddBoard';
 import useQuery from '../../hooks/useQuery';
-import { useKanbanwaveStore } from '../KanbanStorageProvider';
+import { useKWStore } from '../KWStorageProvider';
 import styles from './BoardCollection.module.css';
 import Spinner from '../../components/Spinner/Spinner';
 
 type BoardCollectionProps = {
   boardRender?: (provided: {
-    Component: typeof Board;
-    props: React.ComponentPropsWithRef<typeof Board>;
-    meta: { board: KWBoard };
+    boardProps: React.ComponentPropsWithRef<typeof Board>;
+    board: KWBoard;
   }) => React.ReactNode;
-  newBoardRender?: (provided: {
-    Component: typeof NewBoard;
-    props: React.ComponentPropsWithRef<typeof NewBoard>;
-    meta: Record<PropertyKey, never>;
+  addBoardRender?: (provided: {
+    addBoardProps: React.ComponentPropsWithRef<typeof AddBoard>;
   }) => React.ReactNode;
 };
 
-const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) => {
-  const { getBoards, createBoard, deleteBoard } = useKanbanwaveStore();
+const BoardCollection = ({ boardRender, addBoardRender }: BoardCollectionProps) => {
+  const { getBoards, createBoard, deleteBoard } = useKWStore();
 
   const { status, data: boards } = useQuery(getBoards, []);
 
@@ -45,17 +42,15 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
   return (
     <div className={styles.container}>
       {(() => {
-        const newBoardProps = {
+        const addBoardProps = {
           onAdd: handleBoardAdd
         };
-        return newBoardRender ? (
-          newBoardRender({
-            Component: NewBoard,
-            props: newBoardProps,
-            meta: {}
+        return addBoardRender ? (
+          addBoardRender({
+            addBoardProps: addBoardProps
           })
         ) : (
-          <NewBoard {...newBoardProps} />
+          <AddBoard {...addBoardProps} />
         );
       })()}
       {boards &&
@@ -68,9 +63,8 @@ const BoardCollection = ({ boardRender, newBoardRender }: BoardCollectionProps) 
             <Fragment key={board.id}>
               {boardRender ? (
                 boardRender({
-                  Component: Board,
-                  props: boardProps,
-                  meta: { board }
+                  boardProps: boardProps,
+                  board: board
                 })
               ) : (
                 <Board {...boardProps} />

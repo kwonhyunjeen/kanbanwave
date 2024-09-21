@@ -1,16 +1,15 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import styles from './AddBoard.module.css';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
-import Icon from '../Icon/Icon';
 import IconButton from '../IconButton/IconButton';
-import styles from './NewCard.module.css';
 
-type NewCardProps = {
-  cardsLength?: number;
+type AddBoardProps = {
+  className?: string;
   onAdd?: (title: string) => void;
 };
 
-const NewCard = ({ cardsLength, onAdd }: NewCardProps) => {
+const AddBoard = ({ onAdd }: AddBoardProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -31,26 +30,18 @@ const NewCard = ({ cardsLength, onAdd }: NewCardProps) => {
     setIsInputVisible(false);
   };
 
-  useEffect(() => {
-    if (cardsLength === 0) {
-      setIsInputVisible(true);
-    } else {
-      setIsInputVisible(false);
-    }
-  }, [cardsLength]);
-
   return (
-    <div className={styles.container}>
+    <div className={styles.wrapper}>
       {isInputVisible ? (
-        <>
+        <div className={styles.container}>
           <TextArea
-            placeholder={`Enter a card title`}
+            placeholder={`Enter a board title`}
             value={title}
             onChange={handleChange}
           />
           <div className={styles.action}>
             <Button type="button" size="sm" variant="contained" onClick={handleAddClick}>
-              Add card
+              Add board
             </Button>
             <IconButton
               type="button"
@@ -60,19 +51,21 @@ const NewCard = ({ cardsLength, onAdd }: NewCardProps) => {
               onClick={handleCancelClick}
             />
           </div>
-        </>
+        </div>
       ) : (
         <Button
-          aria-label={`add a card`}
+          aria-label={`add a board`}
+          size="lg"
+          variant="contained"
+          color="default"
           onClick={() => setIsInputVisible(true)}
-          startIcon={<Icon name="add" />}
-          className={styles.addCardButton}
+          className={styles.addBoardButton}
         >
-          Add a card
+          Create new board
         </Button>
       )}
     </div>
   );
 };
 
-export default NewCard;
+export default AddBoard;

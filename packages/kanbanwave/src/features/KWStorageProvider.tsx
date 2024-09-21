@@ -5,11 +5,11 @@ import {
   useMemo,
   useSyncExternalStore
 } from 'react';
-import { KanbanwaveStore, makeKanbanwaveStore } from '../core/storage';
-import { KanbanwaveStorage } from '../core/types';
+import { KWExternalStore, makeKWExternalStore } from '../core/storage';
+import { KWStorage } from '../core/types';
 
-export type KanbanStorageContextValue = {
-  store: KanbanwaveStore;
+export type KWStorageContextValue = {
+  store: KWExternalStore;
 };
 
 const FALLBACK_STORE = new Proxy(
@@ -23,12 +23,12 @@ const FALLBACK_STORE = new Proxy(
   }
 );
 
-const KanbanStorageContext = createContext<KanbanStorageContextValue>({
-  store: FALLBACK_STORE as KanbanwaveStore
+const KWStorageContext = createContext<KWStorageContextValue>({
+  store: FALLBACK_STORE as KWExternalStore
 });
 
-export const useKanbanwaveStore = () => {
-  const context = useContext(KanbanStorageContext);
+export const useKWStore = () => {
+  const context = useContext(KWStorageContext);
   const store = context.store;
   const snapshot = useSyncExternalStore(store.subscribe, store.getSnapshot);
 
@@ -42,20 +42,20 @@ export const useKanbanwaveStore = () => {
   }, [snapshot, store]);
 };
 
-type KanbanStorageProviderProps = {
+export type KWStore = ReturnType<typeof useKWStore>;
+
+type KWStorageProviderProps = {
   children?: ReactNode;
-  storage: KanbanwaveStorage;
+  storage: KWStorage;
 };
 
-const KanbanStorageProvider = ({ storage, children }: KanbanStorageProviderProps) => {
-  const store = useMemo(() => makeKanbanwaveStore(storage), [storage]);
+const KWStorageProvider = ({ storage, children }: KWStorageProviderProps) => {
+  const store = useMemo(() => makeKWExternalStore(storage), [storage]);
   const contextValue = useMemo(() => ({ store }), [store]);
 
   return (
-    <KanbanStorageContext.Provider value={contextValue}>
-      {children}
-    </KanbanStorageContext.Provider>
+    <KWStorageContext.Provider value={contextValue}>{children}</KWStorageContext.Provider>
   );
 };
 
-export default KanbanStorageProvider;
+export default KWStorageProvider;

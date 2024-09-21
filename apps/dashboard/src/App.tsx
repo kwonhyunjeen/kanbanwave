@@ -11,12 +11,12 @@ import {
   KWList,
   KWListForm,
   KWListUUID,
-  KanbanStorageProvider,
-  KanbanwaveStorage
+  KWStorage,
+  KWStorageProvider
 } from 'kanbanwave';
 import * as API from '@/api';
 
-const sampleKanbanStorage: KanbanwaveStorage = {
+const sampleKWStorage: KWStorage = {
   getBoards: () => API.getBoards(),
 
   getBoardContent: (boardId: KWBoardUUID) => API.getBoardContent(boardId),
@@ -59,26 +59,22 @@ const sampleKanbanStorage: KanbanwaveStorage = {
   ) => API.reorderCard(fromListId, toListId, draggedCardId, droppedCardIndex)
 };
 
-function KanbanProvider({ children }: PropsWithChildren) {
-  return (
-    <KanbanStorageProvider storage={sampleKanbanStorage}>
-      {children}
-    </KanbanStorageProvider>
-  );
+function KWProvider({ children }: PropsWithChildren) {
+  return <KWStorageProvider storage={sampleKWStorage}>{children}</KWStorageProvider>;
 }
 
 function App() {
   useEffect(() => {
     console.log(
-      '%cKanbanWave',
+      '%cKanbanWWave',
       'color: #87CEEB; padding: 10px; font-size: 20px; font-weight: bold;'
     );
   }, []);
 
   return (
-    <KanbanProvider>
+    <KWProvider>
       <RouterProvider router={router} />
-    </KanbanProvider>
+    </KWProvider>
   );
 }
 

@@ -1,15 +1,16 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import styles from './NewList.module.css';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
+import Icon from '../Icon/Icon';
 import IconButton from '../IconButton/IconButton';
+import styles from './AddCard.module.css';
 
-type NewListProps = {
-  listsLength?: number;
+type AddCardProps = {
+  cardsLength?: number;
   onAdd?: (title: string) => void;
 };
 
-const NewList = ({ listsLength, onAdd }: NewListProps) => {
+const AddCard = ({ cardsLength, onAdd }: AddCardProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -31,25 +32,25 @@ const NewList = ({ listsLength, onAdd }: NewListProps) => {
   };
 
   useEffect(() => {
-    if (listsLength === 0) {
+    if (cardsLength === 0) {
       setIsInputVisible(true);
     } else {
       setIsInputVisible(false);
     }
-  }, [listsLength]);
+  }, [cardsLength]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.container}>
       {isInputVisible ? (
-        <div className={styles.container}>
+        <>
           <TextArea
-            placeholder={`Enter a list title`}
+            placeholder={`Enter a card title`}
             value={title}
             onChange={handleChange}
           />
           <div className={styles.action}>
             <Button type="button" size="sm" variant="contained" onClick={handleAddClick}>
-              Add list
+              Add card
             </Button>
             <IconButton
               type="button"
@@ -59,21 +60,19 @@ const NewList = ({ listsLength, onAdd }: NewListProps) => {
               onClick={handleCancelClick}
             />
           </div>
-        </div>
+        </>
       ) : (
         <Button
-          aria-label={`add a list`}
-          size="lg"
-          variant="contained"
-          color="default"
+          aria-label={`add a card`}
           onClick={() => setIsInputVisible(true)}
-          className={styles.addListButton}
+          startIcon={<Icon name="add" />}
+          className={styles.addCardButton}
         >
-          Add another list
+          Add a card
         </Button>
       )}
     </div>
   );
 };
 
-export default NewList;
+export default AddCard;

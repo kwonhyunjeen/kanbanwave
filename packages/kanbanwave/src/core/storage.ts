@@ -1,4 +1,4 @@
-import type { KanbanwaveStorage } from './types';
+import type { KWStorage } from './types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function wrap<Fn extends (...args: any[]) => any>(
@@ -7,7 +7,7 @@ function wrap<Fn extends (...args: any[]) => any>(
   return (...args: Parameters<Fn>): ReturnType<Fn> => fn(...args);
 }
 
-export const makeKanbanwaveStore = (storage: KanbanwaveStorage) => {
+export const makeKWExternalStore = (storage: KWStorage) => {
   let snapshot = {
     getBoards: wrap(storage.getBoards),
     getBoardContent: wrap(storage.getBoardContent),
@@ -85,4 +85,4 @@ export const makeKanbanwaveStore = (storage: KanbanwaveStorage) => {
   };
 };
 
-export type KanbanwaveStore = ReturnType<typeof makeKanbanwaveStore>;
+export type KWExternalStore = ReturnType<typeof makeKWExternalStore>;
