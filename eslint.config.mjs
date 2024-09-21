@@ -21,6 +21,11 @@ export default tseslint.config(
         }
       }
     },
+    settings: {
+      react: {
+        version: 'detect'
+      }
+    },
     extends: [
       jseslint.configs.recommended,
       ...tseslint.configs.recommended,
@@ -69,6 +74,11 @@ export default tseslint.config(
         ecmaFeatures: {
           jsx: true
         }
+      }
+    },
+    settings: {
+      react: {
+        version: 'detect'
       }
     },
     extends: [

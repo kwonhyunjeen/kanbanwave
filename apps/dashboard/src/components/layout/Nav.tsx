@@ -26,7 +26,8 @@ const Nav = ({ isOpen, onToggleNav }: NavProps) => {
     <nav
       className={`bg-white transition-all duration-300 ${
         isOpen ? 'w-64 px-3' : 'w-11 px-1'
-      }`}>
+      }`}
+    >
       <div className="w-[calc(theme(spacing[64])-theme(spacing[6]))] py-4">
         <IconButton
           icon="view_sidebar"
@@ -37,10 +38,12 @@ const Nav = ({ isOpen, onToggleNav }: NavProps) => {
         <div
           className={`flex w-full flex-col gap-2 transition-all ${
             isOpen ? 'visible opacity-100' : 'invisible opacity-0'
-          }`}>
+          }`}
+        >
           <Link
             to="/boards"
-            className="flex h-10 w-full items-center px-2 transition-all duration-300 hover:rounded-md hover:bg-zinc-400/50">
+            className="flex h-10 w-full items-center px-2 transition-all duration-300 hover:rounded-md hover:bg-zinc-400/50"
+          >
             <Icon name="view_kanban" className="mr-3" />
             Boards
           </Link>
@@ -48,7 +51,8 @@ const Nav = ({ isOpen, onToggleNav }: NavProps) => {
             <Subtitle
               size="lg"
               className="mb-2 flex cursor-pointer items-center justify-between px-1 font-semibold"
-              onClick={handleToggleDetails}>
+              onClick={handleToggleDetails}
+            >
               Your boards
               <Icon name={isDetailsOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'} />
             </Subtitle>
@@ -56,17 +60,20 @@ const Nav = ({ isOpen, onToggleNav }: NavProps) => {
               className={cx(
                 'cursor-pointer overflow-hidden transition-all duration-200',
                 isDetailsOpen ? 'max-h-screen' : 'max-h-0'
-              )}>
+              )}
+            >
               {isDetailsOpen && (
                 <>
                   {boards.map(board => (
                     <div
                       key={board.id}
-                      className="my-1 px-3 py-2 transition-all duration-200 hover:rounded-md hover:bg-zinc-400/50">
+                      className="my-1 px-3 py-2 transition-all duration-200 hover:rounded-md hover:bg-zinc-400/50"
+                    >
                       <Link
                         to={`/boards/${board.id}`}
                         state={{ board }}
-                        className="block w-full truncate">
+                        className="block w-full truncate"
+                      >
                         {board.title}
                       </Link>
                     </div>

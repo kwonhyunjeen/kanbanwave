@@ -279,7 +279,8 @@ const BoardView = ({
             tabIndex={0}
             onFocus={() => {
               setIsEditing(true);
-            }}>
+            }}
+          >
             {internalTitle}
           </h1>
         )}
@@ -302,7 +303,8 @@ const BoardView = ({
               ) : (
                 <AddList {...addListProps} />
               );
-            })()}>
+            })()}
+          >
             {lists.map((list, index) => {
               const listProps = {
                 list: list,
@@ -332,7 +334,8 @@ const BoardView = ({
                       ) : (
                         <AddCard {...addCardProps} />
                       );
-                    })()}>
+                    })()}
+                  >
                     {list.cards?.map((card, index) => {
                       const cardProps = {
                         card: card,
