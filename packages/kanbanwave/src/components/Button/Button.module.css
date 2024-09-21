@@ -39,23 +39,23 @@
 
 /* Color */
 .colorPrimary {
-  color: var(--color-primary);
+  color: var(--kw-color-primary);
 }
 
 .colorSecondary {
-  color: var(--color-secondary);
+  color: var(--kw-color-secondary);
 }
 
 .colorSuccess {
-  color: var(--color-success);
+  color: var(--kw-color-success);
 }
 
 .colorWarning {
-  color: var(--color-warning);
+  color: var(--kw-color-warning);
 }
 
 .colorError {
-  color: var(--color-error);
+  color: var(--kw-color-error);
 }
 
 /* Variant - text */
@@ -64,23 +64,23 @@
 }
 
 .variantText.colorPrimary:hover {
-  background-color: rgba(var(--color-primary-rgb), 0.07);
+  background-color: rgba(var(--kw-color-primary-rgb), 0.07);
 }
 
 .variantText.colorSecondary:hover {
-  background-color: rgb(var(--color-secondary-rgb), 0.07);
+  background-color: rgb(var(--kw-color-secondary-rgb), 0.07);
 }
 
 .variantText.colorSuccess:hover {
-  background-color: rgb(var(--color-success-rgb), 0.07);
+  background-color: rgb(var(--kw-color-success-rgb), 0.07);
 }
 
 .variantText.colorWarning:hover {
-  background-color: rgb(var(--color-warning-rgb), 0.07);
+  background-color: rgb(var(--kw-color-warning-rgb), 0.07);
 }
 
 .variantText.colorError:hover {
-  background-color: rgb(var(--color-error-rgb), 0.07);
+  background-color: rgb(var(--kw-color-error-rgb), 0.07);
 }
 
 /* Variant - contained */
@@ -101,8 +101,8 @@
 }
 
 .variantContained.colorPrimary {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
+  background-color: var(--kw-color-primary);
+  border-color: var(--kw-color-primary);
 }
 
 .variantContained.colorPrimary:hover {
@@ -110,8 +110,8 @@
 }
 
 .variantContained.colorSecondary {
-  background-color: var(--color-secondary);
-  border-color: var(--color-secondary);
+  background-color: var(--kw-color-secondary);
+  border-color: var(--kw-color-secondary);
 }
 
 .variantContained.colorSecondary:hover {
@@ -119,8 +119,8 @@
 }
 
 .variantContained.colorSuccess {
-  background-color: var(--color-success);
-  border-color: var(--color-success);
+  background-color: var(--kw-color-success);
+  border-color: var(--kw-color-success);
 }
 
 .variantContained.colorSuccess:hover {
@@ -128,8 +128,8 @@
 }
 
 .variantContained.colorWarning {
-  background-color: var(--color-warning);
-  border-color: var(--color-warning);
+  background-color: var(--kw-color-warning);
+  border-color: var(--kw-color-warning);
 }
 
 .variantContained.colorWarning:hover {
@@ -137,8 +137,8 @@
 }
 
 .variantContained.colorError {
-  background-color: var(--color-error);
-  border-color: var(--color-error);
+  background-color: var(--kw-color-error);
+  border-color: var(--kw-color-error);
 }
 
 .variantContained.colorError:hover {
@@ -151,48 +151,48 @@
 }
 
 .variantOutlined.colorPrimary {
-  border: 1px solid rgba(var(--color-primary-rgb), 0.5);
+  border: 1px solid rgba(var(--kw-color-primary-rgb), 0.5);
 }
 
 .variantOutlined.colorPrimary:hover {
-  background-color: rgba(var(--color-primary-rgb), 0.07);
-  border: 1px solid var(--color-primary);
+  background-color: rgba(var(--kw-color-primary-rgb), 0.07);
+  border: 1px solid var(--kw-color-primary);
 }
 
 .variantOutlined.colorSecondary {
-  border: 1px solid rgba(var(--color-secondary-rgb), 0.5);
+  border: 1px solid rgba(var(--kw-color-secondary-rgb), 0.5);
 }
 
 .variantOutlined.colorSecondary:hover {
-  background-color: rgba(var(--color-secondary-rgb), 0.07);
-  border: 1px solid var(--color-secondary);
+  background-color: rgba(var(--kw-color-secondary-rgb), 0.07);
+  border: 1px solid var(--kw-color-secondary);
 }
 
 .variantOutlined.colorSuccess {
-  border: 1px solid rgba(var(--color-success-rgb), 0.5);
+  border: 1px solid rgba(var(--kw-color-success-rgb), 0.5);
 }
 
 .variantOutlined.colorSuccess:hover {
-  background-color: rgba(var(--color-success-rgb), 0.07);
-  border: 1px solid var(--color-success);
+  background-color: rgba(var(--kw-color-success-rgb), 0.07);
+  border: 1px solid var(--kw-color-success);
 }
 
 .variantOutlined.colorWarning {
-  border: 1px solid rgba(var(--color-warning-rgb), 0.5);
+  border: 1px solid rgba(var(--kw-color-warning-rgb), 0.5);
 }
 
 .variantOutlined.colorWarning:hover {
-  background-color: rgba(var(--color-warning-rgb), 0.07);
-  border: 1px solid var(--color-warning);
+  background-color: rgba(var(--kw-color-warning-rgb), 0.07);
+  border: 1px solid var(--kw-color-warning);
 }
 
 .variantOutlined.colorError {
-  border: 1px solid rgba(var(--color-error-rgb), 0.5);
+  border: 1px solid rgba(var(--kw-color-error-rgb), 0.5);
 }
 
 .variantOutlined.colorError:hover {
-  background-color: rgba(var(--color-error-rgb), 0.07);
-  border: 1px solid var(--color-error);
+  background-color: rgba(var(--kw-color-error-rgb), 0.07);
+  border: 1px solid var(--kw-color-error);
 }
 
 /* Icon */

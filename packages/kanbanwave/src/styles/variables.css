@@ -1,14 +1,14 @@
 :root {
   /* Colors */
-  --color-primary-rgb: 95, 139, 247;
-  --color-secondary-rgb: 140, 140, 140;
-  --color-success-rgb: 46, 125, 50;
-  --color-warning-rgb: 237, 108, 2;
-  --color-error-rgb: 211, 47, 47;
+  --kw-color-primary-rgb: 95, 139, 247;
+  --kw-color-secondary-rgb: 140, 140, 140;
+  --kw-color-success-rgb: 46, 125, 50;
+  --kw-color-warning-rgb: 237, 108, 2;
+  --kw-color-error-rgb: 211, 47, 47;
 
-  --color-primary: rgb(var(--color-primary-rgb));
-  --color-secondary: rgb(var(--color-secondary-rgb));
-  --color-success: rgb(var(--color-success-rgb));
-  --color-warning: rgb(var(--color-warning-rgb));
-  --color-error: rgb(var(--color-error-rgb));
+  --kw-color-primary: rgb(var(--kw-color-primary-rgb));
+  --kw-color-secondary: rgb(var(--kw-color-secondary-rgb));
+  --kw-color-success: rgb(var(--kw-color-success-rgb));
+  --kw-color-warning: rgb(var(--kw-color-warning-rgb));
+  --kw-color-error: rgb(var(--kw-color-error-rgb));
 }
