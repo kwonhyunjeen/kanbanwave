@@ -7,7 +7,7 @@ function wrap<Fn extends (...args: any[]) => any>(
   return (...args: Parameters<Fn>): ReturnType<Fn> => fn(...args);
 }
 
-export const makeKWStore = (storage: KWStorage) => {
+export const makeKWExternalStore = (storage: KWStorage) => {
   let snapshot = {
     getBoards: wrap(storage.getBoards),
     getBoardContent: wrap(storage.getBoardContent),
@@ -85,4 +85,4 @@ export const makeKWStore = (storage: KWStorage) => {
   };
 };
 
-export type KWStore = ReturnType<typeof makeKWStore>;
+export type KWExternalStore = ReturnType<typeof makeKWExternalStore>;

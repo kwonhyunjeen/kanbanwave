@@ -5,11 +5,11 @@ import {
   useMemo,
   useSyncExternalStore
 } from 'react';
-import { KWStore, makeKWStore } from '../core/storage';
+import { KWExternalStore, makeKWExternalStore } from '../core/storage';
 import { KWStorage } from '../core/types';
 
 export type KWStorageContextValue = {
-  store: KWStore;
+  store: KWExternalStore;
 };
 
 const FALLBACK_STORE = new Proxy(
@@ -24,7 +24,7 @@ const FALLBACK_STORE = new Proxy(
 );
 
 const KWStorageContext = createContext<KWStorageContextValue>({
-  store: FALLBACK_STORE as KWStore
+  store: FALLBACK_STORE as KWExternalStore
 });
 
 export const useKWStore = () => {
@@ -42,13 +42,15 @@ export const useKWStore = () => {
   }, [snapshot, store]);
 };
 
+export type KWStore = ReturnType<typeof useKWStore>;
+
 type KWStorageProviderProps = {
   children?: ReactNode;
   storage: KWStorage;
 };
 
 const KWStorageProvider = ({ storage, children }: KWStorageProviderProps) => {
-  const store = useMemo(() => makeKWStore(storage), [storage]);
+  const store = useMemo(() => makeKWExternalStore(storage), [storage]);
   const contextValue = useMemo(() => ({ store }), [store]);
 
   return (

@@ -79,7 +79,6 @@ A component that displays the lists and cards within a selected board when a spe
 - [Integrate Storage](./docs/usage.md#integrate-storage)
 - [Display Board Collection and Board](./docs/usage.md#display-board)
 - [Customization](./docs/usage.md#customization)
-- [Theming](./docs//usage.md#theming)
 
 ## API
 
@@ -100,5 +99,3 @@ Describes the API for `kanbanwave`'s core components and hooks. Each component s
 - [AddList](./docs/api.md#addlist)
 - [Card](./docs/api.md#card)
 - [AddCard](./docs/api.md#addcard)
-
-**Theming**

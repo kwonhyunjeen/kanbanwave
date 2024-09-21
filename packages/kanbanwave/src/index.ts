@@ -4,7 +4,8 @@ export * from './core/types';
 export {
   default as KWStorageProvider,
   useKWStore,
-  type KWStorageContextValue
+  type KWStorageContextValue,
+  type KWStore
 } from './features/KWStorageProvider';
 
 export { default as BoardCollection } from './features/BoardCollection/BoardCollection';
