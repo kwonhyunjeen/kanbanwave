@@ -82,7 +82,7 @@ const List = ({
           </div>
           <IconButton
             icon="remove"
-            color="default"
+            color="secondary"
             className={styles.deleteIcon}
             onClick={onDeleteClick}
           />

@@ -109,16 +109,12 @@
 }
 
 /* Color Variants */
-.input.default {
-  border-color: #ccc;
-}
-
 .input.primary {
   border-color: #007bff;
 }
 
 .input.secondary {
-  border-color: #6c757d;
+  border-color: #ccc;
 }
 
 .input.success {
@@ -131,10 +127,6 @@
 
 .input.error {
   border-color: #dc3545;
-}
-
-.input.filled.default {
-  background-color: #f7f7f7;
 }
 
 .input.filled.primary {

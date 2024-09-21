@@ -6,7 +6,7 @@ import useForkRef from 'hooks/useForkRef';
 type InputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
   size?: 'sm' | 'md' | 'lg';
   variant?: 'standard' | 'outlined' | 'filled';
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
+  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
   label?: string;
   helperText?: string;
   leftIcon?: ReactNode;
@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     className,
     size = 'md',
     variant = 'outlined',
-    color = 'default',
+    color = 'secondary',
     label,
     helperText,
     leftIcon,

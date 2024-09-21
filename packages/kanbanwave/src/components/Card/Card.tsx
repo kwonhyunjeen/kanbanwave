@@ -166,7 +166,7 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
                 className={styles.editIcon}
                 variant="text"
                 size="sm"
-                color="default"
+                color="secondary"
                 onClick={() => {
                   openOverlay();
                 }}

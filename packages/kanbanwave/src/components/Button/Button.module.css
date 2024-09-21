@@ -38,10 +38,6 @@
 }
 
 /* Color */
-.colorDefault {
-  color: var(--color-default);
-}
-
 .colorPrimary {
   color: var(--color-primary);
 }
@@ -65,10 +61,6 @@
 /* Variant - text */
 .variantText {
   background-color: transparent;
-}
-
-.variantText.colorDefault:hover {
-  background-color: rgba(var(--color-default-rgb), 0.07);
 }
 
 .variantText.colorPrimary:hover {
@@ -108,15 +100,6 @@
     rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
 }
 
-.variantContained.colorDefault {
-  background-color: var(--color-default);
-  border-color: var(--color-default);
-}
-
-.variantContained.colorDefault:hover {
-  background-color: rgba(116, 116, 116);
-}
-
 .variantContained.colorPrimary {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
@@ -132,7 +115,7 @@
 }
 
 .variantContained.colorSecondary:hover {
-  background-color: rgb(123, 31, 162);
+  background-color: rgba(116, 116, 116);
 }
 
 .variantContained.colorSuccess {
@@ -165,15 +148,6 @@
 /* Variant - outlined */
 .variantOutlined {
   background-color: transparent;
-}
-
-.variantOutlined.colorDefault {
-  border: 1px solid rgba(var(--color-default-rgb), 0.5);
-}
-
-.variantOutlined.colorDefault:hover {
-  background-color: rgba(var(--color-default-rgb), 0.07);
-  border: 1px solid var(--color-default);
 }
 
 .variantOutlined.colorPrimary {

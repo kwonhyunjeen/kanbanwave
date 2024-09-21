@@ -65,7 +65,7 @@ const AddList = ({ listsLength, onAdd }: AddListProps) => {
           aria-label={`add a list`}
           size="lg"
           variant="contained"
-          color="default"
+          color="secondary"
           onClick={() => setIsInputVisible(true)}
           className={styles.addListButton}
         >

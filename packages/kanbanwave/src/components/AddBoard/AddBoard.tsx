@@ -57,7 +57,7 @@ const AddBoard = ({ onAdd }: AddBoardProps) => {
           aria-label={`add a board`}
           size="lg"
           variant="contained"
-          color="default"
+          color="secondary"
           onClick={() => setIsInputVisible(true)}
           className={styles.addBoardButton}
         >

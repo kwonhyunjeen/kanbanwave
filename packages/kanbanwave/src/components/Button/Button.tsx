@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import styles from './Button.module.css';
 
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
+  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
   variant?: 'text' | 'contained' | 'outlined';
   size?: 'sm' | 'md' | 'lg';
   startIcon?: React.ReactNode;
