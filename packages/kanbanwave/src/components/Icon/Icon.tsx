@@ -4,24 +4,12 @@ import styles from './Icon.module.css';
 
 type IconProps = React.ComponentPropsWithoutRef<'span'> & {
   name: string;
-  size?: 'sm' | 'md' | 'lg';
 };
 
 const Icon = forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
-  const {
-    'aria-hidden': hidden,
-    'aria-label': label,
-    className,
-    name,
-    size = 'md',
-    ...rest
-  } = props;
+  const { 'aria-hidden': hidden, 'aria-label': label, className, name, ...rest } = props;
 
-  const iconClass = clsx(
-    styles.root,
-    styles[`icon${size.charAt(0).toUpperCase() + size.slice(1)}`],
-    className
-  );
+  const iconClass = clsx(styles.root, className);
 
   return (
     <span
@@ -30,6 +18,7 @@ const Icon = forwardRef<HTMLSpanElement, IconProps>((props, ref) => {
       className={iconClass}
       aria-hidden={(hidden ?? label) ? undefined : true}
       aria-label={label}
+      translate="no"
     >
       {name}
     </span>

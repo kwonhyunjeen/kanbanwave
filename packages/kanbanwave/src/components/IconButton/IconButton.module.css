@@ -1,20 +1,5 @@
 .root {
+  width: var(--kw-button-size);
   padding: 0;
-  min-width: 0;
-  letter-spacing: 0;
-}
-
-.sizeSm {
-  /* 28px */
-  padding: 4px;
-}
-
-.sizeMd {
-  /* 36px */
-  padding: 6px;
-}
-
-.sizeLg {
-  /* 44px */
-  padding: 6px;
+  font-size: var(--kw-font-size-title);
 }

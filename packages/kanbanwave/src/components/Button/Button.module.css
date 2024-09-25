@@ -4,203 +4,66 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
-  border-radius: 4px;
   box-sizing: border-box;
-  font-weight: 500;
-  line-height: 1.75;
-  letter-spacing: 0.02857em;
-  vertical-align: middle;
+  padding: 0 var(--kw-button-padding-x);
+  height: var(--kw-button-size);
+  line-height: 1;
   cursor: pointer;
-  transition:
-    background-color 0.2s,
-    border-color 0.2s,
-    color 0.2s;
-}
-
-/* Size */
-.sizeSm {
-  /* 32px */
-  font-size: 0.8125rem;
-  padding: 3px 9px;
-}
-
-.sizeMd {
-  /* 36px */
-  font-size: 0.875rem;
-  padding: 5px 15px;
-}
-
-.sizeLg {
-  /* 40px */
-  font-size: 0.9375rem;
-  padding: 8px 22px;
+  transition-duration: var(--kw-transition-duration);
+  transition-timing-function: var(--kw-transition-timing-function);
+  transition-property: background-color, border-color, box-shadow;
 }
 
 /* Color */
 .colorPrimary {
-  color: var(--kw-color-primary);
+  background-color: var(--kw-button-primary-background-color);
+  border-style: var(--kw-button-primary-border-style);
+  border-color: var(--kw-button-primary-border-color);
+  border-width: var(--kw-button-primary-border-width);
+  border-radius: var(--kw-button-primary-border-radius);
+  box-shadow: var(--kw-button-primary-box-shadow);
+  color: var(--kw-button-primary-color);
+  font-size: var(--kw-button-primary-font-size);
+  font-weight: var(--kw-button-primary-font-weight);
+  outline: 0;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--kw-button-primary-background-color-hovered);
+    border-color: var(--kw-button-primary-border-color-hovered);
+    box-shadow: var(--kw-button-primary-box-shadow-hovered);
+    color: var(--kw-button-primary-color-hovered);
+  }
 }
 
 .colorSecondary {
-  color: var(--kw-color-secondary);
-}
+  background-color: var(--kw-button-secondary-background-color);
+  border-style: var(--kw-button-secondary-border-style);
+  border-color: var(--kw-button-secondary-border-color);
+  border-width: var(--kw-button-secondary-border-width);
+  border-radius: var(--kw-button-secondary-border-radius);
+  box-shadow: var(--kw-button-secondary-box-shadow);
+  color: var(--kw-button-secondary-color);
+  font-size: var(--kw-button-secondary-font-size);
+  font-weight: var(--kw-button-secondary-font-weight);
+  outline: 0;
 
-.colorSuccess {
-  color: var(--kw-color-success);
-}
-
-.colorWarning {
-  color: var(--kw-color-warning);
-}
-
-.colorError {
-  color: var(--kw-color-error);
-}
-
-/* Variant - text */
-.variantText {
-  background-color: transparent;
-}
-
-.variantText.colorPrimary:hover {
-  background-color: rgba(var(--kw-color-primary-rgb), 0.07);
-}
-
-.variantText.colorSecondary:hover {
-  background-color: rgb(var(--kw-color-secondary-rgb), 0.07);
-}
-
-.variantText.colorSuccess:hover {
-  background-color: rgb(var(--kw-color-success-rgb), 0.07);
-}
-
-.variantText.colorWarning:hover {
-  background-color: rgb(var(--kw-color-warning-rgb), 0.07);
-}
-
-.variantText.colorError:hover {
-  background-color: rgb(var(--kw-color-error-rgb), 0.07);
-}
-
-/* Variant - contained */
-.variantContained {
-  border: 0;
-  color: #fff;
-  box-shadow:
-    rgba(0, 0, 0, 0.2) 0px 3px 1px -2px,
-    rgba(0, 0, 0, 0.14) 0px 2px 2px 0px,
-    rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
-}
-
-.variantContained:hover {
-  box-shadow:
-    rgba(0, 0, 0, 0.2) 0px 2px 4px -1px,
-    rgba(0, 0, 0, 0.14) 0px 4px 5px 0px,
-    rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
-}
-
-.variantContained.colorPrimary {
-  background-color: var(--kw-color-primary);
-  border-color: var(--kw-color-primary);
-}
-
-.variantContained.colorPrimary:hover {
-  background-color: rgb(74, 116, 208);
-}
-
-.variantContained.colorSecondary {
-  background-color: var(--kw-color-secondary);
-  border-color: var(--kw-color-secondary);
-}
-
-.variantContained.colorSecondary:hover {
-  background-color: rgba(116, 116, 116);
-}
-
-.variantContained.colorSuccess {
-  background-color: var(--kw-color-success);
-  border-color: var(--kw-color-success);
-}
-
-.variantContained.colorSuccess:hover {
-  background-color: rgb(27, 94, 32);
-}
-
-.variantContained.colorWarning {
-  background-color: var(--kw-color-warning);
-  border-color: var(--kw-color-warning);
-}
-
-.variantContained.colorWarning:hover {
-  background-color: rgb(230, 81, 0);
-}
-
-.variantContained.colorError {
-  background-color: var(--kw-color-error);
-  border-color: var(--kw-color-error);
-}
-
-.variantContained.colorError:hover {
-  background-color: rgb(198, 40, 40);
-}
-
-/* Variant - outlined */
-.variantOutlined {
-  background-color: transparent;
-}
-
-.variantOutlined.colorPrimary {
-  border: 1px solid rgba(var(--kw-color-primary-rgb), 0.5);
-}
-
-.variantOutlined.colorPrimary:hover {
-  background-color: rgba(var(--kw-color-primary-rgb), 0.07);
-  border: 1px solid var(--kw-color-primary);
-}
-
-.variantOutlined.colorSecondary {
-  border: 1px solid rgba(var(--kw-color-secondary-rgb), 0.5);
-}
-
-.variantOutlined.colorSecondary:hover {
-  background-color: rgba(var(--kw-color-secondary-rgb), 0.07);
-  border: 1px solid var(--kw-color-secondary);
-}
-
-.variantOutlined.colorSuccess {
-  border: 1px solid rgba(var(--kw-color-success-rgb), 0.5);
-}
-
-.variantOutlined.colorSuccess:hover {
-  background-color: rgba(var(--kw-color-success-rgb), 0.07);
-  border: 1px solid var(--kw-color-success);
-}
-
-.variantOutlined.colorWarning {
-  border: 1px solid rgba(var(--kw-color-warning-rgb), 0.5);
-}
-
-.variantOutlined.colorWarning:hover {
-  background-color: rgba(var(--kw-color-warning-rgb), 0.07);
-  border: 1px solid var(--kw-color-warning);
-}
-
-.variantOutlined.colorError {
-  border: 1px solid rgba(var(--kw-color-error-rgb), 0.5);
-}
-
-.variantOutlined.colorError:hover {
-  background-color: rgba(var(--kw-color-error-rgb), 0.07);
-  border: 1px solid var(--kw-color-error);
+  &:hover,
+  &:focus-visible {
+    background-color: var(--kw-button-secondary-background-color-hovered);
+    border-color: var(--kw-button-secondary-border-color-hovered);
+    box-shadow: var(--kw-button-secondary-box-shadow-hovered);
+    color: var(--kw-button-secondary-color-hovered);
+  }
 }
 
 /* Icon */
 .startIcon,
 .endIcon {
-  display: inherit;
-  margin-right: 4px;
-  margin-left: 4px;
+  font-size: var(--kw-font-size-title);
+  line-height: 0;
+  margin-right: var(--kw-spacing);
+  margin-left: var(--kw-spacing);
 }
 
 .startIcon {

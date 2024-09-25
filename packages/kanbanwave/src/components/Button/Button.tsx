@@ -3,9 +3,7 @@ import clsx from 'clsx';
 import styles from './Button.module.css';
 
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
-  variant?: 'text' | 'contained' | 'outlined';
-  size?: 'sm' | 'md' | 'lg';
+  color?: 'primary' | 'secondary';
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
 };
@@ -15,9 +13,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     type = 'button',
     className,
     children,
-    color = 'primary',
-    variant = 'text',
-    size = 'sm',
+    color = 'secondary',
     startIcon,
     endIcon,
     ...rest
@@ -25,9 +21,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
 
   const buttonClass = clsx(
     styles.root,
-    styles[`size${size.charAt(0).toUpperCase() + size.slice(1)}`],
     styles[`color${color.charAt(0).toUpperCase() + color.slice(1)}`],
-    styles[`variant${variant.charAt(0).toUpperCase() + variant.slice(1)}`],
     className
   );
 
