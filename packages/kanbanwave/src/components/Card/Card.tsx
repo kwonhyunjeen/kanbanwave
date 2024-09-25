@@ -102,7 +102,11 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
           onClick={closeOverlay}
         />
       )}
-      <CardDraggable cardId={card.id} cardIndex={cardIndex}>
+      <CardDraggable
+        cardId={card.id}
+        cardIndex={cardIndex}
+        className={styles.cardDraggable}
+      >
         <div className={styles.container} ref={containerRef}>
           {isEditing && cardRect ? (
             <div
@@ -125,20 +129,10 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
                 style={{ minHeight: '4.5rem' }}
               />
               <div className={styles.action}>
-                <Button
-                  type="button"
-                  size="md"
-                  variant="contained"
-                  onClick={handleTitleSave}
-                >
+                <Button type="button" color="primary" onClick={handleTitleSave}>
                   Save
                 </Button>
-                <Button
-                  type="button"
-                  size="md"
-                  variant="contained"
-                  onClick={onDeleteClick}
-                >
+                <Button type="button" color="primary" onClick={onDeleteClick}>
                   Delete
                 </Button>
               </div>
@@ -164,8 +158,6 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
                 data-event-target="edit-button"
                 icon="edit"
                 className={styles.editIcon}
-                variant="text"
-                size="sm"
                 color="secondary"
                 onClick={() => {
                   openOverlay();
