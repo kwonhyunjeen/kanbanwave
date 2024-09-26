@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import styles from './AddBoard.module.css';
-import TextArea from '../TextArea/TextArea';
+import Input from '../Input/Input';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 
@@ -13,7 +13,7 @@ const AddBoard = ({ onAdd }: AddBoardProps) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
@@ -34,35 +34,23 @@ const AddBoard = ({ onAdd }: AddBoardProps) => {
     <div className={styles.wrapper}>
       {isInputVisible ? (
         <div className={styles.container}>
-          <TextArea
+          <Input
             placeholder={`Enter a board title`}
             value={title}
             onChange={handleChange}
           />
           <div className={styles.action}>
-            <Button type="button" size="sm" variant="contained" onClick={handleAddClick}>
+            <Button color="primary" onClick={handleAddClick}>
               Add board
             </Button>
-            <IconButton
-              type="button"
-              size="sm"
-              icon="close"
-              aria-label="cancel"
-              onClick={handleCancelClick}
-            />
+            <IconButton icon="close" aria-label="cancel" onClick={handleCancelClick} />
           </div>
         </div>
       ) : (
-        <Button
-          aria-label={`add a board`}
-          size="lg"
-          variant="contained"
-          color="secondary"
-          onClick={() => setIsInputVisible(true)}
-          className={styles.addBoardButton}
-        >
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+        <div className={styles.addBoardButton} onClick={() => setIsInputVisible(true)}>
           Create new board
-        </Button>
+        </div>
       )}
     </div>
   );

@@ -1,17 +1,18 @@
 .wrapper {
+  box-sizing: border-box;
   width: 16rem;
   height: fit-content;
+  cursor: pointer;
 }
 
 .container {
   display: flex;
   flex-direction: column;
+  background-color: var(--kw-list-background-color);
+  border-radius: var(--kw-list-border-radius);
+  box-shadow: var(--kw-list-box-shadow);
   width: inherit;
-  background-color: #fff;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  box-sizing: border-box;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: calc(var(--kw-spacing) * 4);
 }
 
 .action {
@@ -19,9 +20,25 @@
   flex-direction: row;
   justify-content: flex-start;
   gap: 0.5rem;
-  margin-top: 0.55rem;
+  margin-top: calc(var(--kw-spacing) * 3);
 }
 
 .addListButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--kw-add-button-background-color);
+  box-shadow: var(--kw-list-box-shadow);
+  border-radius: var(--kw-field-border-radius);
   width: 16rem;
+  height: calc(var(--kw-button-size) * 1.5);
+  font-size: var(--kw-font-size-body);
+  font-weight: 500;
+  transition-duration: var(--kw-transition-duration);
+  transition-timing-function: var(--kw-transition-timing-function);
+  transition-property: background-color, border-color;
+
+  &:hover {
+    background-color: var(--kw-add-button-background-color-hovered);
+  }
 }

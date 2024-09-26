@@ -48,12 +48,11 @@ const AddList = ({ listsLength, onAdd }: AddListProps) => {
             onChange={handleChange}
           />
           <div className={styles.action}>
-            <Button type="button" size="sm" variant="contained" onClick={handleAddClick}>
+            <Button color="primary" onClick={handleAddClick}>
               Add list
             </Button>
             <IconButton
               type="button"
-              size="sm"
               icon="close"
               aria-label="cancel"
               onClick={handleCancelClick}
@@ -61,16 +60,10 @@ const AddList = ({ listsLength, onAdd }: AddListProps) => {
           </div>
         </div>
       ) : (
-        <Button
-          aria-label={`add a list`}
-          size="lg"
-          variant="contained"
-          color="secondary"
-          onClick={() => setIsInputVisible(true)}
-          className={styles.addListButton}
-        >
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+        <div className={styles.addListButton} onClick={() => setIsInputVisible(true)}>
           Add another list
-        </Button>
+        </div>
       )}
     </div>
   );

@@ -49,12 +49,11 @@ const AddCard = ({ cardsLength, onAdd }: AddCardProps) => {
             onChange={handleChange}
           />
           <div className={styles.action}>
-            <Button type="button" size="sm" variant="contained" onClick={handleAddClick}>
+            <Button color="primary" onClick={handleAddClick}>
               Add card
             </Button>
             <IconButton
               type="button"
-              size="sm"
               icon="close"
               aria-label="cancel"
               onClick={handleCancelClick}

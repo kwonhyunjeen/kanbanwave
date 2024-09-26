@@ -57,6 +57,9 @@
   --kw-card-box-shadow-hovered: var(--kw-card-box-shadow);
   --kw-card-box-shadow-pressed: var(--kw-card-box-shadow);
 
+  --kw-add-button-background-color: #e5e7eb;
+  --kw-add-button-background-color-hovered: #d1d5db;
+
   --kw-field-border-radius: 0.375rem;
 
   --kw-button-size: 2rem;
