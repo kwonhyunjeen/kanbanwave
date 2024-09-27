@@ -269,7 +269,6 @@ const BoardView = ({
               }
             }}
             resize={true}
-            size="md"
             style={{ fontSize: '1.25rem', fontWeight: '600' }}
           />
         ) : (
