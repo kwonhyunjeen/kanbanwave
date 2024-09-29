@@ -60,10 +60,13 @@ const AddList = ({ listsLength, onAdd }: AddListProps) => {
           </div>
         </div>
       ) : (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-        <div className={styles.addListButton} onClick={() => setIsInputVisible(true)}>
+        <button
+          type="button"
+          className={styles.addListButton}
+          onClick={() => setIsInputVisible(true)}
+        >
           Add another list
-        </div>
+        </button>
       )}
     </div>
   );

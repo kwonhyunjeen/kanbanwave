@@ -81,7 +81,6 @@ A component that displays the lists and cards within a selected board when a spe
 - [Customization](./docs/usage.md#customization)
 - [Theming](./docs/usage.md#theming)
 
-
 ## API
 
 Describes the API for `kanbanwave`'s core components and hooks. Each component supports the management and display of boards, lists, and cards, providing necessary props and customization options.

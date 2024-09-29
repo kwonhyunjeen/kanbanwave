@@ -13,7 +13,7 @@
 
   --kw-spacing: 0.25rem;
 
-  --kw-transition-duration: 200ms;
+  --kw-transition-duration: 150ms;
   --kw-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
   --kw-font-size-title: 1.25rem;
@@ -22,7 +22,7 @@
   --kw-font-size-button: 0.8125rem;
 
   --kw-font-color: #000;
-  
+
   --kw-paper-border-radius: 0.75rem;
   --kw-paper-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 

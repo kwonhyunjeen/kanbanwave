@@ -34,11 +34,12 @@
   height: calc(var(--kw-button-size) * 1.5);
   font-size: var(--kw-font-size-body);
   font-weight: 500;
-  transition-duration: var(--kw-transition-duration);
-  transition-timing-function: var(--kw-transition-timing-function);
+  outline: 0;
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
   transition-property: background-color, border-color;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: var(--kw-add-button-background-color-hovered);
   }
 }

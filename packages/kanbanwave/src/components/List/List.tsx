@@ -20,7 +20,7 @@ const List = ({
   listIndex,
   onDeleteClick,
   onTitleSave,
-  ...props
+  ...rest
 }: ListProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [internalTitle, setInternalTitle] = useDerivedState(list.title);
@@ -43,8 +43,12 @@ const List = ({
   };
 
   return (
-    <ListDraggable listId={list.id} listIndex={listIndex} className={styles.wrapper}>
-      <div {...props} className={styles.area}>
+    <ListDraggable
+      listId={list.id}
+      listIndex={listIndex}
+      className={styles.listDraggable}
+    >
+      <div {...rest} className={styles.container}>
         <div className={styles.headerContainer}>
           <div className={styles.header}>
             {!isEditing && (

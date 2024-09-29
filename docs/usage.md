@@ -139,6 +139,7 @@ import { List, AddList, Card, AddCard } from 'kanbanwave';
 ```
 
 ## Theming
+
 Theming in `KanbanWave` allows you to customize the look and feel of your boards, lists, and cards by adjusting the available CSS variables. You can modify colors, spacing, font sizes, and shadows to fit the specific design of your project. Here is an example of defining board styles. In this way, you can implement a consistent and easily adjustable design throughout the entire Kanban system.
 
 ```css
@@ -151,13 +152,18 @@ Theming in `KanbanWave` allows you to customize the look and feel of your boards
   box-shadow: var(--kw-board-box-shadow);
   padding: calc(var(--kw-spacing) * 4);
   cursor: pointer;
-  transition: transform var(--kw-transition-duration) var(--kw-transition-timing-function);
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
+  transition-property: transform;
 
   &:hover {
+    transform: scale(1.02);
+  }
+
+  &:hover,
+  &:focus-visible {
     background-color: var(--kw-board-background-color-hovered);
     border-color: var(--kw-board-border-color-hovered);
     box-shadow: var(--kw-board-box-shadow-hovered);
-    transform: scale(1.02);
   }
 
   &:active {
@@ -167,4 +173,3 @@ Theming in `KanbanWave` allows you to customize the look and feel of your boards
 ```
 
 For detailed information on customizing the theme, please refer to the following file: [Theming Variables](./api.md#theming)
-

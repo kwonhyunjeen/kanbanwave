@@ -12,17 +12,23 @@
   display: inline-flex;
   align-items: center;
   box-sizing: border-box;
-  border: 1px solid transparent;
+  border-radius: var(--kw-field-border-radius);
+  border-style: var(--kw-input-border-style);
+  border-width: var(--kw-input-border-width);
+  border-color: transparent;
   height: 2.5rem;
   padding: calc(var(--kw-spacing) * 1.125) calc(var(--kw-spacing) * 3);
   font-size: var(--kw-font-size-title);
   font-weight: 600;
   color: var(--kw-font-color);
   cursor: pointer;
+  outline: 0;
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
+  transition-property: background-color;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: var(--kw-add-button-background-color);
-    border-radius: var(--kw-field-border-radius);
   }
 }
 

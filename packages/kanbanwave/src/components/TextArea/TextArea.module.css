@@ -15,8 +15,7 @@
   line-height: 1.25rem;
   resize: none;
   outline: none;
-  transition-duration: var(--kw-transition-duration);
-  transition-timing-function: var(--kw-transition-timing-function);
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
   transition-property: background-color, border-color, box-shadow;
 
   &:focus {

@@ -1,13 +1,19 @@
-.wrapper {
+.listDraggable {
   display: block;
   flex-shrink: 0;
   align-self: flex-start;
+  background-color: var(--kw-list-background-color);
+  border-style: var(--kw-list-border-style);
+  border-color: var(--kw-list-border-color);
+  border-width: var(--kw-list-border-width);
+  border-radius: var(--kw-list-border-radius);
+  box-shadow: var(--kw-list-box-shadow);
   height: 100%;
   margin-right: calc(var(--kw-spacing) * 4);
   white-space: nowrap;
 }
 
-.area {
+.container {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -15,12 +21,6 @@
   width: 16rem;
   max-height: 100%;
   padding: calc(var(--kw-spacing) * 2);
-  background-color: var(--kw-list-background-color);
-  border-style: var(--kw-list-border-style);
-  border-color: var(--kw-list-border-color);
-  border-width: var(--kw-list-border-width);
-  border-radius: var(--kw-list-border-radius);
-  box-shadow: var(--kw-list-box-shadow);
 }
 
 .headerContainer {
@@ -48,8 +48,9 @@
     calc(var(--kw-spacing) * 1.5) calc(var(--kw-spacing) * 3);
   overflow: hidden;
   box-sizing: border-box;
-  background-color: transparent;
-  border: 1px solid transparent;
+  border-style: var(--kw-input-border-style);
+  border-width: var(--kw-input-border-width);
+  border-color: transparent;
   font-size: var(--kw-font-size-subtitle);
   font-weight: 600;
   line-height: 1.25rem;
@@ -64,15 +65,12 @@
   min-height: 1.25rem;
   padding: calc(var(--kw-spacing) * 1.5) calc(var(--kw-spacing) * 2)
     calc(var(--kw-spacing) * 1.5) calc(var(--kw-spacing) * 3);
-  background: transparent;
-  box-shadow: none;
   font-size: var(--kw-font-size-subtitle);
   font-weight: 600;
   overflow-wrap: anywhere;
   resize: none;
-  transition:
-    border-color var(--kw-transition-duration) ease,
-    box-shadow var(--kw-transition-duration) ease;
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
+  transition-property: border-color, box-shadow;
 }
 
 .deleteIcon {
@@ -81,4 +79,3 @@
   margin-top: var(--kw-spacing);
   margin-right: var(--kw-spacing);
 }
-

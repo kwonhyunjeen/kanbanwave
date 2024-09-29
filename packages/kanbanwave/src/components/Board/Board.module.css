@@ -7,13 +7,19 @@
   box-shadow: var(--kw-board-box-shadow);
   padding: calc(var(--kw-spacing) * 4);
   cursor: pointer;
-  transition: transform var(--kw-transition-duration) var(--kw-transition-timing-function);
+  outline: 0;
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
+  transition-property: transform, background-color, border-color, box-shadow;
 
   &:hover {
+    transform: scale(1.02);
+  }
+
+  &:hover,
+  &:focus-visible {
     background-color: var(--kw-board-background-color-hovered);
     border-color: var(--kw-board-border-color-hovered);
     box-shadow: var(--kw-board-box-shadow-hovered);
-    transform: scale(1.02);
   }
 
   &:active {

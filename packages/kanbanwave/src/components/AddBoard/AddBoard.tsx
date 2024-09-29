@@ -47,10 +47,13 @@ const AddBoard = ({ onAdd }: AddBoardProps) => {
           </div>
         </div>
       ) : (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-        <div className={styles.addBoardButton} onClick={() => setIsInputVisible(true)}>
+        <button
+          type="button"
+          className={styles.addBoardButton}
+          onClick={() => setIsInputVisible(true)}
+        >
           Create new board
-        </div>
+        </button>
       )}
     </div>
   );

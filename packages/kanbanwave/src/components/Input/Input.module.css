@@ -34,7 +34,7 @@
 }
 
 .iconWithLeft {
-  left: calc(var(--kw-spacing) * 2)
+  left: calc(var(--kw-spacing) * 2);
 }
 
 .iconWithRight {
@@ -57,8 +57,7 @@
   color: var(--kw-input-color);
   font-size: var(--kw-input-font-size);
   font-weight: var(--kw-input-font-weight);
-  transition-duration: var(--kw-transition-duration);
-  transition-timing-function: var(--kw-transition-timing-function);
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
   transition-property: background-color, border-color, box-shadow;
   outline: none;
 

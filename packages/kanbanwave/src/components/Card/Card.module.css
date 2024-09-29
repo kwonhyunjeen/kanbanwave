@@ -1,17 +1,17 @@
 .cardDraggable {
-  margin: calc(var(--kw-spacing) * 1.5) 0;
-}
-
-.container {
-  min-height: 2.25rem;
   background-color: var(--kw-card-background-color);
   border-style: var(--kw-card-border-style);
   border-color: var(--kw-card-border-color);
   border-width: var(--kw-card-border-width);
   border-radius: var(--kw-card-border-radius);
   box-shadow: var(--kw-card-box-shadow);
+  margin: calc(var(--kw-spacing) * 1.5) 0;
+  outline: 0;
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
+  transition-property: background-color, border-color, box-shadow;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: var(--kw-card-background-color-hovered);
     border-color: var(--kw-card-border-color-hovered);
     box-shadow: var(--kw-card-box-shadow-hovered);
@@ -21,6 +21,10 @@
     background-color: var(--kw-card-background-color-pressed);
     box-shadow: var(--kw-card-box-shadow-pressed);
   }
+}
+
+.container {
+  min-height: 2.25rem;
 }
 
 .wrapper {

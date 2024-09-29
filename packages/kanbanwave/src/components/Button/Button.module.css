@@ -9,8 +9,8 @@
   height: var(--kw-button-size);
   line-height: 1;
   cursor: pointer;
-  transition-duration: var(--kw-transition-duration);
-  transition-timing-function: var(--kw-transition-timing-function);
+  outline: 0;
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
   transition-property: background-color, border-color, box-shadow;
 }
 
@@ -25,7 +25,6 @@
   color: var(--kw-button-primary-color);
   font-size: var(--kw-button-primary-font-size);
   font-weight: var(--kw-button-primary-font-weight);
-  outline: 0;
 
   &:hover,
   &:focus-visible {
@@ -46,7 +45,6 @@
   color: var(--kw-button-secondary-color);
   font-size: var(--kw-button-secondary-font-size);
   font-weight: var(--kw-button-secondary-font-weight);
-  outline: 0;
 
   &:hover,
   &:focus-visible {

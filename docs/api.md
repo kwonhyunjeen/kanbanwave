@@ -78,4 +78,5 @@ A custom hook that provides access to the KanbanWave store. It allows you to int
 | `onAdd`       | `(title: string) => void` | A function that gets called when a new card is added, receiving the card title as an argument. |
 
 ## Theming
+
 Please refer to the following file: [Theming Variables](/packages/kanbanwave/src/styles/variables.css)
