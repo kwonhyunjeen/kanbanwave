@@ -21,7 +21,6 @@ const AddCard = ({ cardsLength, onAdd }: AddCardProps) => {
   const handleTitleSave = () => {
     if (title.trim() !== '') {
       onAdd?.(title);
-      setTitle('');
     }
   };
 
@@ -45,13 +44,9 @@ const AddCard = ({ cardsLength, onAdd }: AddCardProps) => {
           <TextArea
             placeholder={`Enter a card title`}
             value={title}
+            preventLineBreak
             onChange={handleChange}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleTitleSave();
-              }
-            }}
+            onEnter={handleTitleSave}
           />
           <div className={styles.action}>
             <Button color="primary" onClick={handleTitleSave}>

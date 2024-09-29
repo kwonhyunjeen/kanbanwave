@@ -74,11 +74,10 @@ const List = ({
               <TextArea
                 ref={textAreaRef}
                 value={internalTitle}
+                preventLineBreak
                 onChange={e => setInternalTitle(e.target.value)}
                 onBlur={handleTitleSave}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') handleTitleSave();
-                }}
+                onEnter={handleTitleSave}
                 className={styles.textArea}
                 maxLength={512}
               />

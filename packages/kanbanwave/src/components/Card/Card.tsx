@@ -120,12 +120,9 @@ const Card = ({ card, cardIndex, onClick, onTitleSave, onDeleteClick }: CardProp
               <TextArea
                 ref={inputRef}
                 value={internalTitle}
+                preventLineBreak
                 onChange={e => setInternalTitle(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') {
-                    handleTitleSave();
-                  }
-                }}
+                onEnter={handleTitleSave}
                 style={{ minHeight: '4.5rem' }}
               />
               <div className={styles.action}>

@@ -3,10 +3,13 @@ import useForkRef from '../../hooks/useForkRef';
 import { forwardRef, useEffect, useRef } from 'react';
 import styles from './TextArea.module.css';
 
-type TextAreaProps = React.ComponentPropsWithoutRef<'textarea'> & {};
+type TextAreaProps = React.ComponentPropsWithoutRef<'textarea'> & {
+  onEnter?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  preventLineBreak?: boolean;
+};
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => {
-  const { className, onChange, value, ...rest } = props;
+  const { className, onEnter, onKeyDown, preventLineBreak, value, ...rest } = props;
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const textCallbackRef = useForkRef(textAreaRef, ref);
 
@@ -21,20 +24,22 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
     resize();
   }, [value]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (onChange) {
-      onChange(e);
-    }
-  };
-
   return (
     <textarea
       {...rest}
       ref={textCallbackRef}
       value={value}
       rows={1}
-      onChange={handleChange}
       className={clsx(styles.root, className)}
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          if (preventLineBreak) {
+            e.preventDefault();
+          }
+          onEnter?.(e);
+        }
+        onKeyDown?.(e);
+      }}
     ></textarea>
   );
 });

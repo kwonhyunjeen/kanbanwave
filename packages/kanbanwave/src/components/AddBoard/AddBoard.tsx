@@ -20,7 +20,6 @@ const AddBoard = ({ onAdd }: AddBoardProps) => {
   const handleTitleSave = () => {
     if (title.trim() !== '') {
       onAdd?.(title);
-      setTitle('');
     }
   };
 
@@ -36,13 +35,9 @@ const AddBoard = ({ onAdd }: AddBoardProps) => {
           <Input
             placeholder={`Enter a board title`}
             value={title}
+            preventLineBreak
             onChange={handleChange}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleTitleSave();
-              }
-            }}
+            onEnter={handleTitleSave}
           />
           <div className={styles.action}>
             <Button color="primary" onClick={handleTitleSave}>

@@ -2,7 +2,7 @@ import { useForkRef } from '@/hooks';
 import { cx } from '@/utils/cx';
 import { ChangeEvent, forwardRef, useEffect, useRef } from 'react';
 
-type TextAreaProps = React.ComponentPropsWithoutRef<'textarea'> & {};
+type TextAreaProps = React.ComponentPropsWithoutRef<'textarea'>;
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => {
   const { className, onChange, value, ...rest } = props;

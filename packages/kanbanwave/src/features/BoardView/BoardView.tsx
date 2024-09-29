@@ -261,13 +261,10 @@ const BoardView = ({
           <Input
             ref={inputRef}
             value={internalTitle}
+            preventLineBreak
             onChange={e => setInternalTitle(e.target.value)}
             onBlur={handleBoardTitleSave}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                handleBoardTitleSave();
-              }
-            }}
+            onEnter={handleBoardTitleSave}
             resize={true}
             style={{ fontSize: '1.25rem', fontWeight: '600' }}
           />

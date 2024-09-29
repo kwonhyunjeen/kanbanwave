@@ -20,7 +20,6 @@ const AddList = ({ listsLength, onAdd }: AddListProps) => {
   const handleTitleSave = () => {
     if (title.trim() !== '') {
       onAdd?.(title);
-      setTitle('');
     }
   };
 
@@ -44,13 +43,9 @@ const AddList = ({ listsLength, onAdd }: AddListProps) => {
           <TextArea
             placeholder={`Enter a list title`}
             value={title}
+            preventLineBreak
             onChange={handleChange}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleTitleSave();
-              }
-            }}
+            onEnter={handleTitleSave}
           />
           <div className={styles.action}>
             <Button color="primary" onClick={handleTitleSave}>

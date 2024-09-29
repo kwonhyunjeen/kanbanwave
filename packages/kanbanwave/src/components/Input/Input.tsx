@@ -8,6 +8,8 @@ type InputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
   helperText?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  onEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  preventLineBreak?: boolean;
   resize?: boolean;
 };
 
@@ -18,6 +20,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     helperText,
     leftIcon,
     rightIcon,
+    onEnter,
+    onKeyDown,
+    preventLineBreak,
     resize = false,
     ...rest
   } = props;
@@ -52,6 +57,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           {...rest}
           ref={inputCallbackRef}
           className={clsx(styles.input, className)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              if (preventLineBreak) {
+                e.preventDefault();
+              }
+              onEnter?.(e);
+            }
+            onKeyDown?.(e);
+          }}
         />
         {rightIcon && <span className={styles.iconWithRight}>{rightIcon}</span>}
       </div>
