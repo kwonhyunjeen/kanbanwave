@@ -17,8 +17,7 @@ const AddList = ({ listsLength, onAdd }: AddListProps) => {
     setTitle(e.target.value);
   };
 
-  const handleAddClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleTitleSave = () => {
     if (title.trim() !== '') {
       onAdd?.(title);
       setTitle('');
@@ -46,9 +45,15 @@ const AddList = ({ listsLength, onAdd }: AddListProps) => {
             placeholder={`Enter a list title`}
             value={title}
             onChange={handleChange}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleTitleSave();
+              }
+            }}
           />
           <div className={styles.action}>
-            <Button color="primary" onClick={handleAddClick}>
+            <Button color="primary" onClick={handleTitleSave}>
               Add list
             </Button>
             <IconButton

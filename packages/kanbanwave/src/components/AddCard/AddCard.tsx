@@ -18,8 +18,7 @@ const AddCard = ({ cardsLength, onAdd }: AddCardProps) => {
     setTitle(e.target.value);
   };
 
-  const handleAddClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleTitleSave = () => {
     if (title.trim() !== '') {
       onAdd?.(title);
       setTitle('');
@@ -47,9 +46,15 @@ const AddCard = ({ cardsLength, onAdd }: AddCardProps) => {
             placeholder={`Enter a card title`}
             value={title}
             onChange={handleChange}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleTitleSave();
+              }
+            }}
           />
           <div className={styles.action}>
-            <Button color="primary" onClick={handleAddClick}>
+            <Button color="primary" onClick={handleTitleSave}>
               Add card
             </Button>
             <IconButton
