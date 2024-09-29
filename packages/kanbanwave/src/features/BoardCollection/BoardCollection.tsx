@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { forwardRef, Fragment } from 'react';
 import { KWBoard, KWBoardForm } from '../../core/types';
 import Board from '../../components/Board/Board';
 import AddBoard from '../../components/AddBoard/AddBoard';
@@ -7,7 +7,9 @@ import { useKWStore } from '../KWStorageProvider';
 import styles from './BoardCollection.module.css';
 import Spinner from '../../components/Spinner/Spinner';
 
-type BoardCollectionProps = {
+type BoardCollectionRef = React.ComponentRef<'div'>;
+
+type BoardCollectionProps = React.ComponentPropsWithoutRef<'div'> & {
   boardRender?: (provided: {
     boardProps: React.ComponentPropsWithRef<typeof Board>;
     board: KWBoard;
@@ -17,63 +19,67 @@ type BoardCollectionProps = {
   }) => React.ReactNode;
 };
 
-const BoardCollection = ({ boardRender, addBoardRender }: BoardCollectionProps) => {
-  const { getBoards, createBoard, deleteBoard } = useKWStore();
+const BoardCollection = forwardRef<BoardCollectionRef, BoardCollectionProps>(
+  ({ boardRender, addBoardRender, ...rest }, ref) => {
+    const { getBoards, createBoard, deleteBoard } = useKWStore();
 
-  const { status, data: boards } = useQuery(getBoards, []);
+    const { status, data: boards } = useQuery(getBoards, []);
 
-  if (status === 'pending') {
+    if (status === 'pending') {
+      return (
+        <div>
+          <Spinner />
+        </div>
+      );
+    }
+
+    const handleBoardAdd = (title: string) => {
+      const board: KWBoardForm = { title };
+      createBoard(board);
+    };
+
+    const makeBoardDeleteClickHandler = (boardId: string) => () => {
+      deleteBoard(boardId);
+    };
+
     return (
-      <div>
-        <Spinner />
+      <div {...rest} ref={ref} className={styles.container}>
+        {(() => {
+          const addBoardProps = {
+            onAdd: handleBoardAdd
+          };
+          return addBoardRender ? (
+            addBoardRender({
+              addBoardProps: addBoardProps
+            })
+          ) : (
+            <AddBoard {...addBoardProps} />
+          );
+        })()}
+        {boards &&
+          boards.map(board => {
+            const boardProps = {
+              board: board,
+              onDeleteClick: makeBoardDeleteClickHandler(board.id)
+            };
+            return (
+              <Fragment key={board.id}>
+                {boardRender ? (
+                  boardRender({
+                    boardProps: boardProps,
+                    board: board
+                  })
+                ) : (
+                  <Board {...boardProps} />
+                )}
+              </Fragment>
+            );
+          })}
       </div>
     );
   }
+);
 
-  const handleBoardAdd = (title: string) => {
-    const board: KWBoardForm = { title };
-    createBoard(board);
-  };
-
-  const makeBoardDeleteClickHandler = (boardId: string) => () => {
-    deleteBoard(boardId);
-  };
-
-  return (
-    <div className={styles.container}>
-      {(() => {
-        const addBoardProps = {
-          onAdd: handleBoardAdd
-        };
-        return addBoardRender ? (
-          addBoardRender({
-            addBoardProps: addBoardProps
-          })
-        ) : (
-          <AddBoard {...addBoardProps} />
-        );
-      })()}
-      {boards &&
-        boards.map(board => {
-          const boardProps = {
-            board: board,
-            onDeleteClick: makeBoardDeleteClickHandler(board.id)
-          };
-          return (
-            <Fragment key={board.id}>
-              {boardRender ? (
-                boardRender({
-                  boardProps: boardProps,
-                  board: board
-                })
-              ) : (
-                <Board {...boardProps} />
-              )}
-            </Fragment>
-          );
-        })}
-    </div>
-  );
-};
+BoardCollection.displayName = 'BoardCollection';
 
 export default BoardCollection;

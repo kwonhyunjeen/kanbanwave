@@ -1,15 +1,17 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, forwardRef, useState } from 'react';
 import styles from './AddBoard.module.css';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 
-type AddBoardProps = {
+type AddBoardRef = React.ComponentRef<'div'>;
+
+type AddBoardProps = React.ComponentPropsWithoutRef<'div'> & {
   className?: string;
   onAdd?: (title: string) => void;
 };
 
-const AddBoard = ({ onAdd }: AddBoardProps) => {
+const AddBoard = forwardRef<AddBoardRef, AddBoardProps>(({ onAdd, ...rest }, ref) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
@@ -29,7 +31,7 @@ const AddBoard = ({ onAdd }: AddBoardProps) => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div {...rest} ref={ref} className={styles.wrapper}>
       {isInputVisible ? (
         <div className={styles.container}>
           <Input
@@ -57,6 +59,8 @@ const AddBoard = ({ onAdd }: AddBoardProps) => {
       )}
     </div>
   );
-};
+});
+
+AddBoard.displayName = 'AddBoard';
 
 export default AddBoard;
