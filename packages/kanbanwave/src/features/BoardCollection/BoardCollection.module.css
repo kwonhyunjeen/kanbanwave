@@ -1,19 +1,19 @@
 .container {
   display: flex;
-  justify-content: flex-start;
   flex-wrap: wrap;
+  justify-content: flex-start;
   gap: 1rem;
 }
 
 .container > div,
 .container > a {
-  width: 25%;
+  width: calc(25% - 1rem);
 }
 
 @media (max-width: 1200px) {
   .container > div,
   .container > a {
-    width: 33.3%;
+    width: calc(33.3% - 1rem);
   }
 }
 

@@ -2,7 +2,7 @@ import { cloneElement, forwardRef, ReactElement } from 'react';
 import { cx } from '@/utils/cx';
 
 type ButtonProps = React.ComponentPropsWithoutRef<'button'> & {
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
+  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error';
   variant?: 'text' | 'contained' | 'outlined';
   size?: 'sm' | 'md' | 'lg';
   startIcon?: React.ReactNode;
@@ -32,7 +32,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   };
 
   const colorClasses = {
-    default: 'text-default',
     primary: 'text-primary',
     secondary: 'text-secondary',
     success: 'text-success',
@@ -48,7 +47,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
 
   const bgClasses = {
     text: {
-      default: 'hover:bg-default/[0.07]',
       primary: 'hover:bg-primary/[0.07]',
       secondary: 'hover:bg-secondary/[0.07]',
       success: 'hover:bg-success/[0.07]',
@@ -56,15 +54,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
       error: 'hover:bg-error/[0.07]'
     },
     contained: {
-      default: 'bg-default border-default hover:bg-[#747474]',
       primary: 'bg-primary border-primary hover:bg-[#1565c0]',
-      secondary: 'bg-secondary border-secondary hover:bg-[#7b1fa2]',
+      secondary: 'bg-secondary border-secondary hover:bg-[#747474]',
       success: 'bg-success border-success hover:bg-[#1b5e20]',
       warning: 'bg-warning border-warning hover:bg-[#e65100]',
       error: 'bg-error border-error hover:bg-[#c62828]'
     },
     outlined: {
-      default: 'border-default/[0.5] hover:border-default hover:bg-default/[0.07]',
       primary: 'border-primary/[0.5] hover:border-primary hover:bg-primary/[0.07]',
       secondary:
         'border-secondary/[0.5] hover:border-secondary hover:bg-secondary/[0.07]',

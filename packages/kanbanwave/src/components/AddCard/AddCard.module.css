@@ -1,5 +1,6 @@
 .container {
-  margin-top: 0.5rem;
+  box-sizing: border-box;
+  margin-top: calc(var(--kw-spacing) * 1.5);
 }
 
 .action {
@@ -7,7 +8,7 @@
   flex-direction: row;
   justify-content: flex-start;
   gap: 0.5rem;
-  margin: 0.5rem 0;
+  margin: var(--kw-spacing) 0;
 }
 
 .addCardButton {

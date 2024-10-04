@@ -4,26 +4,25 @@ import styles from './Input.module.css';
 import useForkRef from 'hooks/useForkRef';
 
 type InputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'standard' | 'outlined' | 'filled';
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error';
   label?: string;
   helperText?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  onEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  preventLineBreak?: boolean;
   resize?: boolean;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
     className,
-    size = 'md',
-    variant = 'outlined',
-    color = 'default',
     label,
     helperText,
     leftIcon,
     rightIcon,
+    onEnter,
+    onKeyDown,
+    preventLineBreak,
     resize = false,
     ...rest
   } = props;
@@ -57,13 +56,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         <input
           {...rest}
           ref={inputCallbackRef}
-          className={clsx(
-            styles.input,
-            styles[size],
-            styles[variant],
-            styles[color],
-            className
-          )}
+          className={clsx(styles.input, className)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              if (preventLineBreak) {
+                e.preventDefault();
+              }
+              onEnter?.(e);
+            }
+            onKeyDown?.(e);
+          }}
         />
         {rightIcon && <span className={styles.iconWithRight}>{rightIcon}</span>}
       </div>

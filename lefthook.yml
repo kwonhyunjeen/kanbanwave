@@ -15,4 +15,4 @@ pre-commit:
   commands:
     lint:
       glob: '*.{js,mjs,cjs,ts,jsx,tsx}'
-      run: pnpm prettier --write {staged_files} && pnpm eslint {staged_files}
+      run: pnpm prettier --write {staged_files} && pnpm eslint {staged_files} --fix && git add {staged_files}

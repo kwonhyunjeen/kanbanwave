@@ -32,7 +32,7 @@ const Nav = ({ isOpen, onToggleNav }: NavProps) => {
         <IconButton
           icon="view_sidebar"
           onClick={onToggleNav}
-          color="default"
+          color="secondary"
           className="mb-6 ml-1 rotate-180"
         />
         <div

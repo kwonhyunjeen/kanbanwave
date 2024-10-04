@@ -13,7 +13,7 @@ const BoardPage = () => {
   /** @todo 카드 상세 페이지 개발되면 cardRender로 링크 연결 */
   return (
     <section className="p-8">
-      <div className="mx-auto flex max-w-[1600px] flex-col">
+      <div className="flex flex-col">
         <BoardView boardId={boardId} />
       </div>
     </section>

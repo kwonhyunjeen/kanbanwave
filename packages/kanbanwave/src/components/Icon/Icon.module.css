@@ -1,20 +1,9 @@
 .root {
-  font-family: 'Material Symbols Outlined Variable';
   display: inline-block;
   vertical-align: -0.125em;
-  text-transform: none;
+  font-family: 'Material Symbols Outlined Variable';
+  font-size: var(--kw-font-size-body);
+  font-weight: 400;
   line-height: 1;
-}
-
-/* Sizes */
-.iconSm {
-  font-size: 1.25rem; /* 20px */
-}
-
-.iconMd {
-  font-size: 1.5rem; /* 24px */
-}
-
-.iconLg {
-  font-size: 2rem; /* 32px */
+  text-transform: none;
 }

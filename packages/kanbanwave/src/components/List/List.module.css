@@ -1,38 +1,40 @@
-.wrapper {
+.listDraggable {
   display: block;
   flex-shrink: 0;
   align-self: flex-start;
+  background-color: var(--kw-list-background-color);
+  border-style: var(--kw-list-border-style);
+  border-color: var(--kw-list-border-color);
+  border-width: var(--kw-list-border-width);
+  border-radius: var(--kw-list-border-radius);
+  box-shadow: var(--kw-list-box-shadow);
   height: 100%;
-  padding-right: 1rem;
+  margin-right: calc(var(--kw-spacing) * 4);
   white-space: nowrap;
 }
 
-.area {
+.container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
   box-sizing: border-box;
   width: 16rem;
   max-height: 100%;
-  padding-bottom: 0.5rem;
-  background-color: white;
-  border-radius: 0.625rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: calc(var(--kw-spacing) * 2);
 }
 
 .headerContainer {
-  display: flex;
   position: relative;
+  display: flex;
   flex-grow: 0;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 0.5rem;
 }
 
 .header {
-  display: inline-flex;
   position: relative;
+  display: inline-flex;
   flex-basis: min-content;
   flex-grow: 1;
   flex-shrink: 1;
@@ -40,42 +42,40 @@
 
 .listTitle {
   display: block;
-  z-index: 0;
-  margin: 0;
-  padding: 6px 8px 6px 12px;
   width: 100%;
+  margin: 0;
+  padding: calc(var(--kw-spacing) * 1.5) calc(var(--kw-spacing) * 2)
+    calc(var(--kw-spacing) * 1.5) calc(var(--kw-spacing) * 3);
   overflow: hidden;
   box-sizing: border-box;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  background-color: transparent;
-  font-size: 14px;
+  border-style: var(--kw-input-border-style);
+  border-width: var(--kw-input-border-width);
+  border-color: transparent;
+  font-size: var(--kw-font-size-subtitle);
   font-weight: 600;
   line-height: 1.25rem;
   white-space: normal;
-  cursor: pointer;
   overflow-wrap: anywhere;
+  cursor: pointer;
+  z-index: 0;
 }
 
 .textArea {
   box-sizing: border-box;
-  min-height: 20px;
-  padding: 6px 8px 6px 12px;
-  background: transparent;
-  box-shadow: none;
-  font-size: 14px;
+  min-height: 1.25rem;
+  padding: calc(var(--kw-spacing) * 1.5) calc(var(--kw-spacing) * 2)
+    calc(var(--kw-spacing) * 1.5) calc(var(--kw-spacing) * 3);
+  font-size: var(--kw-font-size-subtitle);
   font-weight: 600;
-  resize: none;
   overflow-wrap: anywhere;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  resize: none;
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
+  transition-property: border-color, box-shadow;
 }
 
 .deleteIcon {
   flex-grow: 0;
   flex-shrink: 0;
-  margin-top: 4px;
-  margin-right: 4px;
-  border-radius: 8px;
+  margin-top: var(--kw-spacing);
+  margin-right: var(--kw-spacing);
 }

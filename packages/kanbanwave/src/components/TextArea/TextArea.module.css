@@ -2,20 +2,25 @@
   width: 100%;
   height: auto;
   min-height: 1.25rem;
-  padding: 0.5rem;
-  font-size: 1rem;
+  padding: calc(var(--kw-spacing) * 2);
+  background-color: var(--kw-input-background-color);
+  border-color: var(--kw-input-border-color);
+  border-radius: var(--kw-input-border-radius);
+  border-style: var(--kw-input-border-style);
+  border-width: var(--kw-input-border-width);
+  box-shadow: var(--kw-input-box-shadow);
+  color: var(--kw-input-color);
+  font-size: var(--kw-input-font-size);
+  font-weight: var(--kw-input-font-weight);
   line-height: 1.25rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
   resize: none;
-  box-sizing: border-box;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.root:focus {
-  border-color: #007bff;
   outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
+  transition-property: background-color, border-color, box-shadow;
+
+  &:focus {
+    background-color: var(--kw-input-background-color-focused);
+    border-color: var(--kw-input-border-color-focused);
+    box-shadow: var(--kw-input-box-shadow-focused);
+  }
 }

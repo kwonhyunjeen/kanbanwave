@@ -1,27 +1,27 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, forwardRef, useState } from 'react';
 import styles from './AddBoard.module.css';
-import TextArea from '../TextArea/TextArea';
+import Input from '../Input/Input';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 
-type AddBoardProps = {
+type AddBoardRef = React.ComponentRef<'div'>;
+
+type AddBoardProps = React.ComponentPropsWithoutRef<'div'> & {
   className?: string;
   onAdd?: (title: string) => void;
 };
 
-const AddBoard = ({ onAdd }: AddBoardProps) => {
+const AddBoard = forwardRef<AddBoardRef, AddBoardProps>(({ onAdd, ...rest }, ref) => {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [title, setTitle] = useState('');
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const handleAddClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleTitleSave = () => {
     if (title.trim() !== '') {
       onAdd?.(title);
-      setTitle('');
     }
   };
 
@@ -31,41 +31,36 @@ const AddBoard = ({ onAdd }: AddBoardProps) => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div {...rest} ref={ref} className={styles.wrapper}>
       {isInputVisible ? (
         <div className={styles.container}>
-          <TextArea
+          <Input
             placeholder={`Enter a board title`}
             value={title}
+            preventLineBreak
             onChange={handleChange}
+            onEnter={handleTitleSave}
           />
           <div className={styles.action}>
-            <Button type="button" size="sm" variant="contained" onClick={handleAddClick}>
+            <Button color="primary" onClick={handleTitleSave}>
               Add board
             </Button>
-            <IconButton
-              type="button"
-              size="sm"
-              icon="close"
-              aria-label="cancel"
-              onClick={handleCancelClick}
-            />
+            <IconButton icon="close" aria-label="cancel" onClick={handleCancelClick} />
           </div>
         </div>
       ) : (
-        <Button
-          aria-label={`add a board`}
-          size="lg"
-          variant="contained"
-          color="default"
-          onClick={() => setIsInputVisible(true)}
+        <button
+          type="button"
           className={styles.addBoardButton}
+          onClick={() => setIsInputVisible(true)}
         >
           Create new board
-        </Button>
+        </button>
       )}
     </div>
   );
-};
+});
+
+AddBoard.displayName = 'AddBoard';
 
 export default AddBoard;

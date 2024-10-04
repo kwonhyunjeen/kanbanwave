@@ -9,35 +9,16 @@ type IconButtonProps = Omit<
   'size' | 'startIcon' | 'endIcon' | 'children'
 > & {
   icon: string;
-  size?: 'sm' | 'md' | 'lg';
 };
 
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) => {
-  const {
-    className,
-    color = 'primary',
-    icon,
-    size = 'sm',
-    variant = 'text',
-    ...rest
-  } = props;
+  const { className, icon, ...rest } = props;
 
-  const buttonClass = clsx(
-    styles.root,
-    styles[`size${size.charAt(0).toUpperCase() + size.slice(1)}`],
-    className
-  );
+  const buttonClass = clsx(styles.root, className);
 
   return (
-    <Button
-      {...rest}
-      ref={ref}
-      className={buttonClass}
-      color={color}
-      variant={variant}
-      size={size}
-    >
-      <Icon name={icon} size={size} />
+    <Button {...rest} ref={ref} className={buttonClass}>
+      <Icon name={icon} />
     </Button>
   );
 });
