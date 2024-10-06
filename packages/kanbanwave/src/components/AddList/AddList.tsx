@@ -1,18 +1,17 @@
-import { ChangeEvent, forwardRef, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './AddList.module.css';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
+import forwardAs from 'utils/forwardAs';
 
-type AddListRef = React.ComponentRef<'div'>;
-
-type AddListProps = React.ComponentPropsWithoutRef<'div'> & {
+type AddListProps = {
   listsLength?: number;
   onAdd?: (title: string) => void;
 };
 
-const AddList = forwardRef<AddListRef, AddListProps>(
-  ({ listsLength, onAdd, ...rest }, ref) => {
+const AddList = forwardAs<'div', AddListProps>(
+  ({ as: Component = 'div', listsLength, onAdd, ...rest }, ref) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -40,7 +39,7 @@ const AddList = forwardRef<AddListRef, AddListProps>(
     }, [listsLength]);
 
     return (
-      <div {...rest} ref={ref} className={styles.wrapper}>
+      <Component {...rest} ref={ref} className={styles.wrapper}>
         {isInputVisible ? (
           <div className={styles.container}>
             <TextArea
@@ -71,7 +70,7 @@ const AddList = forwardRef<AddListRef, AddListProps>(
             Add another list
           </button>
         )}
-      </div>
+      </Component>
     );
   }
 );

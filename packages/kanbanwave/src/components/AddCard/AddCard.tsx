@@ -1,19 +1,18 @@
-import { ChangeEvent, forwardRef, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import Icon from '../Icon/Icon';
 import IconButton from '../IconButton/IconButton';
 import styles from './AddCard.module.css';
+import forwardAs from 'utils/forwardAs';
 
-type AddCardRef = React.ComponentRef<'div'>;
-
-type AddCardProps = React.ComponentPropsWithoutRef<'div'> & {
+type AddCardProps = {
   cardsLength?: number;
   onAdd?: (title: string) => void;
 };
 
-const AddCard = forwardRef<AddCardRef, AddCardProps>(
-  ({ cardsLength, onAdd, ...rest }, ref) => {
+const AddCard = forwardAs<'div', AddCardProps>(
+  ({ as: Component = 'div', cardsLength, onAdd, ...rest }, ref) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -41,7 +40,7 @@ const AddCard = forwardRef<AddCardRef, AddCardProps>(
     }, [cardsLength]);
 
     return (
-      <div {...rest} ref={ref} className={styles.container}>
+      <Component {...rest} ref={ref} className={styles.container}>
         {isInputVisible ? (
           <>
             <TextArea
@@ -73,7 +72,7 @@ const AddCard = forwardRef<AddCardRef, AddCardProps>(
             Add a card
           </Button>
         )}
-      </div>
+      </Component>
     );
   }
 );

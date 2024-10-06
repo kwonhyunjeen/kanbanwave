@@ -1,6 +1,6 @@
 import { Title } from '@/components';
-import { Link } from 'react-router-dom';
 import { Board, BoardCollection } from 'kanbanwave';
+import { Link } from 'react-router-dom';
 
 const BoardsPage = () => {
   return (
@@ -9,9 +9,7 @@ const BoardsPage = () => {
         <Title className="mb-8 text-black">Boards</Title>
         <BoardCollection
           boardRender={({ boardProps, board }) => (
-            <Link to={`/boards/${board.id}`}>
-              <Board {...boardProps} />
-            </Link>
+            <Board {...boardProps} as={Link} to={`/boards/${board.id}`} />
           )}
         />
       </div>

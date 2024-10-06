@@ -1,23 +1,33 @@
 import { KWList } from '../../core/types';
 import ListDraggable from '../ListDraggable';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useDerivedState from '../../hooks/useDerivedState';
 import styles from './List.module.css';
 import IconButton from '../IconButton/IconButton';
 import TextArea from '../TextArea/TextArea';
+import forwardAs from 'utils/forwardAs';
 
-type ListRef = React.ComponentRef<'div'>;
-
-type ListProps = React.ComponentPropsWithoutRef<'div'> & {
+type ListProps = {
   children?: React.ReactNode;
   list: KWList;
   listIndex: number;
-  onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onTitleSave?: (newTitle: string) => void;
+  onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const List = forwardRef<ListRef, ListProps>(
-  ({ children, list, listIndex, onDeleteClick, onTitleSave, ...rest }, ref) => {
+const List = forwardAs<'div', ListProps>(
+  (
+    {
+      as: Component = 'div',
+      children,
+      list,
+      listIndex,
+      onDeleteClick,
+      onTitleSave,
+      ...rest
+    },
+    ref
+  ) => {
     const [isEditing, setIsEditing] = useState(false);
     const [internalTitle, setInternalTitle] = useDerivedState(list.title);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -44,7 +54,7 @@ const List = forwardRef<ListRef, ListProps>(
         listIndex={listIndex}
         className={styles.listDraggable}
       >
-        <div {...rest} ref={ref} className={styles.container}>
+        <Component {...rest} ref={ref} className={styles.container}>
           <div className={styles.headerContainer}>
             <div className={styles.header}>
               {!isEditing && (
@@ -87,7 +97,7 @@ const List = forwardRef<ListRef, ListProps>(
             />
           </div>
           {children}
-        </div>
+        </Component>
       </ListDraggable>
     );
   }

@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { KWCard } from '../../core/types';
 import CardDraggable from '../CardDraggable';
 import TextArea from '../TextArea/TextArea';
@@ -6,21 +6,33 @@ import useDerivedState from '../../hooks/useDerivedState';
 import styles from './Card.module.css';
 import IconButton from '../IconButton/IconButton';
 import Button from '../Button/Button';
+import forwardAs from 'utils/forwardAs';
+import useForkRef from 'hooks/useForkRef';
 
-type CardRef = React.ComponentRef<'div'>;
-
-type CardProps = React.ComponentPropsWithoutRef<'div'> & {
+type CardProps = {
   card: KWCard;
   cardIndex: number;
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   onTitleSave?: (newTitle: string) => void;
   onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const Card = forwardRef<CardRef, CardProps>(
-  ({ card, cardIndex, onClick, onTitleSave, onDeleteClick, ...rest }, ref) => {
-    const containerRef = useRef<HTMLDivElement>(null);
+const Card = forwardAs<'div', CardProps>(
+  (
+    {
+      as: Component = 'div',
+      card,
+      cardIndex,
+      onClick,
+      onTitleSave,
+      onDeleteClick,
+      ...rest
+    },
+    ref
+  ) => {
+    const containerRef = useRef<HTMLElement>(null);
     const inputRef = useRef<HTMLTextAreaElement>(null);
+    const containerCallbackRef = useForkRef(containerRef, ref);
 
     const [internalTitle, setInternalTitle] = useDerivedState(card.title);
     const [isEditing, setIsEditing] = useState(false);
@@ -102,8 +114,6 @@ const Card = forwardRef<CardRef, CardProps>(
           // 이미 ESC를 눌러 오버레이를 닫을 수 있기 때문에 lint 규칙을 비활성화함
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus
           <div
-            {...rest}
-            ref={ref}
             role="button"
             aria-label="Cancel"
             className={styles.overlay}
@@ -115,7 +125,7 @@ const Card = forwardRef<CardRef, CardProps>(
           cardIndex={cardIndex}
           className={styles.cardDraggable}
         >
-          <div className={styles.container} ref={containerRef}>
+          <Component {...rest} ref={containerCallbackRef} className={styles.container}>
             {isEditing && cardRect ? (
               <div
                 className={styles.editContainer}
@@ -170,7 +180,7 @@ const Card = forwardRef<CardRef, CardProps>(
                 />
               </div>
             )}
-          </div>
+          </Component>
         </CardDraggable>
       </>
     );

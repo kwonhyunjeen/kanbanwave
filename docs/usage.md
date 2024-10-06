@@ -91,9 +91,7 @@ function BoardListPage() {
   return (
     <BoardCollection
       boardRender={{ boardProps, board } => (
-        <Link to={`/boards/${board.id}`}>
-          <Board {...boardProps} />
-        </Link>
+        <Board {...boardProps} as={Link} to={`/boards/${board.id}`} />
       )}
     />
   );
