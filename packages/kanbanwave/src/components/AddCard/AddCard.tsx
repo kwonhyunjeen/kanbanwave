@@ -40,7 +40,7 @@ const AddCard = forwardAs<'div', AddCardProps>(
     }, [cardsLength]);
 
     return (
-      <Component {...rest} ref={ref} className={styles.container}>
+      <Component {...rest} ref={ref} className={styles.root}>
         {isInputVisible ? (
           <>
             <TextArea
@@ -50,7 +50,7 @@ const AddCard = forwardAs<'div', AddCardProps>(
               onChange={handleChange}
               onEnter={handleTitleSave}
             />
-            <div className={styles.action}>
+            <div className={styles.addCardActions}>
               <Button color="primary" onClick={handleTitleSave}>
                 Add card
               </Button>

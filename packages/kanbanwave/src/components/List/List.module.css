@@ -13,7 +13,7 @@
   white-space: nowrap;
 }
 
-.container {
+.root {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@
   padding: calc(var(--kw-spacing) * 2);
 }
 
-.headerContainer {
+.listContainer {
   position: relative;
   display: flex;
   flex-grow: 0;
@@ -32,7 +32,7 @@
   justify-content: space-between;
 }
 
-.header {
+.listHeader {
   position: relative;
   display: inline-flex;
   flex-basis: min-content;
@@ -60,7 +60,7 @@
   z-index: 0;
 }
 
-.textArea {
+.listTextArea {
   box-sizing: border-box;
   min-height: 1.25rem;
   padding: calc(var(--kw-spacing) * 1.5) calc(var(--kw-spacing) * 2)
@@ -73,7 +73,7 @@
   transition-property: border-color, box-shadow;
 }
 
-.deleteIcon {
+.listDeleteIcon {
   flex-grow: 0;
   flex-shrink: 0;
   margin-top: var(--kw-spacing);

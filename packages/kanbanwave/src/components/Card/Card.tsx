@@ -116,7 +116,7 @@ const Card = forwardAs<'div', CardProps>(
           <div
             role="button"
             aria-label="Cancel"
-            className={styles.overlay}
+            className={styles.cardOverlay}
             onClick={closeOverlay}
           />
         )}
@@ -125,10 +125,10 @@ const Card = forwardAs<'div', CardProps>(
           cardIndex={cardIndex}
           className={styles.cardDraggable}
         >
-          <Component {...rest} ref={containerCallbackRef} className={styles.container}>
+          <Component {...rest} ref={containerCallbackRef} className={styles.root}>
             {isEditing && cardRect ? (
               <div
-                className={styles.editContainer}
+                className={styles.cardEditContainer}
                 style={{
                   top: `${cardRect.top}px`,
                   left: `${cardRect.left}px`,
@@ -143,7 +143,7 @@ const Card = forwardAs<'div', CardProps>(
                   onEnter={handleTitleSave}
                   style={{ minHeight: '4.5rem' }}
                 />
-                <div className={styles.action}>
+                <div className={styles.cardActions}>
                   <Button type="button" color="primary" onClick={handleTitleSave}>
                     Save
                   </Button>
@@ -155,7 +155,7 @@ const Card = forwardAs<'div', CardProps>(
             ) : (
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
               <div
-                className={styles.wrapper}
+                className={styles.cardContainer}
                 onClick={e => {
                   onClick?.(e);
                   if (!(e.target instanceof Element)) {
@@ -166,13 +166,13 @@ const Card = forwardAs<'div', CardProps>(
                   }
                 }}
               >
-                <div className={styles.title}>{internalTitle}</div>
+                <div className={styles.cardTitle}>{internalTitle}</div>
                 <IconButton
                   type="button"
                   aria-label="edit a card"
                   data-event-target="edit-button"
                   icon="edit"
-                  className={styles.editIcon}
+                  className={styles.cardEditIcon}
                   color="secondary"
                   onClick={() => {
                     openOverlay();

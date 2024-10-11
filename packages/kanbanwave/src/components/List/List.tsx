@@ -54,9 +54,9 @@ const List = forwardAs<'div', ListProps>(
         listIndex={listIndex}
         className={styles.listDraggable}
       >
-        <Component {...rest} ref={ref} className={styles.container}>
+        <Component {...rest} ref={ref} className={styles.root}>
           <div className={styles.headerContainer}>
-            <div className={styles.header}>
+            <div className={styles.listHeader}>
               {!isEditing && (
                 /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events */
                 <h2
@@ -84,7 +84,7 @@ const List = forwardAs<'div', ListProps>(
                   onChange={e => setInternalTitle(e.target.value)}
                   onBlur={handleTitleSave}
                   onEnter={handleTitleSave}
-                  className={styles.textArea}
+                  className={styles.listTextArea}
                   maxLength={512}
                 />
               )}
@@ -92,7 +92,7 @@ const List = forwardAs<'div', ListProps>(
             <IconButton
               icon="remove"
               color="secondary"
-              className={styles.deleteIcon}
+              className={styles.listDeleteIcon}
               onClick={onDeleteClick}
             />
           </div>

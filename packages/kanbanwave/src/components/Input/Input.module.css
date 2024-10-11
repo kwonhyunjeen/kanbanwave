@@ -1,30 +1,30 @@
-.container {
+.root {
   display: flex;
   flex-direction: column;
 }
 
-.label {
+.inputLabel {
   margin-bottom: var(--kw-spacing);
   font-size: var(--kw-font-size-subtitle);
   color: var(--kw-input-color);
 }
 
-.wrapper {
+.inputContainer {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.wrapper.hasLeftIcon .input {
-  padding-left: calc(var(--kw-spacing) * 8);
+.inputContainer.hasStartIcon .inputField {
+  padding-left: calc(var(--kw-spacing) * 7);
 }
 
-.wrapper.hasRightIcon .input {
-  padding-right: calc(var(--kw-spacing) * 8);
+.inputContainer.hasEndIcon .inputField {
+  padding-right: calc(var(--kw-spacing) * 7);
 }
 
-.iconWithLeft,
-.iconWithRight {
+.inputStartIcon,
+.inputEndIcon {
   position: absolute;
   display: flex;
   align-items: center;
@@ -33,15 +33,15 @@
   pointer-events: none;
 }
 
-.iconWithLeft {
+.inputStartIcon {
   left: calc(var(--kw-spacing) * 2);
 }
 
-.iconWithRight {
+.inputEndIcon {
   right: calc(var(--kw-spacing) * 2);
 }
 
-.input {
+.inputField {
   box-sizing: border-box;
   min-width: 0px;
   width: 100%;

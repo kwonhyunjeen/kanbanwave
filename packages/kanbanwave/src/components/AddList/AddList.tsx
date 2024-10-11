@@ -39,9 +39,9 @@ const AddList = forwardAs<'div', AddListProps>(
     }, [listsLength]);
 
     return (
-      <Component {...rest} ref={ref} className={styles.wrapper}>
+      <Component {...rest} ref={ref} className={styles.root}>
         {isInputVisible ? (
-          <div className={styles.container}>
+          <div className={styles.addListContainer}>
             <TextArea
               placeholder={`Enter a list title`}
               value={title}
@@ -49,7 +49,7 @@ const AddList = forwardAs<'div', AddListProps>(
               onChange={handleChange}
               onEnter={handleTitleSave}
             />
-            <div className={styles.action}>
+            <div className={styles.addListActions}>
               <Button color="primary" onClick={handleTitleSave}>
                 Add list
               </Button>

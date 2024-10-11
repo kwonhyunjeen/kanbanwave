@@ -1,11 +1,11 @@
-.wrapper {
+.root {
   box-sizing: border-box;
   width: 16rem;
   height: fit-content;
   cursor: pointer;
 }
 
-.container {
+.addListContainer {
   display: flex;
   flex-direction: column;
   background-color: var(--kw-list-background-color);
@@ -15,7 +15,7 @@
   padding: calc(var(--kw-spacing) * 4);
 }
 
-.action {
+.addListActions {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

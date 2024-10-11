@@ -4,6 +4,7 @@ import Input from '../Input/Input';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 import forwardAs from 'utils/forwardAs';
+import Icon from 'components/Icon/Icon';
 
 type AddBoardProps = {
   className?: string;
@@ -31,9 +32,9 @@ const AddBoard = forwardAs<'div', AddBoardProps>(
     };
 
     return (
-      <Component {...rest} ref={ref} className={styles.wrapper}>
+      <Component {...rest} ref={ref} className={styles.root}>
         {isInputVisible ? (
-          <div className={styles.container}>
+          <div className={styles.addBoardContainer}>
             <Input
               placeholder={`Enter a board title`}
               value={title}
@@ -41,8 +42,12 @@ const AddBoard = forwardAs<'div', AddBoardProps>(
               onChange={handleChange}
               onEnter={handleTitleSave}
             />
-            <div className={styles.action}>
-              <Button color="primary" onClick={handleTitleSave}>
+            <div className={styles.addBoardActions}>
+              <Button
+                color="primary"
+                onClick={handleTitleSave}
+                endIcon={<Icon name="add" />}
+              >
                 Add board
               </Button>
               <IconButton icon="close" aria-label="cancel" onClick={handleCancelClick} />

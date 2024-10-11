@@ -23,11 +23,11 @@
   }
 }
 
-.container {
+.root {
   min-height: 2.25rem;
 }
 
-.wrapper {
+.cardContainer {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -36,7 +36,7 @@
   padding: calc(var(--kw-spacing) * 2) calc(var(--kw-spacing) * 3);
 }
 
-.title {
+.cardTitle {
   position: relative;
   display: flex;
   flex-basis: min-content;
@@ -47,7 +47,7 @@
   overflow-wrap: anywhere;
 }
 
-.editContainer {
+.cardEditContainer {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -55,21 +55,17 @@
   z-index: 15;
 }
 
-.action {
+.cardActions {
   display: flex;
   justify-content: flex-start;
   gap: 0.5rem;
 }
 
-.saveButton {
-  margin-right: calc(var(--kw-spacing) * 2);
-}
-
-.editIcon {
+.cardEditIcon {
   margin-left: var(--kw-spacing);
 }
 
-.overlay {
+.cardOverlay {
   position: fixed;
   top: 0;
   left: 0;

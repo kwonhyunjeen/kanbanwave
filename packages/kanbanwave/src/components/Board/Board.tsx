@@ -16,7 +16,7 @@ const Board = forwardAs<'div', BoardProps>(
       <Component
         {...rest}
         ref={ref}
-        className={styles.container}
+        className={styles.root}
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           onClick?.(e);
           if (!(e.target instanceof Element)) {
@@ -27,9 +27,9 @@ const Board = forwardAs<'div', BoardProps>(
           }
         }}
       >
-        <div className={styles.headerContainer}>
-          <h2 className={styles.title}>{board.title}</h2>
-          <div className={styles.action}>
+        <div className={styles.boardContainer}>
+          <h2 className={styles.boardTitle}>{board.title}</h2>
+          <div className={styles.boardActions}>
             <IconButton
               type="button"
               aria-label="delete a board"
