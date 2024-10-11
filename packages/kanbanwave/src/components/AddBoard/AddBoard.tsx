@@ -5,6 +5,7 @@ import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 import forwardAs from 'utils/forwardAs';
 import Icon from 'components/Icon/Icon';
+import clsx from 'clsx';
 
 type AddBoardProps = {
   className?: string;
@@ -12,7 +13,7 @@ type AddBoardProps = {
 };
 
 const AddBoard = forwardAs<'div', AddBoardProps>(
-  ({ as: Component = 'div', onAdd, ...rest }, ref) => {
+  ({ as: Component = 'div', className, onAdd, ...rest }, ref) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -32,7 +33,7 @@ const AddBoard = forwardAs<'div', AddBoardProps>(
     };
 
     return (
-      <Component {...rest} ref={ref} className={styles.root}>
+      <Component {...rest} ref={ref} className={clsx(styles.root, className)}>
         {isInputVisible ? (
           <div className={styles.addBoardContainer}>
             <Input

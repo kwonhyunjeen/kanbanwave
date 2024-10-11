@@ -8,13 +8,18 @@ import IconButton from '../IconButton/IconButton';
 import Button from '../Button/Button';
 import forwardAs from 'utils/forwardAs';
 import useForkRef from 'hooks/useForkRef';
+import clsx from 'clsx';
 
 type CardProps = {
   card: KWCard;
   cardIndex: number;
+  className?: string;
+  draggableClassName?: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  onTitleSave?: (newTitle: string) => void;
   onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onTitleSave?: (newTitle: string) => void;
+  overlayClassName?: string;
+  wrapperClassName?: string;
 };
 
 const Card = forwardAs<'div', CardProps>(
@@ -23,9 +28,12 @@ const Card = forwardAs<'div', CardProps>(
       as: Component = 'div',
       card,
       cardIndex,
+      className,
+      draggableClassName,
       onClick,
-      onTitleSave,
       onDeleteClick,
+      onTitleSave,
+      overlayClassName,
       ...rest
     },
     ref
@@ -116,16 +124,20 @@ const Card = forwardAs<'div', CardProps>(
           <div
             role="button"
             aria-label="Cancel"
-            className={styles.cardOverlay}
+            className={clsx(styles.cardOverlay, overlayClassName)}
             onClick={closeOverlay}
           />
         )}
         <CardDraggable
           cardId={card.id}
           cardIndex={cardIndex}
-          className={styles.cardDraggable}
+          className={clsx(styles.cardDraggable, draggableClassName)}
         >
-          <Component {...rest} ref={containerCallbackRef} className={styles.root}>
+          <Component
+            {...rest}
+            ref={containerCallbackRef}
+            className={clsx(styles.root, className)}
+          >
             {isEditing && cardRect ? (
               <div
                 className={styles.cardEditContainer}

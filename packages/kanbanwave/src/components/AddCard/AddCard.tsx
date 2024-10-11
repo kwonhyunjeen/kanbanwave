@@ -5,14 +5,16 @@ import Icon from '../Icon/Icon';
 import IconButton from '../IconButton/IconButton';
 import styles from './AddCard.module.css';
 import forwardAs from 'utils/forwardAs';
+import clsx from 'clsx';
 
 type AddCardProps = {
   cardsLength?: number;
+  className?: string;
   onAdd?: (title: string) => void;
 };
 
 const AddCard = forwardAs<'div', AddCardProps>(
-  ({ as: Component = 'div', cardsLength, onAdd, ...rest }, ref) => {
+  ({ as: Component = 'div', cardsLength, className, onAdd, ...rest }, ref) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -40,7 +42,7 @@ const AddCard = forwardAs<'div', AddCardProps>(
     }, [cardsLength]);
 
     return (
-      <Component {...rest} ref={ref} className={styles.root}>
+      <Component {...rest} ref={ref} className={clsx(styles.root, className)}>
         {isInputVisible ? (
           <>
             <TextArea

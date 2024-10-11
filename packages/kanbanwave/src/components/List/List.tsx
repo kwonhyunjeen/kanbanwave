@@ -6,9 +6,12 @@ import styles from './List.module.css';
 import IconButton from '../IconButton/IconButton';
 import TextArea from '../TextArea/TextArea';
 import forwardAs from 'utils/forwardAs';
+import clsx from 'clsx';
 
 type ListProps = {
   children?: React.ReactNode;
+  className?: string;
+  draggableClassName?: string;
   list: KWList;
   listIndex: number;
   onTitleSave?: (newTitle: string) => void;
@@ -20,6 +23,8 @@ const List = forwardAs<'div', ListProps>(
     {
       as: Component = 'div',
       children,
+      className,
+      draggableClassName,
       list,
       listIndex,
       onDeleteClick,
@@ -52,10 +57,10 @@ const List = forwardAs<'div', ListProps>(
       <ListDraggable
         listId={list.id}
         listIndex={listIndex}
-        className={styles.listDraggable}
+        className={clsx(styles.listDraggable, draggableClassName)}
       >
-        <Component {...rest} ref={ref} className={styles.root}>
-          <div className={styles.headerContainer}>
+        <Component {...rest} ref={ref} className={clsx(styles.root, className)}>
+          <div className={styles.listContainer}>
             <div className={styles.listHeader}>
               {!isEditing && (
                 /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events */

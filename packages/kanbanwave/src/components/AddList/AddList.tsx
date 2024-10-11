@@ -4,14 +4,16 @@ import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
 import forwardAs from 'utils/forwardAs';
+import clsx from 'clsx';
 
 type AddListProps = {
+  className?: string;
   listsLength?: number;
   onAdd?: (title: string) => void;
 };
 
 const AddList = forwardAs<'div', AddListProps>(
-  ({ as: Component = 'div', listsLength, onAdd, ...rest }, ref) => {
+  ({ as: Component = 'div', className, listsLength, onAdd, ...rest }, ref) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -39,7 +41,7 @@ const AddList = forwardAs<'div', AddListProps>(
     }, [listsLength]);
 
     return (
-      <Component {...rest} ref={ref} className={styles.root}>
+      <Component {...rest} ref={ref} className={clsx(styles.root, className)}>
         {isInputVisible ? (
           <div className={styles.addListContainer}>
             <TextArea
