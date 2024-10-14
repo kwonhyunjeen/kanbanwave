@@ -1,5 +1,6 @@
 @import '@fontsource-variable/material-symbols-outlined';
 @import './base';
-@import 'kanbanwave/index.css';
+@import 'kanbanwave/base.css';
+@import 'kanbanwave/components.css';
 @import './components';
 @import './utilities';
