@@ -24,6 +24,7 @@ const AddList = forwardAs<'div', AddListProps>(
     const handleTitleSave = () => {
       if (title.trim() !== '') {
         onAdd?.(title);
+        setTitle('');
       }
     };
 

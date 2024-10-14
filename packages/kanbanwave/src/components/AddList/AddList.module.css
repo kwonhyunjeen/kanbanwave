@@ -2,7 +2,6 @@
   box-sizing: border-box;
   width: 16rem;
   height: fit-content;
-  cursor: pointer;
 }
 
 .addListContainer {
@@ -29,12 +28,14 @@
   align-items: center;
   background-color: var(--kw-add-button-background-color);
   box-shadow: var(--kw-list-box-shadow);
+  border-color: var(--kw-button-secondary-border-color);
   border-radius: var(--kw-field-border-radius);
   width: 16rem;
   height: calc(var(--kw-button-size) * 1.5);
   font-size: var(--kw-font-size-body);
   font-weight: 500;
   outline: 0;
+  cursor: pointer;
   transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
   transition-property: background-color, border-color;
 

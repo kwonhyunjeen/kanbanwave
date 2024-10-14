@@ -8,7 +8,7 @@ const BaseLayout = () => {
     <div className="flex h-screen flex-col">
       <div className="flex flex-1">
         <Nav isOpen={isNavOpen} onToggleNav={toggleNav} />
-        <main className="grow overflow-y-auto bg-slate-100">
+        <main className="h-screen grow overflow-y-auto bg-slate-100">
           <Header />
           <Outlet />
         </main>

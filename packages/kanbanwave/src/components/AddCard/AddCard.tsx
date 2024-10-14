@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import Icon from '../Icon/Icon';
@@ -8,13 +8,12 @@ import forwardAs from 'utils/forwardAs';
 import clsx from 'clsx';
 
 type AddCardProps = {
-  cardsLength?: number;
   className?: string;
   onAdd?: (title: string) => void;
 };
 
 const AddCard = forwardAs<'div', AddCardProps>(
-  ({ as: Component = 'div', cardsLength, className, onAdd, ...rest }, ref) => {
+  ({ as: Component = 'div', className, onAdd, ...rest }, ref) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -25,6 +24,8 @@ const AddCard = forwardAs<'div', AddCardProps>(
     const handleTitleSave = () => {
       if (title.trim() !== '') {
         onAdd?.(title);
+        setTitle('');
+        setIsInputVisible(true);
       }
     };
 
@@ -32,14 +33,6 @@ const AddCard = forwardAs<'div', AddCardProps>(
       setTitle('');
       setIsInputVisible(false);
     };
-
-    useEffect(() => {
-      if (cardsLength === 0) {
-        setIsInputVisible(true);
-      } else {
-        setIsInputVisible(false);
-      }
-    }, [cardsLength]);
 
     return (
       <Component {...rest} ref={ref} className={clsx(styles.root, className)}>

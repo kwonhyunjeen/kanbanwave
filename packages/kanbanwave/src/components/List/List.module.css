@@ -11,6 +11,7 @@
   height: 100%;
   margin-right: calc(var(--kw-spacing) * 4);
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .root {

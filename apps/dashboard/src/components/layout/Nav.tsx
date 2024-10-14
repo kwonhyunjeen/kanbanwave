@@ -24,7 +24,7 @@ const Nav = ({ isOpen, onToggleNav }: NavProps) => {
 
   return (
     <nav
-      className={`bg-white transition-all duration-300 ${
+      className={`h-screen flex-none overflow-y-auto bg-white transition-all duration-300 ${
         isOpen ? 'w-64 px-3' : 'w-11 px-1'
       }`}
     >
