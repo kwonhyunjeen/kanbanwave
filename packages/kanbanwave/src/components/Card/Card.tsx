@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { KWCard } from '../../core/types';
 import CardDraggable from '../CardDraggable';
 import TextArea from '../TextArea/TextArea';
@@ -6,21 +6,41 @@ import useDerivedState from '../../hooks/useDerivedState';
 import styles from './Card.module.css';
 import IconButton from '../IconButton/IconButton';
 import Button from '../Button/Button';
+import forwardAs from 'utils/forwardAs';
+import useForkRef from 'hooks/useForkRef';
+import clsx from 'clsx';
 
-type CardRef = React.ComponentRef<'div'>;
-
-type CardProps = React.ComponentPropsWithoutRef<'div'> & {
+type CardProps = {
   card: KWCard;
   cardIndex: number;
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-  onTitleSave?: (newTitle: string) => void;
+  className?: string;
+  draggableClassName?: string;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onTitleSave?: (newTitle: string) => void;
+  overlayClassName?: string;
+  wrapperClassName?: string;
 };
 
-const Card = forwardRef<CardRef, CardProps>(
-  ({ card, cardIndex, onClick, onTitleSave, onDeleteClick, ...rest }, ref) => {
-    const containerRef = useRef<HTMLDivElement>(null);
+const Card = forwardAs<'div', CardProps>(
+  (
+    {
+      as: Component = 'div',
+      card,
+      cardIndex,
+      className,
+      draggableClassName,
+      onClick,
+      onDeleteClick,
+      onTitleSave,
+      overlayClassName,
+      ...rest
+    },
+    ref
+  ) => {
+    const containerRef = useRef<HTMLElement>(null);
     const inputRef = useRef<HTMLTextAreaElement>(null);
+    const containerCallbackRef = useForkRef(containerRef, ref);
 
     const [internalTitle, setInternalTitle] = useDerivedState(card.title);
     const [isEditing, setIsEditing] = useState(false);
@@ -102,23 +122,25 @@ const Card = forwardRef<CardRef, CardProps>(
           // 이미 ESC를 눌러 오버레이를 닫을 수 있기 때문에 lint 규칙을 비활성화함
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus
           <div
-            {...rest}
-            ref={ref}
             role="button"
             aria-label="Cancel"
-            className={styles.overlay}
+            className={clsx(styles.cardOverlay, overlayClassName)}
             onClick={closeOverlay}
           />
         )}
         <CardDraggable
           cardId={card.id}
           cardIndex={cardIndex}
-          className={styles.cardDraggable}
+          className={clsx(styles.cardDraggable, draggableClassName)}
         >
-          <div className={styles.container} ref={containerRef}>
+          <Component
+            {...rest}
+            ref={containerCallbackRef}
+            className={clsx(styles.root, className)}
+          >
             {isEditing && cardRect ? (
               <div
-                className={styles.editContainer}
+                className={styles.cardEditContainer}
                 style={{
                   top: `${cardRect.top}px`,
                   left: `${cardRect.left}px`,
@@ -133,7 +155,7 @@ const Card = forwardRef<CardRef, CardProps>(
                   onEnter={handleTitleSave}
                   style={{ minHeight: '4.5rem' }}
                 />
-                <div className={styles.action}>
+                <div className={styles.cardActions}>
                   <Button type="button" color="primary" onClick={handleTitleSave}>
                     Save
                   </Button>
@@ -145,7 +167,7 @@ const Card = forwardRef<CardRef, CardProps>(
             ) : (
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
               <div
-                className={styles.wrapper}
+                className={styles.cardContainer}
                 onClick={e => {
                   onClick?.(e);
                   if (!(e.target instanceof Element)) {
@@ -156,13 +178,13 @@ const Card = forwardRef<CardRef, CardProps>(
                   }
                 }}
               >
-                <div className={styles.title}>{internalTitle}</div>
+                <div className={styles.cardTitle}>{internalTitle}</div>
                 <IconButton
                   type="button"
                   aria-label="edit a card"
                   data-event-target="edit-button"
                   icon="edit"
-                  className={styles.editIcon}
+                  className={styles.cardEditIcon}
                   color="secondary"
                   onClick={() => {
                     openOverlay();
@@ -170,7 +192,7 @@ const Card = forwardRef<CardRef, CardProps>(
                 />
               </div>
             )}
-          </div>
+          </Component>
         </CardDraggable>
       </>
     );

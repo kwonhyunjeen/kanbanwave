@@ -1,23 +1,38 @@
 import { KWList } from '../../core/types';
 import ListDraggable from '../ListDraggable';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useDerivedState from '../../hooks/useDerivedState';
 import styles from './List.module.css';
 import IconButton from '../IconButton/IconButton';
 import TextArea from '../TextArea/TextArea';
+import forwardAs from 'utils/forwardAs';
+import clsx from 'clsx';
 
-type ListRef = React.ComponentRef<'div'>;
-
-type ListProps = React.ComponentPropsWithoutRef<'div'> & {
+type ListProps = {
   children?: React.ReactNode;
+  className?: string;
+  draggableClassName?: string;
   list: KWList;
   listIndex: number;
-  onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onTitleSave?: (newTitle: string) => void;
+  onDeleteClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-const List = forwardRef<ListRef, ListProps>(
-  ({ children, list, listIndex, onDeleteClick, onTitleSave, ...rest }, ref) => {
+const List = forwardAs<'div', ListProps>(
+  (
+    {
+      as: Component = 'div',
+      children,
+      className,
+      draggableClassName,
+      list,
+      listIndex,
+      onDeleteClick,
+      onTitleSave,
+      ...rest
+    },
+    ref
+  ) => {
     const [isEditing, setIsEditing] = useState(false);
     const [internalTitle, setInternalTitle] = useDerivedState(list.title);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -42,11 +57,11 @@ const List = forwardRef<ListRef, ListProps>(
       <ListDraggable
         listId={list.id}
         listIndex={listIndex}
-        className={styles.listDraggable}
+        className={clsx(styles.listDraggable, draggableClassName)}
       >
-        <div {...rest} ref={ref} className={styles.container}>
-          <div className={styles.headerContainer}>
-            <div className={styles.header}>
+        <Component {...rest} ref={ref} className={clsx(styles.root, className)}>
+          <div className={styles.listContainer}>
+            <div className={styles.listHeader}>
               {!isEditing && (
                 /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events */
                 <h2
@@ -74,7 +89,7 @@ const List = forwardRef<ListRef, ListProps>(
                   onChange={e => setInternalTitle(e.target.value)}
                   onBlur={handleTitleSave}
                   onEnter={handleTitleSave}
-                  className={styles.textArea}
+                  className={styles.listTextArea}
                   maxLength={512}
                 />
               )}
@@ -82,12 +97,12 @@ const List = forwardRef<ListRef, ListProps>(
             <IconButton
               icon="remove"
               color="secondary"
-              className={styles.deleteIcon}
+              className={styles.listDeleteIcon}
               onClick={onDeleteClick}
             />
           </div>
           {children}
-        </div>
+        </Component>
       </ListDraggable>
     );
   }

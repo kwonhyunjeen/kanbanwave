@@ -1,9 +1,9 @@
-.container {
+.root {
   box-sizing: border-box;
   margin-top: calc(var(--kw-spacing) * 1.5);
 }
 
-.action {
+.addCardActions {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

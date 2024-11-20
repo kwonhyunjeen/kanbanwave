@@ -11,11 +11,11 @@ type BoardCollectionRef = React.ComponentRef<'div'>;
 
 type BoardCollectionProps = React.ComponentPropsWithoutRef<'div'> & {
   boardRender?: (provided: {
-    boardProps: React.ComponentPropsWithRef<typeof Board>;
+    boardProps: React.ComponentProps<typeof Board>;
     board: KWBoard;
   }) => React.ReactNode;
   addBoardRender?: (provided: {
-    addBoardProps: React.ComponentPropsWithRef<typeof AddBoard>;
+    addBoardProps: React.ComponentProps<typeof AddBoard>;
   }) => React.ReactNode;
 };
 

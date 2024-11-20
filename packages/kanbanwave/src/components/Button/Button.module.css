@@ -1,5 +1,3 @@
-@import '../../styles/variables.css';
-
 .root {
   display: inline-flex;
   align-items: center;
@@ -56,18 +54,18 @@
 }
 
 /* Icon */
-.startIcon,
-.endIcon {
+.buttonStartIcon,
+.buttonEndIcon {
   font-size: var(--kw-font-size-title);
   line-height: 0;
   margin-right: var(--kw-spacing);
   margin-left: var(--kw-spacing);
 }
 
-.startIcon {
+.buttonStartIcon {
   margin-left: 0;
 }
 
-.endIcon {
+.buttonEndIcon {
   margin-right: 0;
 }

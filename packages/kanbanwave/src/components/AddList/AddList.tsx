@@ -1,18 +1,19 @@
-import { ChangeEvent, forwardRef, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './AddList.module.css';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
+import forwardAs from 'utils/forwardAs';
+import clsx from 'clsx';
 
-type AddListRef = React.ComponentRef<'div'>;
-
-type AddListProps = React.ComponentPropsWithoutRef<'div'> & {
+type AddListProps = {
+  className?: string;
   listsLength?: number;
   onAdd?: (title: string) => void;
 };
 
-const AddList = forwardRef<AddListRef, AddListProps>(
-  ({ listsLength, onAdd, ...rest }, ref) => {
+const AddList = forwardAs<'div', AddListProps>(
+  ({ as: Component = 'div', className, listsLength, onAdd, ...rest }, ref) => {
     const [isInputVisible, setIsInputVisible] = useState(false);
     const [title, setTitle] = useState('');
 
@@ -23,6 +24,7 @@ const AddList = forwardRef<AddListRef, AddListProps>(
     const handleTitleSave = () => {
       if (title.trim() !== '') {
         onAdd?.(title);
+        setTitle('');
       }
     };
 
@@ -40,9 +42,9 @@ const AddList = forwardRef<AddListRef, AddListProps>(
     }, [listsLength]);
 
     return (
-      <div {...rest} ref={ref} className={styles.wrapper}>
+      <Component {...rest} ref={ref} className={clsx(styles.root, className)}>
         {isInputVisible ? (
-          <div className={styles.container}>
+          <div className={styles.addListContainer}>
             <TextArea
               placeholder={`Enter a list title`}
               value={title}
@@ -50,7 +52,7 @@ const AddList = forwardRef<AddListRef, AddListProps>(
               onChange={handleChange}
               onEnter={handleTitleSave}
             />
-            <div className={styles.action}>
+            <div className={styles.addListActions}>
               <Button color="primary" onClick={handleTitleSave}>
                 Add list
               </Button>
@@ -71,7 +73,7 @@ const AddList = forwardRef<AddListRef, AddListProps>(
             Add another list
           </button>
         )}
-      </div>
+      </Component>
     );
   }
 );

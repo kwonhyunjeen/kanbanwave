@@ -27,9 +27,9 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
 
   return (
     <button {...rest} ref={ref} className={buttonClass} type={type}>
-      {startIcon && <span className={styles.startIcon}>{startIcon}</span>}
+      {startIcon && <span className={styles.buttonStartIcon}>{startIcon}</span>}
       {children}
-      {endIcon && <span className={styles.endIcon}>{endIcon}</span>}
+      {endIcon && <span className={styles.buttonEndIcon}>{endIcon}</span>}
     </button>
   );
 });

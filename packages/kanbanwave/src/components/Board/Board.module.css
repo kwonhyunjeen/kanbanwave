@@ -1,4 +1,4 @@
-.container {
+.root {
   background-color: var(--kw-board-background-color);
   border-style: var(--kw-board-border-style);
   border-color: var(--kw-board-border-color);
@@ -27,7 +27,7 @@
   }
 }
 
-.headerContainer {
+.boardContainer {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -35,7 +35,7 @@
   height: 5rem;
 }
 
-.title {
+.boardTitle {
   display: inline-block;
   flex: 0 0 auto;
   max-height: 2.5rem;
@@ -47,7 +47,7 @@
   word-wrap: break-word;
 }
 
-.action {
+.boardActions {
   display: flex;
   flex: 0 0 auto;
   align-items: baseline;

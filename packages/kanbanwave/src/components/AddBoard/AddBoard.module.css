@@ -1,4 +1,4 @@
-.wrapper {
+.root {
   box-sizing: border-box;
   background-color: var(--kw-board-background-color);
   border-style: var(--kw-board-border-style);
@@ -8,21 +8,20 @@
   box-shadow: var(--kw-board-box-shadow);
   overflow: hidden;
   max-height: 7rem;
-  cursor: pointer;
   transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
   transition-property: transform;
+
+  &:hover {
+    transform: scale(1.02);
+  }
 }
 
-.wrapper:hover {
-  transform: scale(1.02);
-}
-
-.container {
+.addBoardContainer {
   height: 100%;
   padding: calc(var(--kw-spacing) * 4);
 }
 
-.action {
+.addBoardActions {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -37,9 +36,11 @@
   font-size: var(--kw-font-size-body);
   font-weight: 500;
   background-color: var(--kw-add-button-background-color);
+  border-color: var(--kw-button-secondary-border-color);
   width: 100%;
   height: 100%;
   outline: 0;
+  cursor: pointer;
   transition: var(--kw-transition-duration) var(--kw-transition-timing-function);
   transition-property: background-color;
 

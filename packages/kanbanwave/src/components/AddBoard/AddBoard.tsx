@@ -1,65 +1,72 @@
-import { ChangeEvent, forwardRef, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styles from './AddBoard.module.css';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import IconButton from '../IconButton/IconButton';
+import forwardAs from 'utils/forwardAs';
+import Icon from 'components/Icon/Icon';
+import clsx from 'clsx';
 
-type AddBoardRef = React.ComponentRef<'div'>;
-
-type AddBoardProps = React.ComponentPropsWithoutRef<'div'> & {
+type AddBoardProps = {
   className?: string;
   onAdd?: (title: string) => void;
 };
 
-const AddBoard = forwardRef<AddBoardRef, AddBoardProps>(({ onAdd, ...rest }, ref) => {
-  const [isInputVisible, setIsInputVisible] = useState(false);
-  const [title, setTitle] = useState('');
+const AddBoard = forwardAs<'div', AddBoardProps>(
+  ({ as: Component = 'div', className, onAdd, ...rest }, ref) => {
+    const [isInputVisible, setIsInputVisible] = useState(false);
+    const [title, setTitle] = useState('');
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+      setTitle(e.target.value);
+    };
 
-  const handleTitleSave = () => {
-    if (title.trim() !== '') {
-      onAdd?.(title);
-    }
-  };
+    const handleTitleSave = () => {
+      if (title.trim() !== '') {
+        onAdd?.(title);
+      }
+    };
 
-  const handleCancelClick = () => {
-    setTitle('');
-    setIsInputVisible(false);
-  };
+    const handleCancelClick = () => {
+      setTitle('');
+      setIsInputVisible(false);
+    };
 
-  return (
-    <div {...rest} ref={ref} className={styles.wrapper}>
-      {isInputVisible ? (
-        <div className={styles.container}>
-          <Input
-            placeholder={`Enter a board title`}
-            value={title}
-            preventLineBreak
-            onChange={handleChange}
-            onEnter={handleTitleSave}
-          />
-          <div className={styles.action}>
-            <Button color="primary" onClick={handleTitleSave}>
-              Add board
-            </Button>
-            <IconButton icon="close" aria-label="cancel" onClick={handleCancelClick} />
+    return (
+      <Component {...rest} ref={ref} className={clsx(styles.root, className)}>
+        {isInputVisible ? (
+          <div className={styles.addBoardContainer}>
+            <Input
+              placeholder={`Enter a board title`}
+              value={title}
+              preventLineBreak
+              onChange={handleChange}
+              onEnter={handleTitleSave}
+            />
+            <div className={styles.addBoardActions}>
+              <Button
+                color="primary"
+                onClick={handleTitleSave}
+                endIcon={<Icon name="add" />}
+              >
+                Add board
+              </Button>
+              <IconButton icon="close" aria-label="cancel" onClick={handleCancelClick} />
+            </div>
           </div>
-        </div>
-      ) : (
-        <button
-          type="button"
-          className={styles.addBoardButton}
-          onClick={() => setIsInputVisible(true)}
-        >
-          Create new board
-        </button>
-      )}
-    </div>
-  );
-});
+        ) : (
+          <button
+            type="button"
+            className={styles.addBoardButton}
+            onClick={() => setIsInputVisible(true)}
+          >
+            Create new board
+          </button>
+        )}
+      </Component>
+    );
+  }
+);
 
 AddBoard.displayName = 'AddBoard';
 

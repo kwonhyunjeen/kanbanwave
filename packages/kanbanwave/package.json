@@ -16,7 +16,8 @@
         "default": "./dist/index.js"
       }
     },
-    "./index.css": "./dist/index.css"
+    "./base.css": "./src/index.css",
+    "./components.css": "./dist/index.css"
   },
   "scripts": {
     "dev": "tsup src/index.ts --format esm --dts --loader '.css=local-css' --watch",

@@ -26,18 +26,18 @@ type BoardViewRef = React.ComponentRef<'section'>;
 type BoardViewProps = React.ComponentPropsWithoutRef<'section'> & {
   boardId: KWBoardUUID;
   cardRender?: (provided: {
-    cardProps: React.ComponentPropsWithRef<typeof Card>;
+    cardProps: React.ComponentProps<typeof Card>;
     card: KWCard;
   }) => React.ReactNode;
   addCardRender?: (provided: {
-    addCardProps: React.ComponentPropsWithRef<typeof AddCard>;
+    addCardProps: React.ComponentProps<typeof AddCard>;
   }) => React.ReactNode;
   listRender?: (provided: {
-    listProps: React.ComponentPropsWithRef<typeof List>;
+    listProps: React.ComponentProps<typeof List>;
     list: KWList;
   }) => React.ReactNode;
   addListRender?: (provided: {
-    addListProps: React.ComponentPropsWithRef<typeof AddList>;
+    addListProps: React.ComponentProps<typeof AddList>;
   }) => React.ReactNode;
 };
 

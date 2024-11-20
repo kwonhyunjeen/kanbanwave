@@ -4,22 +4,25 @@ import styles from './Input.module.css';
 import useForkRef from 'hooks/useForkRef';
 
 type InputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
-  label?: string;
   helperText?: string;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  inputClassName?: string;
+  label?: string;
+  startIcon?: ReactNode;
+  endIcon?: ReactNode;
   onEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   preventLineBreak?: boolean;
   resize?: boolean;
+  rootClassName?: string;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
     className,
-    label,
     helperText,
-    leftIcon,
-    rightIcon,
+    inputClassName,
+    label,
+    startIcon,
+    endIcon,
     onEnter,
     onKeyDown,
     preventLineBreak,
@@ -43,20 +46,20 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     }
   }, [resize, rest.value]);
 
-  const wrapperClass = clsx(styles.wrapper, {
-    [styles.hasLeftIcon]: !!leftIcon,
-    [styles.hasRightIcon]: !!rightIcon
+  const containerClass = clsx(styles.inputContainer, {
+    [styles.hasStartIcon]: !!startIcon,
+    [styles.hasEndIcon]: !!endIcon
   });
 
   return (
-    <div className={clsx(styles.container, className)}>
-      {label && <label className={styles.label}>{label}</label>}
-      <div className={wrapperClass}>
-        {leftIcon && <span className={styles.iconWithLeft}>{leftIcon}</span>}
+    <div className={clsx(styles.root, className)}>
+      {label && <label className={styles.inputLabel}>{label}</label>}
+      <div className={containerClass}>
+        {startIcon && <span className={styles.inputStartIcon}>{startIcon}</span>}
         <input
           {...rest}
           ref={inputCallbackRef}
-          className={clsx(styles.input, className)}
+          className={clsx(styles.inputField, inputClassName)}
           onKeyDown={e => {
             if (e.key === 'Enter') {
               if (preventLineBreak) {
@@ -67,7 +70,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
             onKeyDown?.(e);
           }}
         />
-        {rightIcon && <span className={styles.iconWithRight}>{rightIcon}</span>}
+        {endIcon && <span className={styles.inputEndIcon}>{endIcon}</span>}
       </div>
       {helperText && <p className={styles.helperText}>{helperText}</p>}
     </div>
